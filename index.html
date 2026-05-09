@@ -2,12 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Zombie Horde Survivor</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{overflow:hidden;background:#111;font-family:'Segoe UI',Arial,sans-serif;color:#eee;user-select:none}
-#gameCanvas{display:block;position:absolute;top:0;left:0}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:none}
+html,body{overflow:hidden;background:#111;font-family:'Segoe UI',Arial,sans-serif;color:#eee;user-select:none;-webkit-user-select:none;height:100%;width:100%}
+#gameCanvas{display:block;position:absolute;top:0;left:0;touch-action:none}
+.mobile-btn{display:none;position:absolute;z-index:18;border-radius:50%;border:2px solid rgba(255,255,255,.3);background:rgba(0,0,0,.35);color:#aaa;font-weight:bold;text-align:center;touch-action:none;-webkit-tap-highlight-color:transparent;cursor:pointer}
+#ultBtn{width:64px;height:64px;right:20px;bottom:20px;line-height:64px;font-size:12px}
+#pauseBtn{width:36px;height:36px;right:10px;top:10px;line-height:36px;font-size:16px;border-radius:8px}
 .overlay{position:absolute;top:0;left:0;width:100%;height:100%;display:none;z-index:10}
 .overlay.active{display:flex}
 #titleScreen{flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#0a0a0a 0%,#1a0a0a 100%)}
@@ -75,10 +78,37 @@ body{overflow:hidden;background:#111;font-family:'Segoe UI',Arial,sans-serif;col
 #pauseOverlay h2{font-size:28px;margin-bottom:20px}
 .back-btn{position:absolute;top:15px;left:15px;z-index:15;padding:6px 14px;font-size:13px;border:1px solid #555;background:rgba(0,0,0,.5);color:#aaa;cursor:pointer;font-family:inherit}
 .back-btn:hover{border-color:#cc3333;color:#cc3333}
+@media(max-width:768px){
+#titleScreen h1{font-size:32px;letter-spacing:2px}
+#titleScreen .subtitle{font-size:14px;margin-bottom:24px}
+.btn{padding:10px 24px;font-size:15px}
+.btn-sm{padding:6px 14px;font-size:12px}
+.char-card{width:160px;padding:12px}
+.char-card h3{font-size:16px}
+.char-card .stats{font-size:11px}
+.char-card .ability{font-size:10px}
+.shop-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+.shop-item{padding:10px}
+.shop-item h4{font-size:13px}
+.shop-item .desc{font-size:10px}
+.stage-card{width:100px;padding:10px}
+.stage-card h4{font-size:13px}
+.upgrade-card{width:130px;padding:10px}
+.upgrade-card h4{font-size:12px}
+.upgrade-card .desc{font-size:10px}
+.upgrade-card .icon{font-size:18px}
+#levelUpOverlay h2{font-size:18px;margin-bottom:10px}
+#resultsScreen h2{font-size:22px}
+#resultsScreen .stats{font-size:13px}
+#pauseOverlay h2{font-size:22px}
+.mobile-btn{display:block}
+}
 </style>
 </head>
 <body>
 <canvas id="gameCanvas"></canvas>
+<div id="ultBtn" class="mobile-btn">ULT</div>
+<div id="pauseBtn" class="mobile-btn">⏸</div>
 
 <div id="titleScreen" class="overlay active">
 <button class="lang-btn" id="titleLangBtn" onclick="toggleLanguage()">EN/中文</button>
@@ -332,6 +362,65 @@ resizeCanvas();
 
 // ==================== INPUT ====================
 const keys = new Set();
+const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+// Touch movement state: direction from screen center to touch point
+let touchDir = { x: 0, y: 0 };
+let touchActive = false;
+const TOUCH_DEAD_ZONE = 20;
+
+function updateTouchDir(touchX, touchY) {
+    const cx = canvas.width / 2, cy = canvas.height / 2;
+    const dx = touchX - cx, dy = touchY - cy;
+    const dist = Math.hypot(dx, dy);
+    if (dist < TOUCH_DEAD_ZONE) { touchDir.x = 0; touchDir.y = 0; }
+    else { touchDir.x = dx / dist; touchDir.y = dy / dist; }
+}
+
+// Touch on canvas: move toward touch
+canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    if (currentScreen !== 'inGame' || !game || game.paused || game.runOver) return;
+    const t = e.changedTouches[0];
+    touchActive = true;
+    updateTouchDir(t.clientX, t.clientY);
+}, { passive: false });
+
+canvas.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (!touchActive) return;
+    const t = e.changedTouches[0];
+    updateTouchDir(t.clientX, t.clientY);
+}, { passive: false });
+
+canvas.addEventListener('touchend', e => {
+    e.preventDefault();
+    touchActive = false; touchDir.x = 0; touchDir.y = 0;
+}, { passive: false });
+
+canvas.addEventListener('touchcancel', e => {
+    touchActive = false; touchDir.x = 0; touchDir.y = 0;
+});
+
+// Ultimate button
+const ultBtn = document.getElementById('ultBtn');
+ultBtn.addEventListener('touchstart', e => {
+    e.preventDefault(); e.stopPropagation();
+    if (currentScreen === 'inGame' && game && !game.paused && !game.runOver) activateUltimate();
+}, { passive: false });
+
+// Pause button
+const pauseBtnEl = document.getElementById('pauseBtn');
+pauseBtnEl.addEventListener('touchstart', e => {
+    e.preventDefault(); e.stopPropagation();
+    if (currentScreen === 'inGame' && game && !game.paused) togglePause();
+}, { passive: false });
+
+// Prevent page zoom/scroll on mobile during gameplay
+document.addEventListener('touchmove', e => {
+    if (currentScreen === 'inGame' || e.target === canvas) e.preventDefault();
+}, { passive: false });
+
 window.addEventListener('keydown', e => {
     keys.add(e.code);
     if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code)) e.preventDefault();
@@ -602,6 +691,10 @@ function switchScreen(screen) {
     if (screen === 'shop') renderShop();
     if (screen === 'stageSelect') renderStageSelect();
     if (screen === 'characterSelect') renderCharSelect();
+    // Show mobile buttons only during gameplay
+    const showMobile = isMobile && screen === 'inGame';
+    ultBtn.style.display = showMobile ? 'block' : 'none';
+    pauseBtnEl.style.display = showMobile ? 'block' : 'none';
     refreshAllUI();
 }
 
@@ -739,8 +832,8 @@ function initOrbitalOrbs() {
 
 // ==================== PAUSE ====================
 function togglePause() { if (game.paused) resumeGame(); else { game.paused = true; switchScreen('pause'); } }
-function resumeGame() { game.paused = false; switchScreen('inGame'); }
-function restartRun() { startRun(game.stage); }
+function resumeGame() { touchActive = false; touchDir.x = 0; touchDir.y = 0; game.paused = false; switchScreen('inGame'); }
+function restartRun() { touchActive = false; touchDir.x = 0; touchDir.y = 0; startRun(game.stage); }
 function quitToShop() { saveData.gold += Math.floor(game.totalGoldEarned); saveData.totalRuns++; saveSave(); game = null; switchScreen('shop'); }
 
 // ==================== LEVEL UP ====================
@@ -1057,6 +1150,8 @@ function updatePlayer(dt) {
     if (keys.has('KeyS') || keys.has('ArrowDown')) dy += 1;
     if (keys.has('KeyA') || keys.has('ArrowLeft')) dx -= 1;
     if (keys.has('KeyD') || keys.has('ArrowRight')) dx += 1;
+    // Touch: override keyboard direction if active
+    if (touchActive && (touchDir.x !== 0 || touchDir.y !== 0)) { dx = touchDir.x; dy = touchDir.y; }
 
     if ((dx !== 0 || dy !== 0) && !game.isDashing) {
         const len = Math.hypot(dx, dy); dx /= len; dy /= len;
@@ -1769,45 +1864,55 @@ function renderParticles() {
 }
 
 function renderHUD() {
+    const s = isMobile ? Math.min(canvas.width / 500, 1) : 1;
     // HP
-    const hpW = 180, hpH = 16, hpX = 15, hpY = 15;
+    const hpW = 180 * s, hpH = 16 * s, hpX = 15, hpY = 15;
     ctx.fillStyle = '#333'; ctx.fillRect(hpX, hpY, hpW, hpH);
     const hpPct = clamp(game.hp / game.maxHP, 0, 1);
     ctx.fillStyle = hpPct > 0.5 ? '#44cc44' : hpPct > 0.25 ? '#cccc44' : '#cc4444';
     ctx.fillRect(hpX, hpY, hpW * hpPct, hpH);
     ctx.strokeStyle = '#555'; ctx.lineWidth = 1; ctx.strokeRect(hpX, hpY, hpW, hpH);
-    ctx.fillStyle = '#fff'; ctx.font = '12px sans-serif'; ctx.textAlign = 'left';
-    ctx.fillText(`${Math.ceil(game.hp)} / ${game.maxHP}`, hpX + 4, hpY + 12);
+    ctx.fillStyle = '#fff'; ctx.font = `${12*s}px sans-serif`; ctx.textAlign = 'left';
+    ctx.fillText(`${Math.ceil(game.hp)} / ${game.maxHP}`, hpX + 4, hpY + 12 * s);
 
     // Timer
-    ctx.textAlign = 'center'; ctx.font = '14px sans-serif';
+    ctx.textAlign = 'center'; ctx.font = `${14*s}px sans-serif`;
     const mins = Math.floor(Math.max(0, game.stageTime) / 60);
     const secs = Math.floor(Math.max(0, game.stageTime) % 60);
     ctx.fillStyle = game.stageTime < 60 ? '#cc3333' : '#ccc';
-    ctx.fillText(`${t('stage')} ${game.stage} - ${mins}:${secs.toString().padStart(2, '0')}`, canvas.width / 2, 25);
-    ctx.fillStyle = '#888'; ctx.font = '11px sans-serif';
-    ctx.fillText(`${t('enemies')}: ${game.enemies.filter(e => !e.dead).length}`, canvas.width / 2, 42);
+    ctx.fillText(`${t('stage')} ${game.stage} - ${mins}:${secs.toString().padStart(2, '0')}`, canvas.width / 2, 25 * s);
+    ctx.fillStyle = '#888'; ctx.font = `${11*s}px sans-serif`;
+    ctx.fillText(`${t('enemies')}: ${game.enemies.filter(e => !e.dead).length}`, canvas.width / 2, 42 * s);
 
     // Gold + Level
-    ctx.textAlign = 'right'; ctx.font = '14px sans-serif';
-    ctx.fillStyle = '#ffcc00'; ctx.fillText(`${t('gold')}: ${game.gold}`, canvas.width - 15, 20);
-    ctx.fillStyle = '#ccc'; ctx.fillText(`${t('level')} ${game.level}`, canvas.width - 15, 38);
-    const xpW = 120, xpH = 6, xpX = canvas.width - 15 - xpW, xpY = 44;
+    ctx.textAlign = 'right'; ctx.font = `${14*s}px sans-serif`;
+    ctx.fillStyle = '#ffcc00'; ctx.fillText(`${t('gold')}: ${game.gold}`, canvas.width - 15, 20 * s);
+    ctx.fillStyle = '#ccc'; ctx.fillText(`${t('level')} ${game.level}`, canvas.width - 15, 38 * s);
+    const xpW = 120 * s, xpH = 6, xpX = canvas.width - 15 - xpW, xpY = 44 * s;
     ctx.fillStyle = '#333'; ctx.fillRect(xpX, xpY, xpW, xpH);
     ctx.fillStyle = '#4488ff'; ctx.fillRect(xpX, xpY, xpW * (game.level >= MAX_LEVEL ? 1 : clamp(game.xp / game.xpToNext, 0, 1)), xpH);
 
-    // Ultimate
-    const ultX = canvas.width / 2, ultY = canvas.height - 50;
-    const ultMaxCD = game.charDef.ultCD * (game.ultCDMult || 1);
-    const ultCDPct = game.ultCDTimer > 0 ? clamp(game.ultCDTimer / ultMaxCD, 0, 1) : 0;
-    ctx.fillStyle = '#222'; ctx.beginPath(); ctx.arc(ultX, ultY, 22, 0, Math.PI * 2); ctx.fill();
-    if (ultCDPct > 0) { ctx.fillStyle = '#444'; ctx.beginPath(); ctx.moveTo(ultX, ultY); ctx.arc(ultX, ultY, 22, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * ultCDPct); ctx.closePath(); ctx.fill(); }
-    ctx.strokeStyle = '#555'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(ultX, ultY, 22, 0, Math.PI * 2); ctx.stroke();
-    ctx.fillStyle = game.ultActive ? CHARS[game.charId].color : (game.ultCDTimer <= 0 ? '#ffcc00' : '#888');
-    ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText(game.ultActive ? t('active') : (game.ultCDTimer <= 0 ? t('ready') : Math.ceil(game.ultCDTimer) + 's'), ultX, ultY + 4);
+    // Ultimate (hide canvas version on mobile since we have the HTML button)
+    if (!isMobile) {
+        const ultX = canvas.width / 2, ultY = canvas.height - 50;
+        const ultMaxCD = game.charDef.ultCD * (game.ultCDMult || 1);
+        const ultCDPct = game.ultCDTimer > 0 ? clamp(game.ultCDTimer / ultMaxCD, 0, 1) : 0;
+        ctx.fillStyle = '#222'; ctx.beginPath(); ctx.arc(ultX, ultY, 22, 0, Math.PI * 2); ctx.fill();
+        if (ultCDPct > 0) { ctx.fillStyle = '#444'; ctx.beginPath(); ctx.moveTo(ultX, ultY); ctx.arc(ultX, ultY, 22, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * ultCDPct); ctx.closePath(); ctx.fill(); }
+        ctx.strokeStyle = '#555'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(ultX, ultY, 22, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillStyle = game.ultActive ? CHARS[game.charId].color : (game.ultCDTimer <= 0 ? '#ffcc00' : '#888');
+        ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+        ctx.fillText(game.ultActive ? t('active') : (game.ultCDTimer <= 0 ? t('ready') : Math.ceil(game.ultCDTimer) + 's'), ultX, ultY + 4);
+    } else {
+        // Update mobile ult button text
+        const ultMaxCD = game.charDef.ultCD * (game.ultCDMult || 1);
+        if (game.ultActive) { ultBtn.textContent = t('active'); ultBtn.style.borderColor = CHARS[game.charId].color; ultBtn.style.color = CHARS[game.charId].color; }
+        else if (game.ultCDTimer <= 0) { ultBtn.textContent = t('ready'); ultBtn.style.borderColor = '#ffcc00'; ultBtn.style.color = '#ffcc00'; }
+        else { ultBtn.textContent = Math.ceil(game.ultCDTimer) + 's'; ultBtn.style.borderColor = 'rgba(255,255,255,.3)'; ultBtn.style.color = '#888'; }
+    }
 
-    // Minimap
+    // Minimap (hide on mobile to save space)
+    if (!isMobile) {
     const mw = 100, mh = 100, mx = canvas.width - mw - 10, my = canvas.height - mh - 10;
     const scale = mw / 600;
     ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(mx, my, mw, mh);
@@ -1822,6 +1927,7 @@ function renderHUD() {
             else ctx.fillRect(mx + mw / 2 + dx - 0.5, my + mh / 2 + dy - 0.5, 1, 1);
         }
     }
+    } // end minimap
 }
 
 function renderBossHPBar() {
