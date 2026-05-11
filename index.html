@@ -176,13 +176,13 @@ charGuardian: 'Guardian', charGunslinger: 'Gunslinger', charShadow: 'Shadow',
 roleTank: 'Melee Tank', roleRanged: 'Ranged DPS', roleAssassin: 'Fast Assassin',
 cleave: 'Cleave', fortify: 'Fortify', fortress: 'Fortress',
 shoot: 'Shoot', sharpshooter: 'Sharpshooter', bulletHell: 'Bullet Hell',
-dashStrike: 'Dash Strike', afterimage: 'Afterimage', timeWarp: 'Time Warp',
-cleaveDesc: '120° arc, 0.8s CD', fortifyDesc: '+3% DR per nearby enemy (max 30%)',
+dashStrike: 'Shadow Blade', afterimage: 'Afterimage', timeWarp: 'Time Warp',
+cleaveDesc: '150° arc, 0.8s CD', fortifyDesc: '+3% DR per nearby enemy (max 30%)',
 fortressDesc: 'Invulnerable 3s, shockwave every 1.5s',
 shootDesc: 'Bullet at nearest, 0.5s CD', sharpshooterDesc: 'Every 5th attack = guaranteed crit + 2x knockback',
 bulletHellDesc: '3 bullets every 0.35s for 5s, pierce 2',
-dashStrikeDesc: 'Blink to nearest, 0.6s CD, 1.2x ATK', afterimageDesc: 'Clone attacks for 40% dmg after 0.3s',
-timeWarpDesc: 'Enemies 50% speed, 1.5x ATKSPD, 1 clone for 5s',
+dashStrikeDesc: 'Fast shadow blade, 0.4s CD', afterimageDesc: 'Clone attacks for 40% dmg after 0.3s',
+timeWarpDesc: 'Enemies 50% speed, 1.5x ATKSPD, 2 clones for 5s',
 shopVitality: 'Vitality', shopPower: 'Power', shopAgility: 'Agility', shopPrecision: 'Precision',
 shopGreed: 'Greed', shopHeadStart: 'Head Start',
 shopVitalityDesc: 'Max HP +5 per level', shopPowerDesc: 'ATK +2 per level',
@@ -192,7 +192,7 @@ stageNames: ['Wasteland','Dark Crypt','Hive Nest','Warfield','Plague Marsh','Aby
 bossNames: ['Colossus','Necromancer','Hive Queen','Warlord','Plague Doctor','Abyss King'],
 dmgUp: 'Damage Up', atkSpdUp: 'Attack Speed Up', critChanceUp: 'Crit Chance Up', critDmgUp: 'Crit Damage Up',
 projCount: 'Extra Projectile', pierceShot: 'Piercing Shot', cleaveArcUp: 'Cleave Arc +30°',
-cleaveRangeUp: 'Cleave Range +20%', dashRangeUp: 'Dash Range +25%', afterDmgUp: 'Afterimage +25%',
+cleaveRangeUp: 'Cleave Range +20%', shadowBladeUp: 'Shadow Blade+', afterDmgUp: 'Afterimage +25%',
 chainLightning: 'Chain Lightning', burningStrikes: 'Burning Strikes',
 maxHPUp: 'Max HP Up', armorUp: 'Armor Up', hpRegen: 'HP Regen', shield: 'Shield', dodgeChance: 'Dodge Chance',
 thorns: 'Thorns', lifeSteal: 'Life Steal',
@@ -203,7 +203,7 @@ fortressExt: 'Fortress Extension', bulletStorm: 'Bullet Storm', shadowDance: 'Sh
 dmgUpDesc: 'ATK +15%', atkSpdUpDesc: 'ATKSPD +15%', critChanceUpDesc: 'CRIT +8%', critDmgUpDesc: 'CRITDMG +25%',
 projCountDesc: 'Projectile Count +1', pierceShotDesc: 'Bullets pierce +1 enemy',
 cleaveArcUpDesc: 'Cleave arc width +30°', cleaveRangeUpDesc: 'Cleave reach +20%',
-dashRangeUpDesc: 'Dash strike range +25%', afterDmgUpDesc: 'Shadow clone damage +25%',
+shadowBladeUpDesc: '+25% shadow blade damage', afterDmgUpDesc: 'Shadow clone damage +25%',
 chainLightningDesc: '30% chance to chain to 1 enemy for 50% dmg', burningStrikesDesc: 'Burn 3 dmg/s for 3s',
 maxHPUpDesc: 'Max HP +20, heal 20', armorUpDesc: 'Reduce damage by 3 (min 1)',
 hpRegenDesc: 'Recover 1 HP/s', shieldDesc: 'Block 1 hit every 15s', dodgeChanceDesc: '8% chance to avoid damage',
@@ -215,6 +215,11 @@ orbitalShieldDesc: '2 orbs deal 8 dmg on contact', lightningAuraDesc: 'Lightning
 frozenTrailDesc: 'Ice trail slows enemies 40% for 1s', whirlwindDesc: 'Pull enemies within 60px every 5s',
 fortressExtDesc: 'Shockwave range +30px, duration +1s', bulletStormDesc: 'Bullet Hell fires +1 bullet per volley',
 shadowDanceDesc: 'Time Warp +1 clone, duration +1s',
+flanker:'Flanker',charger:'Charger',ricochet:'Ricochet',explosiveShot:'Explosive Shot',giantSlayer:'Giant Slayer',vampiricAura:'Vampiric Aura',secondWind:'Second Wind',berserker:'Berserker',multishot:'Multishot',timeWarpUp:'Time Warp',frostNova:'Frost Nova',poisonCloudUp:'Poison Cloud',
+ricochetDesc:'Projectiles bounce to another enemy',explosiveShotDesc:'Projectiles explode on hit (AoE)',giantSlayerDesc:'+15% damage to bosses',vampiricAuraDesc:'Heal when enemies are nearby',secondWindDesc:'Cheat death once, revive at 30% HP',berserkerDesc:'Lower HP = higher ATK (up to +50%)',multishotDesc:'+1 projectile',timeWarpUpDesc:'Slow enemies 50% when HP <30%',frostNovaDesc:'Freeze pulse every 5s',poisonCloudUpDesc:'Kills leave damaging poison clouds',
+shopLuckyCharm:'Lucky Charm',shopQuickHands:'Quick Hands',shopThickSkin:'Thick Skin',shopScavenger:'Scavenger',shopIronWill:'Iron Will',shopStarterPack:'Starter Pack',
+shopLuckyCharmDesc:'+5% crit per level',shopQuickHandsDesc:'+8% atk speed per level',shopThickSkinDesc:'+1 armor per level',shopScavengerDesc:'+15% XP per level',shopIronWillDesc:'+1 revive per level',shopStarterPackDesc:'Start with 1 random upgrade per level',
+shadowBladeDesc:'Fast shadow blade, 0.4s CD',
 ready: 'SPACE', active: 'ACTIVE'
 },
 zh: {
@@ -233,13 +238,13 @@ charGuardian: '守卫者', charGunslinger: '枪手', charShadow: '暗影',
 roleTank: '近战坦克', roleRanged: '远程输出', roleAssassin: '高速刺客',
 cleave: '劈斩', fortify: '坚守', fortress: '堡垒',
 shoot: '射击', sharpshooter: '神射手', bulletHell: '弹幕地狱',
-dashStrike: '闪击', afterimage: '残影', timeWarp: '时间扭曲',
-cleaveDesc: '120°扇形, 0.8秒冷却', fortifyDesc: '每个近距敌人+3%减伤 (最多30%)',
+dashStrike: '暗影之刃', afterimage: '残影', timeWarp: '时间扭曲',
+cleaveDesc: '150°扇形, 0.8秒冷却', fortifyDesc: '每个近距敌人+3%减伤 (最多30%)',
 fortressDesc: '无敌3秒, 每1.5秒冲击波',
 shootDesc: '射向最近敌人, 0.5秒冷却', sharpshooterDesc: '每5次攻击必定暴击+2倍击退',
 bulletHellDesc: '每0.35秒3发子弹, 持续5秒, 穿透2',
-dashStrikeDesc: '瞬移至最近敌人, 0.6秒冷却, 1.2倍攻击', afterimageDesc: '残影0.3秒后造成40%伤害',
-timeWarpDesc: '敌人50%速度, 1.5倍攻速, 1个残影, 持续5秒',
+dashStrikeDesc: '快速暗影之刃, 0.4秒冷却', afterimageDesc: '残影0.3秒后造成40%伤害',
+timeWarpDesc: '敌人50%速度, 1.5倍攻速, 2个残影, 持续5秒',
 shopVitality: '生命力', shopPower: '力量', shopAgility: '敏捷', shopPrecision: '精准',
 shopGreed: '贪婪', shopHeadStart: '先发制人',
 shopVitalityDesc: '每级+5最大生命', shopPowerDesc: '每级+2攻击',
@@ -249,7 +254,7 @@ stageNames: ['荒原','暗黑墓穴','蜂巢','战场','瘟疫沼泽','深渊王
 bossNames: ['巨像','死灵法师','蜂后','军阀','瘟疫医生','深渊之王'],
 dmgUp: '伤害提升', atkSpdUp: '攻速提升', critChanceUp: '暴击率提升', critDmgUp: '暴击伤害提升',
 projCount: '额外子弹', pierceShot: '穿透射击', cleaveArcUp: '劈斩范围+30°',
-cleaveRangeUp: '劈斩距离+20%', dashRangeUp: '闪击距离+25%', afterDmgUp: '残影伤害+25%',
+cleaveRangeUp: '劈斩距离+20%', shadowBladeUp: '暗影之刃+', afterDmgUp: '残影伤害+25%',
 chainLightning: '连锁闪电', burningStrikes: '燃烧打击',
 maxHPUp: '最大生命提升', armorUp: '护甲提升', hpRegen: '生命恢复', shield: '护盾', dodgeChance: '闪避率',
 thorns: '荆棘', lifeSteal: '生命偷取',
@@ -260,7 +265,7 @@ fortressExt: '堡垒延伸', bulletStorm: '弹幕风暴', shadowDance: '暗影�
 dmgUpDesc: '攻击+15%', atkSpdUpDesc: '攻速+15%', critChanceUpDesc: '暴击率+8%', critDmgUpDesc: '暴击伤害+25%',
 projCountDesc: '子弹数+1', pierceShotDesc: '子弹穿透+1敌人',
 cleaveArcUpDesc: '劈斩角度+30°', cleaveRangeUpDesc: '劈斩距离+20%',
-dashRangeUpDesc: '闪击距离+25%', afterDmgUpDesc: '残影伤害+25%',
+shadowBladeUpDesc: '+25%暗影之刃伤害', afterDmgUpDesc: '残影伤害+25%',
 chainLightningDesc: '30%几率连锁1个敌人造成50%伤害', burningStrikesDesc: '燃烧3伤害/秒持续3秒',
 maxHPUpDesc: '最大HP+20, 恢复20', armorUpDesc: '减伤3 (最低1)',
 hpRegenDesc: '每秒恢复1HP', shieldDesc: '每15秒格挡1次攻击', dodgeChanceDesc: '8%几率闪避伤害',
@@ -272,6 +277,11 @@ orbitalShieldDesc: '2个球体造成8点接触伤害', lightningAuraDesc: '每2�
 frozenTrailDesc: '冰霜路径减速敌人40%持续1秒', whirlwindDesc: '每5秒拉近60px内敌人',
 fortressExtDesc: '冲击波范围+30px, 持续+1秒', bulletStormDesc: '弹幕地狱每轮+1发子弹',
 shadowDanceDesc: '时间扭曲+1残影, 持续+1秒',
+flanker:'侧翼兵',charger:'冲锋者',ricochet:'弹射',explosiveShot:'爆破弹',giantSlayer:'巨人杀手',vampiricAura:'吸血光环',secondWind:'第二回合',berserker:'狂战士',multishot:'多重射击',timeWarpUp:'时间扭曲',frostNova:'冰霜新星',poisonCloudUp:'毒云',
+ricochetDesc:'子弹弹射到另一个敌人',explosiveShotDesc:'子弹命中时爆炸(范围伤害)',giantSlayerDesc:'对Boss+15%伤害',vampiricAuraDesc:'附近有敌人时恢复生命',secondWindDesc:'免死一次,30%HP复活',berserkerDesc:'HP越低ATK越高(最高+50%)',multishotDesc:'+1发子弹',timeWarpUpDesc:'HP<30%时敌人减速50%',frostNovaDesc:'每5秒冰冻脉冲',poisonCloudUpDesc:'击杀留下毒云',
+shopLuckyCharm:'幸运符',shopQuickHands:'快手',shopThickSkin:'厚皮',shopScavenger:'拾荒者',shopIronWill:'钢铁意志',shopStarterPack:'初始包',
+shopLuckyCharmDesc:'每级+5%暴击',shopQuickHandsDesc:'每级+8%攻速',shopThickSkinDesc:'每级+1护甲',shopScavengerDesc:'每级+15%经验',shopIronWillDesc:'每级+1次复活',shopStarterPackDesc:'每级开局获得1个随机升级',
+shadowBladeDesc:'快速暗影之刃, 0.4秒冷却',
 ready: '空格键', active: '激活中'
 }
 };
@@ -308,10 +318,11 @@ function refreshAllUI() {
 // ==================== CONFIGURATION ====================
 const CELL_SIZE = 64;
 const PICKUP_BASE_RANGE = 50;
+const ARENA_RADIUS = 600;
 const SAVE_KEY = 'zombieHordeSurvivor';
 const MAX_ENEMIES_SOFT = 500;
 const MAX_ENEMIES_HARD = 550;
-const MAX_LEVEL = 20;
+const MAX_LEVEL = 30;
 const CONTACT_CD = 0.5;
 
 // ==================== UTILITY ====================
@@ -326,7 +337,7 @@ function angleDiff(a, b) { let d = b - a; while (d > Math.PI) d -= 2 * Math.PI; 
 // ==================== SAVE / LOAD ====================
 let saveData = {
     gold: 0,
-    upgrades: { vitality: 0, power: 0, agility: 0, precision: 0, greed: 0, headStart: 0 },
+    upgrades: { vitality: 0, power: 0, agility: 0, precision: 0, greed: 0, headStart: 0, luckyCharm: 0, quickHands: 0, thickSkin: 0, scavenger: 0, ironWill: 0, starterPack: 0 },
     unlockedStages: [1],
     totalRuns: 0,
     totalKills: 0,
@@ -339,7 +350,7 @@ function loadSave() {
         if (raw) {
             const d = JSON.parse(raw);
             saveData.gold = d.gold || 0;
-            saveData.upgrades = Object.assign({ vitality: 0, power: 0, agility: 0, precision: 0, greed: 0, headStart: 0 }, d.upgrades || {});
+            saveData.upgrades = Object.assign({ vitality: 0, power: 0, agility: 0, precision: 0, greed: 0, headStart: 0, luckyCharm: 0, quickHands: 0, thickSkin: 0, scavenger: 0, ironWill: 0, starterPack: 0 }, d.upgrades || {});
             saveData.unlockedStages = (d.unlockedStages && d.unlockedStages.length > 0) ? d.unlockedStages : [1];
             saveData.totalRuns = d.totalRuns || 0;
             saveData.totalKills = d.totalKills || 0;
@@ -364,26 +375,27 @@ resizeCanvas();
 const keys = new Set();
 const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-// Touch movement state: direction from screen center to touch point
+// Touch movement: drag from touch origin
 let touchDir = { x: 0, y: 0 };
 let touchActive = false;
-const TOUCH_DEAD_ZONE = 20;
+let touchOrigin = { x: 0, y: 0 };
+const TOUCH_DEAD_ZONE = 15;
 
 function updateTouchDir(touchX, touchY) {
-    const cx = canvas.width / 2, cy = canvas.height / 2;
-    const dx = touchX - cx, dy = touchY - cy;
+    const dx = touchX - touchOrigin.x, dy = touchY - touchOrigin.y;
     const dist = Math.hypot(dx, dy);
     if (dist < TOUCH_DEAD_ZONE) { touchDir.x = 0; touchDir.y = 0; }
     else { touchDir.x = dx / dist; touchDir.y = dy / dist; }
 }
 
-// Touch on canvas: move toward touch
+// Touch on canvas: drag from touch point to move
 canvas.addEventListener('touchstart', e => {
     e.preventDefault();
     if (currentScreen !== 'inGame' || !game || game.paused || game.runOver) return;
     const t = e.changedTouches[0];
     touchActive = true;
-    updateTouchDir(t.clientX, t.clientY);
+    touchOrigin.x = t.clientX; touchOrigin.y = t.clientY;
+    touchDir.x = 0; touchDir.y = 0;
 }, { passive: false });
 
 canvas.addEventListener('touchmove', e => {
@@ -458,21 +470,21 @@ class SpatialHash {
 const CHARS = {
     guardian: {
         id: 'guardian', color: '#4488cc', size: 18,
-        baseHP: 120, baseATK: 12, baseSPD: 2.0, baseATKSPD: 1.25, baseCRIT: 0.05, baseCRITDMG: 1.5,
-        autoRange: 60, autoCD: 0.8, cleaveArc: Math.PI * 2 / 3,
-        ultCD: 90, ultDuration: 3, ultShockwaveInterval: 1.5, ultShockwaveDmg: 25, ultShockwaveRange: 120
+        baseHP: 100, baseATK: 14, baseSPD: 2.0, baseATKSPD: 1.25, baseCRIT: 0.05, baseCRITDMG: 1.5,
+        autoRange: 65, autoCD: 0.8, cleaveArc: Math.PI * 5 / 6,
+        ultCD: 75, ultDuration: 3, ultShockwaveInterval: 1.5, ultShockwaveDmg: 25, ultShockwaveRange: 120
     },
     gunslinger: {
         id: 'gunslinger', color: '#cc8844', size: 14,
-        baseHP: 70, baseATK: 10, baseSPD: 2.5, baseATKSPD: 2.0, baseCRIT: 0.10, baseCRITDMG: 2.0,
+        baseHP: 70, baseATK: 8, baseSPD: 2.5, baseATKSPD: 2.0, baseCRIT: 0.10, baseCRITDMG: 1.8,
         autoRange: 250, autoCD: 0.5, projSpeed: 8,
         ultCD: 90, ultDuration: 5, ultBullets: 3, ultFireRate: 0.35, ultPierce: 2
     },
     shadow: {
         id: 'shadow', color: '#8844cc', size: 12,
-        baseHP: 80, baseATK: 9, baseSPD: 3.5, baseATKSPD: 1.67, baseCRIT: 0.20, baseCRITDMG: 1.8,
-        autoRange: 150, autoCD: 0.6, dashMultiplier: 1.2,
-        ultCD: 90, ultDuration: 5, ultSlowMult: 0.5, ultAtkSpdMult: 1.5, ultClones: 1
+        baseHP: 90, baseATK: 11, baseSPD: 3.5, baseATKSPD: 1.67, baseCRIT: 0.20, baseCRITDMG: 1.8,
+        autoRange: 150, autoCD: 0.4, projSpeed: 12, shadowBladeDmg: 1.2, afterimageChance: 0.4,
+        ultCD: 75, ultDuration: 5, ultSlowMult: 0.5, ultAtkSpdMult: 1.5, ultClones: 2, ultDodge: 0.3
     }
 };
 
@@ -484,16 +496,18 @@ const ENEMY_DEFS = {
     spitter:  { hp: 20, speed: 0.8, damage: 8,  size: 14, color: '#4a4a7c', gold: 3, xp: 5, special: true },
     bomber:   { hp: 15, speed: 1.5, damage: 15, size: 13, color: '#7c5a4a', gold: 3, xp: 5, special: true },
     shielder: { hp: 25, speed: 1.0, damage: 5,  size: 15, color: '#5a5a5a', gold: 4, xp: 5, special: true },
-    healer:   { hp: 18, speed: 0.8, damage: 3,  size: 12, color: '#4a7c7c', gold: 4, xp: 5, special: true }
+    healer:   { hp: 18, speed: 0.8, damage: 3,  size: 12, color: '#4a7c7c', gold: 4, xp: 5, special: true },
+    flanker: { hp: 8, speed: 3.0, damage: 6, size: 10, color: '#7c4a7c', gold: 2, xp: 2, special: true },
+    charger: { hp: 15, speed: 1.0, damage: 12, size: 14, color: '#7c7c4a', gold: 3, xp: 3, special: true }
 };
 
 const BOSS_DEFS = {
-    colossus:     { hp: 2000, speed: 0.6, damage: 20, size: 40, color: '#3d2b1f', gold: 75 },
-    necromancer:  { hp: 1500, speed: 1.0, damage: 12, size: 30, color: '#2b1f3d', gold: 100 },
-    hiveQueen:    { hp: 3000, speed: 0.8, damage: 15, size: 45, color: '#3d3d1f', gold: 125 },
-    warlord:      { hp: 4000, speed: 0.7, damage: 18, size: 38, color: '#5a2d1a', gold: 150 },
-    plagueDoctor: { hp: 3500, speed: 0.9, damage: 10, size: 32, color: '#2a3d1a', gold: 175 },
-    abyssKing:    { hp: 6000, speed: 0.5, damage: 22, size: 50, color: '#1a1a2d', gold: 200 }
+    colossus:     { hp: 2000, speed: 0.6, damage: 20, size: 40, color: '#3d2b1f', gold: 60 },
+    necromancer:  { hp: 1500, speed: 1.0, damage: 12, size: 30, color: '#2b1f3d', gold: 80 },
+    hiveQueen:    { hp: 3000, speed: 0.8, damage: 15, size: 45, color: '#3d3d1f', gold: 100 },
+    warlord:      { hp: 4000, speed: 0.7, damage: 18, size: 38, color: '#5a2d1a', gold: 120 },
+    plagueDoctor: { hp: 3500, speed: 0.9, damage: 10, size: 32, color: '#2a3d1a', gold: 140 },
+    abyssKing:    { hp: 6000, speed: 0.5, damage: 22, size: 50, color: '#1a1a2d', gold: 160 }
 };
 
 const STAGE_DEFS = [
@@ -524,8 +538,8 @@ const UPGRADES = [
       apply: p => { p.cleaveArc += Math.PI / 6; } },
     { id: 'cleaveRangeUp',cat:'off', weight: 3, charReq: 'guardian',
       apply: p => { p.autoRange *= 1.2; } },
-    { id: 'dashRangeUp',cat: 'off', weight: 3, charReq: 'shadow',
-      apply: p => { p.autoRange *= 1.25; } },
+    { id: 'shadowBladeUp', cat: 'off', weight: 3, charReq: 'shadow',
+      apply: p => { p.shadowBladeDmgMult = (p.shadowBladeDmgMult || 1) * 1.25; } },
     { id: 'afterDmgUp', cat: 'off', weight: 3, charReq: 'shadow',
       apply: p => { p.afterimageMult = (p.afterimageMult || 0.4) * 1.25; } },
     { id: 'chainLightning', cat: 'off', weight: 4, charReq: null,
@@ -571,25 +585,51 @@ const UPGRADES = [
       apply: p => { p.frozenTrail = true; } },
     { id: 'whirlwind',  cat: 'spec', weight: 3, charReq: null,
       apply: p => { p.whirlwind = true; p.whirlwindCD = 5; p.whirlwindTimer = 0; } },
+    { id: 'ricochet', cat: 'off', weight: 3, charReq: null,
+      apply: p => { p.ricochet = (p.ricochet || 0) + 1; } },
+    { id: 'explosiveShot', cat: 'off', weight: 3, charReq: null,
+      apply: p => { p.explosiveShot = true; p.explosionRadius = 40; p.explosionDmgMult = 0.4; } },
+    { id: 'giantSlayer', cat: 'off', weight: 3, charReq: null,
+      apply: p => { p.giantSlayer = (p.giantSlayer || 0) + 0.15; } },
+    { id: 'vampiricAura', cat: 'def', weight: 3, charReq: null,
+      apply: p => { p.vampiricAura = true; p.vampiricAuraRange = 60; p.vampiricAuraTimer = 0; p.vampiricAuraHeal = 0.03; } },
+    { id: 'secondWind', cat: 'def', weight: 2, charReq: null,
+      apply: p => { p.secondWind = (p.secondWind || 0) + 1; } },
+    { id: 'berserker', cat: 'def', weight: 3, charReq: null,
+      apply: p => { p.berserker = true; } },
+    { id: 'multishot', cat: 'util', weight: 2, charReq: null,
+      apply: p => { p.projCount = (p.projCount || 1) + 1; } },
+    { id: 'timeWarpUp', cat: 'util', weight: 2, charReq: null,
+      apply: p => { p.timeWarp = true; p.timeWarpThreshold = 0.3; p.timeWarpSlow = 0.5; p.timeWarpActive = false; } },
+    { id: 'frostNova', cat: 'spec', weight: 3, charReq: null,
+      apply: p => { p.frostNova = true; p.frostNovaCD = 5; p.frostNovaTimer = 0; p.frostNovaRange = 80; } },
+    { id: 'poisonCloudUp', cat: 'spec', weight: 3, charReq: null,
+      apply: p => { p.poisonCloud = true; } },
     // Character-Specific 10%
     { id: 'fortressExt',cat: 'char', weight: 3, charReq: 'guardian',
       apply: p => { p.ultShockwaveRange = (p.ultShockwaveRange || 120) + 30; p.ultDuration = (p.ultDuration || 3) + 1; } },
     { id: 'bulletStorm',cat: 'char', weight: 3, charReq: 'gunslinger',
       apply: p => { p.ultBullets = (p.ultBullets || 3) + 1; } },
     { id: 'shadowDance',cat: 'char', weight: 3, charReq: 'shadow',
-      apply: p => { p.ultClones = (p.ultClones || 1) + 1; p.ultDuration = (p.ultDuration || 5) + 1; } }
+      apply: p => { p.ultClones = (p.ultClones || 2) + 1; p.ultDuration = (p.ultDuration || 5) + 1; } }
 ];
 
 const CAT_WEIGHTS = { off: 0.30, def: 0.25, util: 0.20, spec: 0.15, char: 0.10 };
 
 // ==================== SHOP DEFINITIONS ====================
 const SHOP_DEFS = [
-    { id: 'vitality',   maxLvl: 20, cost: lvl => 50 * lvl },
-    { id: 'power',      maxLvl: 20, cost: lvl => 60 * lvl },
-    { id: 'agility',    maxLvl: 10, cost: lvl => 80 * lvl },
-    { id: 'precision',  maxLvl: 10, cost: lvl => 100 * lvl },
-    { id: 'greed',      maxLvl: 10, cost: lvl => 200 * lvl },
-    { id: 'headStart',  maxLvl: 5,  cost: lvl => 300 * lvl }
+    { id: 'vitality',   maxLvl: 20, cost: lvl => Math.round(50 * lvl * 1.5) },
+    { id: 'power',      maxLvl: 20, cost: lvl => Math.round(60 * lvl * 1.5) },
+    { id: 'agility',    maxLvl: 10, cost: lvl => Math.round(80 * lvl * 1.5) },
+    { id: 'precision',  maxLvl: 10, cost: lvl => Math.round(100 * lvl * 1.5) },
+    { id: 'greed',      maxLvl: 10, cost: lvl => Math.round(200 * lvl * 1.5) },
+    { id: 'headStart',  maxLvl: 5,  cost: lvl => Math.round(300 * lvl * 1.5) },
+    { id: 'luckyCharm', maxLvl: 5, cost: lvl => Math.round(150 * lvl * 1.5) },
+    { id: 'quickHands', maxLvl: 5, cost: lvl => Math.round(200 * lvl * 1.5) },
+    { id: 'thickSkin', maxLvl: 5, cost: lvl => Math.round(250 * lvl * 1.5) },
+    { id: 'scavenger', maxLvl: 5, cost: lvl => Math.round(300 * lvl * 1.5) },
+    { id: 'ironWill', maxLvl: 3, cost: lvl => Math.round(500 * lvl * 1.5) },
+    { id: 'starterPack', maxLvl: 3, cost: lvl => Math.round(400 * lvl * 1.5) }
 ];
 
 // ==================== GAME STATE ====================
@@ -608,7 +648,10 @@ function createEnemy(type, x, y, diffMult) {
         facing: 0, specialTimer: type === 'spitter' ? 1 : 0,
         flashTimer: 0, isBoss: false, bossPhase: 0,
         healPulseTimer: 0, contactCD: 0, dead: false, isEnemy: true,
-        fadeIn: 0.3, burnTimer: 0
+        fadeIn: 0.3, burnTimer: 0,
+        previewTimer: 0.5, frozenTimer: 0,
+        chargeTimer: type === 'charger' ? 2 : 0, isCharging: false, chargeDir: 0, chargeDur: 0,
+        shieldHP: type === 'shielder' ? 15 : 0
     };
 }
 
@@ -624,12 +667,12 @@ function createRunState(charId, stageNum) {
         maxHP: ch.baseHP + (su.vitality || 0) * 5,
         atk: ch.baseATK + (su.power || 0) * 2,
         spd: ch.baseSPD + (su.agility || 0) * 0.2,
-        atkSpd: ch.baseATKSPD,
-        crit: ch.baseCRIT + (su.precision || 0) * 0.02,
+        atkSpd: ch.baseATKSPD * (1 + (su.quickHands || 0) * 0.08),
+        crit: ch.baseCRIT + (su.precision || 0) * 0.02 + (su.luckyCharm || 0) * 0.05,
         critDmg: ch.baseCRITDMG,
-        armor: 0, hpRegen: 0, dodgeChance: 0,
+        armor: 0 + (su.thickSkin || 0), hpRegen: 0, dodgeChance: 0,
         pickupRange: PICKUP_BASE_RANGE,
-        goldMult: shopGoldMult, xpMult: 1, ultCDMult: 1,
+        goldMult: shopGoldMult, xpMult: 1 * (1 + (su.scavenger || 0) * 0.15), ultCDMult: 1,
         shieldCD: 0, shieldReady: false, hasShield: false, shieldTimer: 0,
         projCount: 1, piercing: 0,
         cleaveArc: ch.cleaveArc || Math.PI * 2 / 3,
@@ -646,7 +689,7 @@ function createRunState(charId, stageNum) {
         ultClones: ch.ultClones || 0,
         // Player state
         px: 0, py: 0, facing: 0,
-        level: su.headStart || 0, xp: 0, xpToNext: 10 * ((su.headStart || 0) + 1),
+        level: su.headStart || 0, xp: 0, xpToNext: 8 * ((su.headStart || 0) + 1),
         gold: 0, totalGoldEarned: 0, kills: 0,
         // Auto-attack
         autoRange: ch.autoRange, autoCD: ch.autoCD,
@@ -655,7 +698,6 @@ function createRunState(charId, stageNum) {
         // Ultimate
         ultCDTimer: 0, ultActive: false, ultTimer: 0, ultSpecialTimer: 0,
         clones: [],
-        isDashing: false, dashTimer: 0, dashOrigX: 0, dashOrigY: 0,
         gameTime: 0, paused: false,
         spawnTimer: 0, specialSpawnTimer: 20,
         spawnRateMult: 1.0, difficultyTimer: 0,
@@ -674,7 +716,13 @@ function createRunState(charId, stageNum) {
         // Weaken curse (Plague Doctor)
         weakenMult: 1, weakenTimer: 0,
         // Abyss King stun
-        stunTimer: 0
+        stunTimer: 0,
+        shadowBladeDmgMult: 1, ricochet: 0, explosiveShot: false, explosionRadius: 40, explosionDmgMult: 0.4,
+        giantSlayer: 0, vampiricAura: false, vampiricAuraRange: 60, vampiricAuraTimer: 0, vampiricAuraHeal: 0.03,
+        secondWind: (su.ironWill || 0), berserker: false,
+        timeWarp: false, timeWarpThreshold: 0.3, timeWarpSlow: 0.5, timeWarpActive: false,
+        frostNova: false, frostNovaCD: 5, frostNovaTimer: 0, frostNovaRange: 80, poisonCloud: false,
+        arenaWarning: false, comboCount: 0, comboTimer: 0, poisonClouds: []
     };
 }
 
@@ -709,17 +757,17 @@ function renderCharSelect() {
           nameKey: 'charGuardian', roleKey: 'roleTank',
           atkKey: 'cleave', passiveKey: 'fortify', ultKey: 'fortress',
           atkDescKey: 'cleaveDesc', passiveDescKey: 'fortifyDesc', ultDescKey: 'fortressDesc',
-          stats: 'HP: 120 | ATK: 12<br>SPD: 2.0 | ATKSPD: 1.25<br>CRIT: 5% | CRITDMG: 150%' },
+          stats: 'HP: 100 | ATK: 14<br>SPD: 2.0 | ATKSPD: 1.25<br>CRIT: 5% | CRITDMG: 150%' },
         { id: 'gunslinger', cssClass: 'gunslinger', iconStyle: 'background:#cc8844;transform:rotate(45deg);border-radius:2px',
           nameKey: 'charGunslinger', roleKey: 'roleRanged',
           atkKey: 'shoot', passiveKey: 'sharpshooter', ultKey: 'bulletHell',
           atkDescKey: 'shootDesc', passiveDescKey: 'sharpshooterDesc', ultDescKey: 'bulletHellDesc',
-          stats: 'HP: 70 | ATK: 10<br>SPD: 2.5 | ATKSPD: 2.0<br>CRIT: 10% | CRITDMG: 200%' },
+          stats: 'HP: 70 | ATK: 8<br>SPD: 2.5 | ATKSPD: 2.0<br>CRIT: 10% | CRITDMG: 180%' },
         { id: 'shadow', cssClass: 'shadow', iconStyle: 'background:#8844cc;clip-path:polygon(50% 0%,0% 100%,100% 100%)',
           nameKey: 'charShadow', roleKey: 'roleAssassin',
           atkKey: 'dashStrike', passiveKey: 'afterimage', ultKey: 'timeWarp',
-          atkDescKey: 'dashStrikeDesc', passiveDescKey: 'afterimageDesc', ultDescKey: 'timeWarpDesc',
-          stats: 'HP: 80 | ATK: 9<br>SPD: 3.5 | ATKSPD: 1.67<br>CRIT: 20% | CRITDMG: 180%' }
+          atkDescKey: 'shadowBladeDesc', passiveDescKey: 'afterimageDesc', ultDescKey: 'timeWarpDesc',
+          stats: 'HP: 90 | ATK: 11<br>SPD: 3.5 | ATKSPD: 1.67<br>CRIT: 20% | CRITDMG: 180%' }
     ];
     chars.forEach(c => {
         const div = document.createElement('div');
@@ -739,8 +787,8 @@ function renderShop() {
     document.getElementById('shopGold').textContent = t('gold') + ': ' + saveData.gold;
     const grid = document.getElementById('shopGrid');
     grid.innerHTML = '';
-    const nameKeys = ['shopVitality','shopPower','shopAgility','shopPrecision','shopGreed','shopHeadStart'];
-    const descKeys = ['shopVitalityDesc','shopPowerDesc','shopAgilityDesc','shopPrecisionDesc','shopGreedDesc','shopHeadStartDesc'];
+    const nameKeys = ['shopVitality','shopPower','shopAgility','shopPrecision','shopGreed','shopHeadStart','shopLuckyCharm','shopQuickHands','shopThickSkin','shopScavenger','shopIronWill','shopStarterPack'];
+    const descKeys = ['shopVitalityDesc','shopPowerDesc','shopAgilityDesc','shopPrecisionDesc','shopGreedDesc','shopHeadStartDesc','shopLuckyCharmDesc','shopQuickHandsDesc','shopThickSkinDesc','shopScavengerDesc','shopIronWillDesc','shopStarterPackDesc'];
     SHOP_DEFS.forEach((sd, idx) => {
         const lvl = saveData.upgrades[sd.id] || 0;
         const maxed = lvl >= sd.maxLvl;
@@ -809,10 +857,13 @@ function startRun(stageNum) {
     game = createRunState(selectedCharId, stageNum);
     if (game.level > 0) {
         for (let i = 0; i < game.level; i++) applyRandomUpgradeSilent();
-        game.xpToNext = 10 * (game.level + 1);
+        game.xpToNext = 8 * (game.level + 1);
     }
     // Init orbital orbs
     if (game.orbitalShield > 0) initOrbitalOrbs();
+    // Starter Pack
+    const starterPacks = saveData.upgrades.starterPack || 0;
+    for (let i = 0; i < starterPacks; i++) applyRandomUpgradeSilent();
     switchScreen('inGame');
 }
 
@@ -842,7 +893,7 @@ function showLevelUp() {
     const available = UPGRADES.filter(u => !u.charReq || u.charReq === game.charId);
     const picks = [];
     const pool = [...available];
-    const isRareLevel = (game.level === 5 || game.level === 10 || game.level === 15);
+    const isRareLevel = (game.level % 5 === 0 && game.level <= 25);
 
     for (let i = 0; i < 3 && pool.length > 0; i++) {
         const roll = Math.random();
@@ -908,6 +959,7 @@ function activateUltimate() {
     game.ultCDTimer = (game.ultDuration ? ch.ultCD : ch.ultCD) * (game.ultCDMult || 1);
     game.screenShake = 0.2; game.screenShakeIntensity = 5;
     game.screenFlash = 0.15; game.screenFlashColor = ch.color;
+    for (let i = 0; i < 20; i++) { const a2 = (Math.PI * 2 / 20) * i; game.particles.push({ x: game.px, y: game.py, dx: Math.cos(a2) * 150, dy: Math.sin(a2) * 150, lifetime: 0.5, maxLifetime: 0.5, size: 4, color: ch.color, alpha: 0.8 }); }
 
     if (game.charId === 'shadow') {
         const numClones = game.ultClones || ch.ultClones;
@@ -926,33 +978,12 @@ function getSpawnInterval() {
 }
 
 function getSpawnPositions(count) {
-    // 8 segments around viewport
-    const margin = 200;
-    const hw = canvas.width / 2 + margin;
-    const hh = canvas.height / 2 + margin;
-    const cx = game.px, cy = game.py;
-    const segments = [
-        () => ({ x: cx - hw, y: cy + rand(-hh, -hh/3) }),       // top-left edge
-        () => ({ x: cx + rand(-hw, hw), y: cy - hh }),            // top edge
-        () => ({ x: cx + hw, y: cy + rand(-hh, -hh/3) }),        // top-right edge
-        () => ({ x: cx + hw, y: cy + rand(-hh/3, hh/3) }),       // right edge
-        () => ({ x: cx + hw, y: cy + rand(hh/3, hh) }),          // bottom-right edge
-        () => ({ x: cx + rand(-hw, hw), y: cy + hh }),            // bottom edge
-        () => ({ x: cx - hw, y: cy + rand(hh/3, hh) }),          // bottom-left edge
-        () => ({ x: cx - hw, y: cy + rand(-hh/3, hh/3) })        // left edge
-    ];
-    const numSegs = randInt(2, 4);
-    const chosen = [];
-    const all = [0,1,2,3,4,5,6,7];
-    for (let i = 0; i < numSegs; i++) {
-        const idx = randInt(0, all.length - 1);
-        chosen.push(all[idx]);
-        all.splice(idx, 1);
-    }
+    // Spawn from arena edge
     const positions = [];
-    for (const seg of chosen) {
-        const pos = segments[seg]();
-        // Check min 60px from other positions
+    const numPoints = randInt(2, 4);
+    for (let i = 0; i < numPoints; i++) {
+        const angle = rand(0, Math.PI * 2);
+        const pos = { x: Math.cos(angle) * (ARENA_RADIUS + 30), y: Math.sin(angle) * (ARENA_RADIUS + 30) };
         let valid = true;
         for (const p of positions) {
             if (distXY(p.x, p.y, pos.x, pos.y) < 60) { valid = false; break; }
@@ -984,7 +1015,7 @@ function spawnNormalEnemy() {
 
 function spawnSpecialEnemy() {
     if (game.enemies.length >= MAX_ENEMIES_HARD) return;
-    const specials = ['spitter', 'bomber', 'shielder', 'healer'];
+    const specials = ['spitter', 'bomber', 'shielder', 'healer', 'flanker', 'charger'];
     const type = specials[randInt(0, specials.length - 1)];
     const diffMult = game.stageDef.diffMult;
     const positions = getSpawnPositions(1);
@@ -1035,9 +1066,14 @@ function spawnBoss() {
 // ==================== DAMAGE / COMBAT ====================
 function damageEnemy(enemy, dmg, forceCrit) {
     if (enemy.dead) return;
-    if (enemy.type === 'shielder' && !enemy.isBoss) {
+    if (enemy.type === 'shielder' && !enemy.isBoss && enemy.shieldHP > 0) {
         const ang = angleXY(enemy.x, enemy.y, game.px, game.py);
-        if (Math.abs(angleDiff(ang, enemy.facing)) < Math.PI / 2) dmg *= 0.5;
+        if (Math.abs(angleDiff(ang, enemy.facing)) < Math.PI / 2) {
+            const shieldDmg = Math.min(enemy.shieldHP, dmg);
+            enemy.shieldHP -= shieldDmg;
+            dmg -= shieldDmg;
+            if (dmg <= 0) { addFloatingText(enemy.x, enemy.y - enemy.size, 'BLOCKED', '#888', 10); return; }
+        }
     }
     if (enemy.type === 'necromancer' && enemy.isBoss && dmg > 50 && enemy.teleportCD <= 0) {
         enemy.x = game.px + rand(-300, 300);
@@ -1049,12 +1085,22 @@ function damageEnemy(enemy, dmg, forceCrit) {
 
     const isCrit = forceCrit || Math.random() < game.crit;
     let finalDmg = isCrit ? dmg * game.critDmg : dmg;
+    if (enemy.isBoss && game.giantSlayer > 0) finalDmg *= (1 + game.giantSlayer);
     // Weaken curse (Plague Doctor)
     finalDmg *= game.weakenMult;
+    // Berserker: lower HP = higher ATK
+    if (game.berserker) { finalDmg *= (1 + (1 - game.hp / game.maxHP) * 0.5); }
+
     finalDmg = Math.max(1, Math.round(finalDmg));
 
     enemy.hp -= finalDmg;
     enemy.flashTimer = 0.1;
+
+    const sparkCount = isCrit ? 5 : 3;
+    for (let i = 0; i < sparkCount; i++) {
+        game.particles.push({ x: enemy.x, y: enemy.y, dx: rand(-100, 100), dy: rand(-100, 100), lifetime: 0.2, maxLifetime: 0.2, size: isCrit ? 3 : 2, color: isCrit ? '#ffcc00' : '#ffffff', alpha: 1 });
+    }
+    if (isCrit) { game.screenShake = Math.max(game.screenShake || 0, 0.1); game.screenShakeIntensity = Math.max(game.screenShakeIntensity || 0, 4); }
 
     addFloatingText(enemy.x, enemy.y - enemy.size, (isCrit ? 'CRIT ' : '') + finalDmg, isCrit ? '#ffcc00' : '#fff', isCrit ? 18 : 12);
 
@@ -1067,7 +1113,7 @@ function damageEnemy(enemy, dmg, forceCrit) {
         for (const ne of nearby) {
             if (ne.isEnemy && !ne.dead && ne !== enemy && distXY(ne.x, ne.y, enemy.x, enemy.y) < 80) {
                 const chainDmg = Math.round(finalDmg * game.chainDmgMult);
-                ne.hp -= chainDmg; ne.flashTimer = 0.1;
+                damageEnemy(ne, chainDmg, false);
                 addFloatingText(ne.x, ne.y - ne.size, chainDmg, '#88ccff', 10);
                 // Lightning arc visual
                 game.particles.push({ x: enemy.x, y: enemy.y, dx: 0, dy: 0, lifetime: 0.15, maxLifetime: 0.15, size: 2, color: '#ffff44', alpha: 1, isArc: true, tx: ne.x, ty: ne.y });
@@ -1087,12 +1133,15 @@ function damageEnemy(enemy, dmg, forceCrit) {
 function killEnemy(enemy) {
     if (enemy.dead) return;
     enemy.dead = true;
-    let goldAmt = Math.round(enemy.gold * (game.goldMult || 1));
+    const stageGoldMult = 1 + 0.2 * (game.stage - 1);
+    const effectiveGoldMult = Math.min(3, stageGoldMult * (game.goldMult || 1));
+    let goldAmt = Math.round(enemy.gold * effectiveGoldMult);
     // Fortune
     if (game.fortune > 0 && Math.random() < game.fortune) goldAmt *= 2;
     game.gold += goldAmt; game.totalGoldEarned += goldAmt;
     addFloatingText(enemy.x, enemy.y - enemy.size - 10, '+' + goldAmt + 'g', '#ffcc00', 11);
-    game.xpOrbs.push({ x: enemy.x, y: enemy.y, xp: enemy.xp, lifetime: 30 });
+    const stageXPMult = 1 + 0.3 * (game.stage - 1);
+    game.xpOrbs.push({ x: enemy.x, y: enemy.y, xp: Math.round(enemy.xp * stageXPMult), lifetime: 30 });
 
     if (enemy.type === 'bomber' && !enemy.isBoss)
         game.explosions.push({ x: enemy.x, y: enemy.y, timer: 0.5, radius: 60, damage: enemy.damage });
@@ -1100,15 +1149,33 @@ function killEnemy(enemy) {
     for (let i = 0; i < randInt(3, 5); i++)
         game.particles.push({ x: enemy.x, y: enemy.y, dx: rand(-60, 60), dy: rand(-60, 60), lifetime: 0.4, maxLifetime: 0.4, size: rand(2, 4), color: enemy.color, alpha: 1 });
 
+    if (game.poisonCloud) game.poisonClouds.push({ x: enemy.x, y: enemy.y, lifetime: 3, radius: 30, damage: game.atk * 0.3, tickTimer: 0 });
+
     game.kills++;
-    if (enemy.isBoss) { game.bossDefeated = true; game.boss = null; addFloatingText(game.px, game.py - 60, t('bossDefeated'), '#ffcc00', 28); }
+    // Combo counter
+    game.comboCount++;
+    game.comboTimer = 3;
+    if (game.comboCount === 10 || game.comboCount === 20 || game.comboCount === 30) {
+        const bonusXP = game.comboCount * 2;
+        game.xpOrbs.push({ x: game.px, y: game.py, xp: bonusXP, lifetime: 30 });
+        addFloatingText(game.px, game.py - 50, game.comboCount + 'x COMBO!', '#ff8800', 22);
+    }
+    if (enemy.isBoss) {
+        game.bossDefeated = true; game.boss = null;
+        addFloatingText(game.px, game.py - 60, t('bossDefeated'), '#ffcc00', 28);
+        for (let i = 0; i < 5; i++) game.xpOrbs.push({ x: enemy.x + rand(-20, 20), y: enemy.y + rand(-20, 20), xp: 10, lifetime: 30 });
+    }
 }
 
 function damagePlayer(dmg, source) {
-    if (game.iFrames > 0 || game.stunTimer > 0 && false) {} // stun doesn't prevent damage
+    if (game.iFrames > 0) return;
     if (game.iFrames > 0) return;
     if (game.charId === 'guardian' && game.ultActive) { addFloatingText(game.px, game.py - 20, t('invulnerable'), '#4488cc', 14); return; }
     if ((game.dodgeChance || 0) > 0 && Math.random() < game.dodgeChance) { addFloatingText(game.px, game.py - 20, t('dodge'), '#88ccff', 14); return; }
+    if (game.charId === 'shadow' && game.ultActive && Math.random() < (CHARS.shadow.ultDodge || 0.3)) {
+        addFloatingText(game.px, game.py - 20, t('dodge'), '#bb66ff', 14);
+        return;
+    }
     if (game.hasShield && game.shieldReady) { game.shieldReady = false; game.shieldTimer = game.shieldCD; addFloatingText(game.px, game.py - 20, t('blocked'), '#88ccff', 14); return; }
 
     let dr = 0;
@@ -1127,6 +1194,8 @@ function damagePlayer(dmg, source) {
     game.screenShake = 0.15; game.screenShakeIntensity = 3; game.iFrames = 0.25;
     addFloatingText(game.px, game.py - 15, '-' + finalDmg, '#ff4444', 14);
 
+    for (let i = 0; i < 4; i++) { game.particles.push({ x: game.px, y: game.py, dx: rand(-80, 80), dy: rand(-80, 80), lifetime: 0.3, maxLifetime: 0.3, size: rand(2, 4), color: '#cc2222', alpha: 0.8 }); }
+
     // Thorns
     if (game.thorns > 0 && source && !source.dead) {
         const thornsDmg = Math.round(finalDmg * game.thorns);
@@ -1134,7 +1203,17 @@ function damagePlayer(dmg, source) {
         if (source.hp <= 0 && !source.dead) killEnemy(source);
     }
 
-    if (game.hp <= 0) { game.hp = 0; game.stageFailed = true; game.runOver = true; endRun(false); }
+    if (game.hp <= 0) {
+        if ((game.secondWind || 0) > 0) {
+            game.secondWind--;
+            game.hp = Math.floor(game.maxHP * 0.3);
+            game.iFrames = 1.0;
+            addFloatingText(game.px, game.py - 30, 'SECOND WIND!', '#44ff44', 20);
+            game.screenFlash = 0.2; game.screenFlashColor = '#44ff44';
+        } else {
+            game.hp = 0; game.stageFailed = true; game.runOver = true; endRun(false);
+        }
+    }
 }
 
 function addFloatingText(x, y, text, color, size) { game.floatingTexts.push({ x, y, text, color, size: size || 12, lifetime: 0.8, maxLifetime: 0.8 }); }
@@ -1153,16 +1232,58 @@ function updatePlayer(dt) {
     // Touch: override keyboard direction if active
     if (touchActive && (touchDir.x !== 0 || touchDir.y !== 0)) { dx = touchDir.x; dy = touchDir.y; }
 
-    if ((dx !== 0 || dy !== 0) && !game.isDashing) {
+    if (dx !== 0 || dy !== 0) {
         const len = Math.hypot(dx, dy); dx /= len; dy /= len;
         game.px += dx * game.spd * 60 * dt;
         game.py += dy * game.spd * 60 * dt;
         game.facing = Math.atan2(dy, dx);
+        if (game.spd > 2.5) game.particles.push({ x: game.px + rand(-3, 3), y: game.py + rand(-3, 3), dx: 0, dy: 0, lifetime: 0.15, maxLifetime: 0.15, size: game.charDef.size * 0.3, color: game.charDef.color, alpha: 0.3 });
         // Frozen trail
         if (game.frozenTrail) game.frozenTrailSegs.push({ x: game.px, y: game.py, lifetime: 2 });
     }
 
+    // Arena boundary
+    const distFromCenter = Math.hypot(game.px, game.py);
+    game.arenaWarning = distFromCenter > ARENA_RADIUS * 0.85;
+    if (distFromCenter > ARENA_RADIUS) {
+        const pushAngle = Math.atan2(game.py, game.px);
+        const overflow = distFromCenter - ARENA_RADIUS;
+        const pushForce = Math.max(overflow * 0.3, 2);
+        game.px -= Math.cos(pushAngle) * pushForce * 60 * dt;
+        game.py -= Math.sin(pushAngle) * pushForce * 60 * dt;
+    }
+
     if (game.hpRegen > 0) game.hp = Math.min(game.maxHP, game.hp + game.hpRegen * dt);
+    // Combo timer
+    if (game.comboTimer > 0) { game.comboTimer -= dt; if (game.comboTimer <= 0) game.comboCount = 0; }
+    // Vampiric Aura
+    if (game.vampiricAura) {
+        game.vampiricAuraTimer -= dt;
+        if (game.vampiricAuraTimer <= 0) {
+            game.vampiricAuraTimer = 2;
+            const nearby = game.spatialHash.query(game.px, game.py, game.vampiricAuraRange);
+            for (const e of nearby) {
+                if (e.isEnemy && !e.dead && distXY(e.x, e.y, game.px, game.py) < game.vampiricAuraRange) {
+                    game.hp = Math.min(game.maxHP, game.hp + game.atk * game.vampiricAuraHeal);
+                    break;
+                }
+            }
+        }
+    }
+    // Time Warp
+    if (game.timeWarp) { game.timeWarpActive = game.hp / game.maxHP < game.timeWarpThreshold; }
+    // Frost Nova
+    if (game.frostNova) {
+        game.frostNovaTimer -= dt;
+        if (game.frostNovaTimer <= 0) {
+            game.frostNovaTimer = game.frostNovaCD;
+            const nearby = game.spatialHash.query(game.px, game.py, game.frostNovaRange);
+            for (const e of nearby) {
+                if (e.isEnemy && !e.dead && distXY(e.x, e.y, game.px, game.py) < game.frostNovaRange) e.frozenTimer = 1.5;
+            }
+            for (let i = 0; i < 12; i++) { const a2 = (Math.PI * 2 / 12) * i; game.particles.push({ x: game.px, y: game.py, dx: Math.cos(a2) * 80, dy: Math.sin(a2) * 80, lifetime: 0.3, maxLifetime: 0.3, size: 4, color: '#88ccff', alpha: 0.8 }); }
+        }
+    }
     if (game.hasShield && !game.shieldReady && game.shieldTimer > 0) { game.shieldTimer -= dt; if (game.shieldTimer <= 0) game.shieldReady = true; }
     if (game.ultCDTimer > 0) game.ultCDTimer -= dt;
 
@@ -1178,7 +1299,7 @@ function updatePlayer(dt) {
     // Auto-attack: every frame, decrement cooldown, fire when ready and target in range
     const atkSpdMult = (game.charId === 'shadow' && game.ultActive) ? (game.ultAtkSpdMult || CHARS.shadow.ultAtkSpdMult) : 1;
     game.autoCDTimer -= dt * game.atkSpd * atkSpdMult;
-    if (game.autoCDTimer <= 0 && !game.isDashing) {
+    if (game.autoCDTimer <= 0) {
         // Find nearest enemy within attack range
         const target = findNearestEnemy(game.px, game.py, game.autoRange);
         if (target) {
@@ -1186,9 +1307,6 @@ function updatePlayer(dt) {
             game.autoCDTimer = game.charDef.autoCD;
         }
     }
-
-    // Shadow dash return
-    if (game.isDashing) { game.dashTimer -= dt; if (game.dashTimer <= 0) { game.isDashing = false; game.px = game.dashOrigX; game.py = game.dashOrigY; } }
 
     // Clones
     for (let i = game.clones.length - 1; i >= 0; i--) {
@@ -1295,13 +1413,7 @@ function updatePlayer(dt) {
         for (const k in orb.cd) { orb.cd[k] -= dt; if (orb.cd[k] <= 0) delete orb.cd[k]; }
     }
 
-    // Magnet field
-    if (game.magnetField) {
-        const nearby = game.spatialHash.query(game.px, game.py, 40);
-        for (const e of nearby) {
-            if (e.isEnemy && !e.dead && distXY(e.x, e.y, game.px, game.py) < 40) e.speed *= 0.8;
-        }
-    }
+    // Magnet field slow handled in updateEnemies via spdMult
 }
 
 function findNearestEnemy(x, y, range) {
@@ -1337,12 +1449,21 @@ function performAutoAttack(target) {
             game.projectiles.push({ x: game.px, y: game.py, dx: Math.cos(pa), dy: Math.sin(pa), speed: CHARS.gunslinger.projSpeed, damage: game.atk, piercing: game.piercing || 0, owner: 'player', lifetime: 2, isCrit: isCritShot, knockback: isCritShot ? 2 : 0 });
         }
     } else if (game.charId === 'shadow') {
-        if (!game.isDashing) {
-            game.isDashing = true; game.dashTimer = 0.2;
-            game.dashOrigX = game.px; game.dashOrigY = game.py;
-            game.iFrames = 0.25;
-            game.px = target.x + rand(-5, 5); game.py = target.y + rand(-5, 5);
-            damageEnemy(target, game.atk * (CHARS.shadow.dashMultiplier || 1.2), false);
+        const count = game.projCount || 1;
+        for (let i = 0; i < count; i++) {
+            const spread = count > 1 ? (i - (count - 1) / 2) * 0.12 : 0;
+            const pa = a + spread;
+            game.projectiles.push({
+                x: game.px, y: game.py,
+                dx: Math.cos(pa), dy: Math.sin(pa),
+                speed: CHARS.shadow.projSpeed,
+                damage: game.atk * (CHARS.shadow.shadowBladeDmg || 1.2) * (game.shadowBladeDmgMult || 1),
+                piercing: game.piercing || 0,
+                owner: 'player', lifetime: 0.5,
+                isShadowBlade: true
+            });
+        }
+        if (Math.random() < (CHARS.shadow.afterimageChance || 0.4)) {
             game.afterimages.push({ target: target, timer: 0.3 });
         }
     }
@@ -1397,10 +1518,13 @@ function resolveCollisions() {
 // ==================== UPDATE: ENEMIES ====================
 function updateEnemies(dt) {
     const slowMult = (game.charId === 'shadow' && game.ultActive) ? (CHARS.shadow.ultSlowMult) : 1;
+    const timeWarpMult = (game.timeWarpActive) ? (game.timeWarpSlow || 0.5) : 1;
 
     for (let i = game.enemies.length - 1; i >= 0; i--) {
         const e = game.enemies[i];
         if (e.dead) { game.enemies.splice(i, 1); continue; }
+        if (e.previewTimer > 0) { e.previewTimer -= dt; continue; }
+        if (e.frozenTimer > 0) { e.frozenTimer -= dt; continue; }
         if (e.flashTimer > 0) e.flashTimer -= dt;
         if (e.contactCD > 0) e.contactCD -= dt;
         if (e.fadeIn > 0) e.fadeIn -= dt;
@@ -1411,7 +1535,7 @@ function updateEnemies(dt) {
         e.facing = a;
 
         // Warlord command aura: buff nearby enemies
-        let spdMult = slowMult;
+        let spdMult = slowMult * timeWarpMult;
         let dmgBuff = 1;
         if (e.isBoss && e.type === 'warlord') {
             // handled in updateBoss
@@ -1426,6 +1550,9 @@ function updateEnemies(dt) {
 
         if (e.isBoss) { updateBoss(e, dt, spdMult); continue; }
 
+        // Bomber enrage
+        if (e.type === 'bomber' && e.hp / e.maxHp < 0.5) spdMult *= 1.8;
+
         // Magnet field slow
         if (game.magnetField && distXY(e.x, e.y, game.px, game.py) < 40) spdMult *= 0.8;
 
@@ -1437,8 +1564,12 @@ function updateEnemies(dt) {
         if (e.type === 'spitter') {
             const d = distXY(e.x, e.y, game.px, game.py);
             if (d > 120) { e.x += Math.cos(a) * e.speed * 60 * dt * spdMult; e.y += Math.sin(a) * e.speed * 60 * dt * spdMult; }
+            else if (d < 80) { e.x -= Math.cos(a) * e.speed * 60 * dt * spdMult; e.y -= Math.sin(a) * e.speed * 60 * dt * spdMult; }
             e.specialTimer -= dt;
-            if (e.specialTimer <= 0 && d <= 250) { e.specialTimer = 2; game.projectiles.push({ x: e.x, y: e.y, dx: Math.cos(a), dy: Math.sin(a), speed: 4, damage: e.damage * dmgBuff, piercing: 0, owner: 'enemy', lifetime: 3 }); }
+            if (e.specialTimer <= 0 && d <= 250) {
+                e.specialTimer = 2;
+                for (let i = -1; i <= 1; i++) { const sa = a + i * 0.2; game.projectiles.push({ x: e.x, y: e.y, dx: Math.cos(sa), dy: Math.sin(sa), speed: 4, damage: e.damage * game.stageDef.diffMult, piercing: 0, owner: 'enemy', lifetime: 3 }); }
+            }
         } else if (e.type === 'healer') {
             e.x += Math.cos(a) * e.speed * 60 * dt * spdMult; e.y += Math.sin(a) * e.speed * 60 * dt * spdMult;
             e.healPulseTimer -= dt;
@@ -1447,6 +1578,31 @@ function updateEnemies(dt) {
                 const nearby = game.spatialHash.query(e.x, e.y, 80);
                 for (const ne of nearby) { if (ne.isEnemy && !ne.dead && ne !== e && distXY(ne.x, ne.y, e.x, e.y) < 80) ne.hp = Math.min(ne.maxHp, ne.hp + 3); }
                 game.particles.push({ x: e.x, y: e.y, dx: 0, dy: 0, lifetime: 0.5, maxLifetime: 0.5, size: 40, color: '#4a7c7c', alpha: 0.3 });
+            }
+        } else if (e.type === 'flanker') {
+            const d = distXY(e.x, e.y, game.px, game.py);
+            if (d > 80) {
+                const tx = game.px + Math.cos(game.facing + Math.PI) * 60;
+                const ty = game.py + Math.sin(game.facing + Math.PI) * 60;
+                const moveA = angleXY(e.x, e.y, tx, ty);
+                e.x += Math.cos(moveA) * e.speed * 60 * dt * spdMult;
+                e.y += Math.sin(moveA) * e.speed * 60 * dt * spdMult;
+            } else {
+                e.x += Math.cos(a) * e.speed * 1.5 * 60 * dt * spdMult;
+                e.y += Math.sin(a) * e.speed * 1.5 * 60 * dt * spdMult;
+            }
+        } else if (e.type === 'charger') {
+            if (!e.isCharging) {
+                e.x += Math.cos(a) * e.speed * 60 * dt * spdMult;
+                e.y += Math.sin(a) * e.speed * 60 * dt * spdMult;
+                if (!e.chargeTimer || e.chargeTimer <= 0) { e.chargeTimer = 2; }
+                e.chargeTimer -= dt;
+                if (e.chargeTimer <= 0) { e.isCharging = true; e.chargeDir = a; e.chargeDur = 0.4; }
+            } else {
+                e.x += Math.cos(e.chargeDir) * 6 * 60 * dt;
+                e.y += Math.sin(e.chargeDir) * 6 * 60 * dt;
+                e.chargeDur -= dt;
+                if (e.chargeDur <= 0) { e.isCharging = false; e.chargeTimer = 1.0; }
             }
         } else {
             e.x += Math.cos(a) * e.speed * 60 * dt * spdMult;
@@ -1460,7 +1616,7 @@ function updateEnemies(dt) {
             damagePlayer(e.damage, e);
             e.contactCD = CONTACT_CD;
         }
-        if (!e.isBoss && d > 1500) game.enemies.splice(i, 1);
+        if (!e.isBoss && Math.hypot(e.x, e.y) > ARENA_RADIUS + 200) game.enemies.splice(i, 1);
     }
 }
 
@@ -1536,7 +1692,7 @@ function updateBoss(boss, dt, slowMult) {
         for (let i = boss.poisonClouds.length - 1; i >= 0; i--) {
             const cloud = boss.poisonClouds[i]; cloud.lifetime -= dt;
             if (distXY(cloud.x, cloud.y, game.px, game.py) < cloud.radius) {
-                if (!cloud._dmgCD || cloud._dmgCD <= 0) { game.hp -= 4; cloud._dmgCD = 1; addFloatingText(game.px, game.py - 10, '-4', '#2a3d1a', 10); if (game.hp <= 0) { game.hp = 0; game.stageFailed = true; game.runOver = true; endRun(false); } }
+                if (!cloud._dmgCD || cloud._dmgCD <= 0) { cloud._dmgCD = 1; damagePlayer(4, null); }
             }
             if (cloud._dmgCD > 0) cloud._dmgCD -= dt;
             if (cloud.lifetime <= 0) boss.poisonClouds.splice(i, 1);
@@ -1578,8 +1734,8 @@ function updateBoss(boss, dt, slowMult) {
             const rift = boss.rifts[i]; rift.lifetime -= dt; rift.spawnTimer -= dt;
             if (rift.spawnTimer <= 0) {
                 rift.spawnTimer = 3;
-                const specials = ['spitter','bomber','shielder','healer'];
-                game.enemies.push(createEnemy(specials[randInt(0, 3)], rift.x + rand(-10, 10), rift.y + rand(-10, 10), game.stageDef.diffMult));
+                const specials = ['spitter','bomber','shielder','healer','flanker','charger'];
+                game.enemies.push(createEnemy(specials[randInt(0, 5)], rift.x + rand(-10, 10), rift.y + rand(-10, 10), game.stageDef.diffMult));
             }
             if (rift.lifetime <= 0) boss.rifts.splice(i, 1);
         }
@@ -1601,10 +1757,12 @@ damageEnemy = function(enemy, dmg, forceCrit) {
     if (enemy.dead) return;
     // Abyss King shield
     if (enemy.isBoss && enemy.type === 'abyssKing' && enemy.shieldHP > 0 && enemy.bossPhase >= 1) {
+        const overflow = Math.max(0, dmg - enemy.shieldHP);
         enemy.shieldHP -= dmg;
         addFloatingText(enemy.x, enemy.y - enemy.size, 'SHIELD -' + Math.round(dmg), '#8844ff', 12);
         enemy.flashTimer = 0.1;
         if (enemy.shieldHP <= 0) { enemy.shieldHP = 0; addFloatingText(enemy.x, enemy.y - enemy.size - 10, 'SHIELD BREAK!', '#ffcc00', 16); }
+        if (overflow > 0) _origDamageEnemy(enemy, overflow, forceCrit);
         return;
     }
     _origDamageEnemy(enemy, dmg, forceCrit);
@@ -1636,7 +1794,24 @@ function updateProjectiles(dt) {
                 if (distXY(p.x, p.y, e.x, e.y) < e.size / 2 + 3) {
                     damageEnemy(e, p.damage, !!p.isCrit);
                     if (p.knockback) { const ka = angleXY(game.px, game.py, e.x, e.y); e.x += Math.cos(ka) * 10 * p.knockback; e.y += Math.sin(ka) * 10 * p.knockback; }
-                    if (p.piercing > 0) p.piercing--; else { game.projectiles.splice(i, 1); break; }
+                    if (p.piercing > 0) p.piercing--; else {
+                        let shouldRemove = true;
+                        // Ricochet
+                        if (game.ricochet > 0 && p.ricochetCount !== 0) {
+                            p.ricochetCount = (p.ricochetCount || game.ricochet) - 1;
+                            const nextTarget = game.enemies.find(ne => ne !== e && !ne.dead && distXY(p.x, p.y, ne.x, ne.y) < 150);
+                            if (nextTarget) { const ra = angleXY(p.x, p.y, nextTarget.x, nextTarget.y); p.dx = Math.cos(ra); p.dy = Math.sin(ra); shouldRemove = false; break; }
+                        }
+                        // Explosive Shot
+                        if (game.explosiveShot && p.owner === 'player' && shouldRemove) {
+                            const nearExp = game.spatialHash.query(p.x, p.y, game.explosionRadius);
+                            for (const ae of nearExp) {
+                                if (ae.isEnemy && !ae.dead && ae !== e && distXY(p.x, p.y, ae.x, ae.y) < game.explosionRadius) damageEnemy(ae, game.atk * game.explosionDmgMult, false);
+                            }
+                            game.particles.push({ x: p.x, y: p.y, dx: 0, dy: 0, lifetime: 0.3, maxLifetime: 0.3, size: game.explosionRadius, color: '#ff8844', alpha: 0.5, isRing: true, expandRate: 60 });
+                        }
+                        if (shouldRemove) { game.projectiles.splice(i, 1); break; }
+                    }
                 }
             }
         } else if (p.owner === 'enemy') {
@@ -1653,7 +1828,7 @@ function updateXPOrbs(dt) {
         if (d < game.pickupRange) { const a = angleXY(orb.x, orb.y, game.px, game.py); const speed = Math.max(200, 400 - d); orb.x += Math.cos(a) * speed * dt; orb.y += Math.sin(a) * speed * dt; }
         if (d < 10) {
             game.xp += orb.xp * (game.xpMult || 1); game.xpOrbs.splice(i, 1);
-            while (game.xp >= game.xpToNext && game.level < MAX_LEVEL) { game.xp -= game.xpToNext; game.level++; game.xpToNext = 10 * (game.level + 1); addFloatingText(game.px, game.py - 30, t('levelUp'), '#ffcc00', 20); game.pendingLevelUps++; }
+            while (game.xp >= game.xpToNext && game.level < MAX_LEVEL) { game.xp -= game.xpToNext; game.level++; game.xpToNext = 8 * (game.level + 1); addFloatingText(game.px, game.py - 30, t('levelUp'), '#ffcc00', 20); game.particles.push({ x: game.px, y: game.py, dx: 0, dy: 0, lifetime: 0.6, maxLifetime: 0.6, size: 10, color: '#ffcc00', alpha: 0.8, isRing: true, expandRate: 120 }); game.pendingLevelUps++; }
             if (game.pendingLevelUps > 0 && !game.paused) { game.pendingLevelUps--; showLevelUp(); }
         } else if (orb.lifetime <= 0) { game.xpOrbs.splice(i, 1); }
     }
@@ -1666,12 +1841,18 @@ function updateParticles(dt) {
         p.x += p.dx * dt; p.y += p.dy * dt; p.dx *= 0.95; p.dy *= 0.95; p.lifetime -= dt;
         if (p.lifetime <= 0) { game.particles.splice(i, 1); continue; }
         p.alpha = clamp(p.lifetime / p.maxLifetime, 0, 1);
-        if (p.isAcid) { if (distXY(p.x, p.y, game.px, game.py) < 15) { if (!p._acidCD || p._acidCD <= 0) { game.hp -= 5; p._acidCD = 1; addFloatingText(game.px, game.py - 10, '-5', '#3d3d1f', 10); if (game.hp <= 0) { game.hp = 0; game.stageFailed = true; game.runOver = true; endRun(false); } } } }
+        if (p.isAcid) { if (distXY(p.x, p.y, game.px, game.py) < 15) { if (!p._acidCD || p._acidCD <= 0) { p._acidCD = 1; damagePlayer(5, null); } } }
         if (p._acidCD > 0) p._acidCD -= dt;
     }
     for (let i = game.floatingTexts.length - 1; i >= 0; i--) { game.floatingTexts[i].y -= 40 * dt; game.floatingTexts[i].lifetime -= dt; if (game.floatingTexts[i].lifetime <= 0) game.floatingTexts.splice(i, 1); }
     // Frozen trail decay
     for (let i = game.frozenTrailSegs.length - 1; i >= 0; i--) { game.frozenTrailSegs[i].lifetime -= dt; if (game.frozenTrailSegs[i].lifetime <= 0) game.frozenTrailSegs.splice(i, 1); }
+    // Poison clouds
+    for (let i = game.poisonClouds.length - 1; i >= 0; i--) {
+        const pc = game.poisonClouds[i]; pc.lifetime -= dt; pc.tickTimer -= dt;
+        if (pc.tickTimer <= 0) { pc.tickTimer = 0.5; for (const e of game.enemies) { if (!e.dead && distXY(e.x, e.y, pc.x, pc.y) < pc.radius) { damageEnemy(e, pc.damage, false); } } }
+        if (pc.lifetime <= 0) game.poisonClouds.splice(i, 1);
+    }
 }
 
 // ==================== UPDATE: SPAWN ====================
@@ -1728,6 +1909,11 @@ function render() {
 
     renderGround(camX, camY);
     renderFrozenTrail();
+    // Poison clouds
+    for (const pc of game.poisonClouds) {
+        ctx.fillStyle = `rgba(80,200,80,${0.3 * (pc.lifetime / 3)})`;
+        ctx.beginPath(); ctx.arc(pc.x, pc.y, pc.radius, 0, Math.PI * 2); ctx.fill();
+    }
     renderXPOrbs();
     renderEnemies();
     renderProjectiles();
@@ -1747,6 +1933,14 @@ function renderGround(camX, camY) {
     const startX = Math.floor(camX / 64) * 64, startY = Math.floor(camY / 64) * 64;
     for (let x = startX; x < camX + canvas.width + 64; x += 64) { ctx.beginPath(); ctx.moveTo(x, camY); ctx.lineTo(x, camY + canvas.height); ctx.stroke(); }
     for (let y = startY; y < camY + canvas.height + 64; y += 64) { ctx.beginPath(); ctx.moveTo(camX, y); ctx.lineTo(camX + canvas.width, y); ctx.stroke(); }
+    // Arena boundary
+    const pulseAlpha = game.arenaWarning ? 0.4 + 0.2 * Math.sin(Date.now() / 200) : 0.15;
+    ctx.strokeStyle = `rgba(180,30,30,${pulseAlpha})`; ctx.lineWidth = game.arenaWarning ? 4 : 2;
+    ctx.beginPath(); ctx.arc(0, 0, ARENA_RADIUS, 0, Math.PI * 2); ctx.stroke();
+    if (game.arenaWarning) {
+        ctx.strokeStyle = `rgba(180,30,30,${0.1 + 0.05 * Math.sin(Date.now() / 150)})`; ctx.lineWidth = 8;
+        ctx.beginPath(); ctx.arc(0, 0, ARENA_RADIUS, 0, Math.PI * 2); ctx.stroke();
+    }
 }
 
 function renderFrozenTrail() {
@@ -1768,6 +1962,8 @@ function renderEnemies() {
     visible.sort((a, b) => a.y - b.y);
 
     for (const e of visible) {
+        if (e.previewTimer > 0) { ctx.globalAlpha = 0.3; ctx.fillStyle = '#222'; ctx.beginPath(); ctx.arc(e.x, e.y, e.size / 2, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1; continue; }
+        if (e.frozenTimer > 0) { ctx.fillStyle = '#88ccff44'; ctx.beginPath(); ctx.arc(e.x, e.y, e.size / 2 + 3, 0, Math.PI * 2); ctx.fill(); }
         const size = (e.hp / e.maxHp < 0.3) ? e.size * 0.85 : e.size;
         const fadeAlpha = e.fadeIn > 0 ? 1 - (e.fadeIn / 0.3) : 1;
 
@@ -1821,8 +2017,16 @@ function renderEnemies() {
 
 function renderProjectiles() {
     for (const p of game.projectiles) {
-        ctx.fillStyle = p.owner === 'player' ? (p.isCrit ? '#ffcc00' : '#ffaa44') : '#9944cc';
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.owner === 'player' ? 3 : 4, 0, Math.PI * 2); ctx.fill();
+        if (p.isShadowBlade) {
+            ctx.fillStyle = '#bb66ff';
+            const angle = Math.atan2(p.dy, p.dx);
+            ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(angle);
+            ctx.beginPath(); ctx.moveTo(8, 0); ctx.lineTo(0, -3); ctx.lineTo(-8, 0); ctx.lineTo(0, 3); ctx.closePath(); ctx.fill();
+            ctx.restore();
+        } else {
+            ctx.fillStyle = p.owner === 'player' ? (p.isCrit ? '#ffcc00' : '#ffaa44') : '#9944cc';
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.owner === 'player' ? 3 : 4, 0, Math.PI * 2); ctx.fill();
+        }
     }
 }
 
@@ -1832,7 +2036,7 @@ function renderPlayer() {
 
     if (game.charId === 'guardian') { ctx.fillStyle = ch.color; ctx.fillRect(game.px - 9, game.py - 9, 18, 18); ctx.strokeStyle = '#ffffff88'; ctx.lineWidth = 2; ctx.strokeRect(game.px - 9, game.py - 9, 18, 18); }
     else if (game.charId === 'gunslinger') { ctx.fillStyle = ch.color; ctx.save(); ctx.translate(game.px, game.py); ctx.rotate(Math.PI / 4); ctx.fillRect(-7, -7, 14, 14); ctx.restore(); }
-    else if (game.charId === 'shadow') { ctx.fillStyle = ch.color; const dir = game.isDashing ? game.attackAngle : game.facing; ctx.beginPath(); ctx.moveTo(game.px + Math.cos(dir) * 8, game.py + Math.sin(dir) * 8); ctx.lineTo(game.px + Math.cos(dir + 2.4) * 7, game.py + Math.sin(dir + 2.4) * 7); ctx.lineTo(game.px + Math.cos(dir - 2.4) * 7, game.py + Math.sin(dir - 2.4) * 7); ctx.closePath(); ctx.fill(); }
+    else if (game.charId === 'shadow') { ctx.fillStyle = ch.color; const dir = game.facing; ctx.beginPath(); ctx.moveTo(game.px + Math.cos(dir) * 8, game.py + Math.sin(dir) * 8); ctx.lineTo(game.px + Math.cos(dir + 2.4) * 7, game.py + Math.sin(dir + 2.4) * 7); ctx.lineTo(game.px + Math.cos(dir - 2.4) * 7, game.py + Math.sin(dir - 2.4) * 7); ctx.closePath(); ctx.fill(); }
 
     if (game.isAttacking && game.attackTimer > 0 && game.charId === 'guardian') { ctx.strokeStyle = '#ffffff88'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(game.px, game.py, game.autoRange, game.attackAngle - game.cleaveArc / 2, game.attackAngle + game.cleaveArc / 2); ctx.stroke(); }
     if (game.ultActive) { ctx.strokeStyle = ch.color + '66'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(game.px, game.py, 25 + Math.sin(Date.now() / 100) * 3, 0, Math.PI * 2); ctx.stroke(); }
@@ -1852,11 +2056,41 @@ function renderOrbitalShield() {
 }
 
 function renderParticles() {
+    // Batch particles by type and color for fewer draw calls
+    const ringParticles = [], arcParticles = [], dotBatches = {};
     for (const p of game.particles) {
         ctx.globalAlpha = clamp(p.alpha, 0, 1);
-        if (p.isRing) { ctx.strokeStyle = p.color; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.stroke(); }
-        else if (p.isArc) { ctx.strokeStyle = p.color; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.tx, p.ty); ctx.stroke(); }
-        else { ctx.fillStyle = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill(); }
+        if (p.isRing) { ringParticles.push(p); }
+        else if (p.isArc) { arcParticles.push(p); }
+        else {
+            const key = p.color;
+            if (!dotBatches[key]) dotBatches[key] = [];
+            dotBatches[key].push(p);
+        }
+    }
+    // Render ring particles
+    ctx.lineWidth = 3;
+    for (const p of ringParticles) {
+        const currentSize = p.expandRate ? p.size + p.expandRate * (1 - p.lifetime / p.maxLifetime) : p.size;
+        ctx.globalAlpha = clamp(p.alpha, 0, 1);
+        ctx.strokeStyle = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, currentSize, 0, Math.PI * 2); ctx.stroke();
+    }
+    // Render arc particles
+    ctx.lineWidth = 1.5;
+    for (const p of arcParticles) {
+        ctx.globalAlpha = clamp(p.alpha, 0, 1);
+        ctx.strokeStyle = p.color; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.tx, p.ty); ctx.stroke();
+    }
+    // Render dot particles batched by color
+    for (const color in dotBatches) {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        for (const p of dotBatches[color]) {
+            ctx.globalAlpha = clamp(p.alpha, 0, 1);
+            ctx.moveTo(p.x + p.size, p.y);
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        }
+        ctx.fill();
     }
     ctx.globalAlpha = 1;
     for (const ft of game.floatingTexts) { ctx.globalAlpha = clamp(ft.lifetime / ft.maxLifetime, 0, 1); ctx.fillStyle = ft.color; ctx.font = `bold ${ft.size}px sans-serif`; ctx.textAlign = 'center'; ctx.fillText(ft.text, ft.x, ft.y); }
@@ -1928,6 +2162,16 @@ function renderHUD() {
         }
     }
     } // end minimap
+
+    // Combo counter
+    if (game.comboCount >= 3) {
+        ctx.fillStyle = '#ff8800';
+        ctx.font = `bold ${Math.min(24 + game.comboCount, 40) * s}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.fillText(game.comboCount + 'x COMBO', canvas.width / 2, canvas.height - (isMobile ? 100 : 80));
+    }
+
+    if (showFPS) { ctx.fillStyle = '#888'; ctx.font = '12px monospace'; ctx.textAlign = 'left'; ctx.fillText('FPS: ' + fpsDisplay, 15, canvas.height - 10); }
 }
 
 function renderBossHPBar() {
@@ -1944,6 +2188,7 @@ let lastTime = 0;
 function gameLoop(timestamp) {
     requestAnimationFrame(gameLoop);
     const dt = Math.min((timestamp - lastTime) / 1000, 0.05); lastTime = timestamp;
+    fpsCounter++; fpsTimer += dt; if (fpsTimer >= 1) { fpsDisplay = fpsCounter; fpsCounter = 0; fpsTimer -= 1; }
 
     if (game && currentScreen === 'inGame' && !game.paused && !game.runOver) {
         // Update order per spec: input → movement → collision resolution → auto-attack → projectiles → enemy AI → collisions(damage) → particles → HUD → render
@@ -1968,6 +2213,9 @@ function gameLoop(timestamp) {
 loadSave();
 refreshAllUI();
 requestAnimationFrame(gameLoop);
+
+let fpsCounter = 0, fpsTimer = 0, fpsDisplay = 0, showFPS = false;
+window.addEventListener('keydown', e => { if (e.code === 'F3') { e.preventDefault(); showFPS = !showFPS; } });
 </script>
 </body>
 </html>
