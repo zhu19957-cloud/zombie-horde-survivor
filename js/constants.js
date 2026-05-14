@@ -1,0 +1,3 @@
+// ==================== CONSTANTS ====================
+const SAVE_KEY='zombieHordeSurvivor',ARENA_R=600,CELL=64,PICKUP_R=50,MAX_LVL=20,GOLD_CAP=500;
+const CONTACT_CD=0.5,SOFT_ENEMY=600,HARD_ENEMY=700;
