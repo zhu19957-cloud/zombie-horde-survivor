@@ -100,7 +100,7 @@ html,body{overflow:hidden;background:#111;font-family:'Segoe UI',Arial,sans-seri
 <h1>ZOMBIE HORDE</h1>
 <div class="sub" id="titleSub">SURVIVOR</div>
 <button class="btn" id="startBtn">START GAME</button>
-<button class="btn btn-gold" id="shopBtn">SHOP</button>
+<button class="btn btn-gold" id="shopBtn">TALENTS</button>
 </div>
 <div id="charSelect" class="overlay">
 <button class="back-btn" id="charBackBtn">Back</button>
@@ -138,9 +138,9 @@ html,body{overflow:hidden;background:#111;font-family:'Segoe UI',Arial,sans-seri
 // ==================== TRANSLATIONS ====================
 const T={
 en:{
-startGame:'START GAME',shop:'SHOP',chooseSurvivor:'Choose Your Survivor',permanentUpgrades:'Talent Tree',
+startGame:'START GAME',shop:'TALENTS',chooseSurvivor:'Choose Your Survivor',permanentUpgrades:'Talent Tree',
 selectStage:'Select Stage',levelUp:'LEVEL UP!',stageComplete:'Stage Complete!',stageFailed:'Stage Failed',
-paused:'PAUSED',resume:'Resume',restart:'Restart',quitToShop:'Quit to Shop',back:'Back',
+paused:'PAUSED',resume:'Resume',restart:'Restart',quitToTalents:'Quit to Talents',back:'Back',
 gold:'Gold',level:'Lv',stage:'Stage',enemies:'Enemies',clickToStart:'Click to Start',
 locked:'LOCKED',boss:'Boss',difficulty:'Difficulty',maxed:'MAXED',cost:'Cost',buy:'Buy',
 goldEarned:'Gold Earned',kills:'Kills',timeSurvived:'Time Survived',levelReached:'Level Reached',
@@ -152,17 +152,42 @@ roleTank:'Melee Tank',roleRanged:'Ranged DPS',roleAssassin:'Fast Assassin',
 cleave:'Cleave',fortify:'Fortify',fortress:'Fortress',
 shoot:'Shoot',sharpshooter:'Sharpshooter',bulletHell:'Bullet Hell',
 dashStrike:'Shadow Blade',afterimage:'Afterimage',timeWarp:'Time Warp',
-cleaveDesc:'120° arc, 0.8s CD',fortifyDesc:'+3% DR per nearby enemy (max 30%)',
-fortressDesc:'Invulnerable 3s, shockwave every 1.5s',
-shootDesc:'Bullet at nearest, 0.5s CD',sharpshooterDesc:'Every 5th attack = guaranteed crit + 2x knockback',
-bulletHellDesc:'3 bullets every 0.35s for 5s, pierce 2',
-dashStrikeDesc:'Blink strike, 0.6s CD',afterimageDesc:'Clone attacks for 40% dmg after 0.3s',
-timeWarpDesc:'Enemies 50% speed, 1.5x ATKSPD, 1 clone for 5s',
-shopVitality:'Vitality',shopPower:'Power',shopAgility:'Agility',shopPrecision:'Precision',
-shopGreed:'Greed',shopHeadStart:'Head Start',
-shopVitalityDesc:'Max HP +5 per level',shopPowerDesc:'ATK +2 per level',
-shopAgilityDesc:'SPD +0.2 per level',shopPrecisionDesc:'CRIT +2% per level',
-shopGreedDesc:'Gold multiplier +10%',shopHeadStartDesc:'Start at level +1',
+cleaveDesc:'90° arc, 0.8s CD',fortifyDesc:'+3% DR per nearby enemy (max 30%)',
+fortressDesc:'Invulnerable 4s, shockwave every 1.5s, stuns',
+shootDesc:'3-bullet fan, 0.5s CD',sharpshooterDesc:'Every 5th attack = guaranteed crit + 2x knockback',
+bulletHellDesc:'5 bullets every 0.35s for 6s, pierce 3',
+dashStrikeDesc:'5-hit combo, high single-target',afterimageDesc:'Clone attacks for 60% dmg after 0.3s',
+timeWarpDesc:'2 clones, 2x ATKSPD, +30% CRIT, 6s',
+// Talent names
+power:'+2 ATK',fury:'+12% ATK SPD',precision:'+2% Crit',force:'+2 ATK (flat)',
+critMastery:'+10% Crit Dmg',burningTouch:'Burn: 2 dmg/s',chainReaction:'Chain: 20% chance',
+execute:'Execute <15% HP',bladeMaster:'+15% Afterimage',shadowFury:'+8% ATKSPD',
+warlord:'All Offense +5%',
+vitality:'+5 HP',armor:'+2 Armor',regen:'+0.8 HP/s',fortitude:'Start with Shield',
+swiftReflexes:'+3% Dodge',vampiric:'3% Life Steal',fortressMastery:'Shield CD -2s',
+unbreakable:'50% DR below 20% HP',lastStand:'Revive once at 30% HP',
+ironWill:'+10% DR when low',phoenix:'Auto-revive once',
+greed:'+10% Gold',agility:'+0.2 SPD',xpBoost:'+15% XP',headStart:'Start Lv +1',
+goldMagnet:'+15% Pickup',frostWalk:'Leave slow trail',
+xpAccelerator:'+10% XP',fortune:'10% double gold',
+treasureHunter:'+15% gold drops',mastery:'All stats +5%',
+// Talent descriptions
+powerDesc:'ATK +2 per level',furyDesc:'Attack speed +12% per level',precisionDesc:'Crit chance +2% per level',
+forceDesc:'ATK +2 flat per level (additive)',critMasteryDesc:'Critical damage +10% per level',
+burningTouchDesc:'Unlock: enemies burn 2 dmg/s for 3s',chainReactionDesc:'Unlock: 20% chance chain to nearby enemy',
+executeDesc:'Unlock: enemies below 15% HP die instantly',bladeMasterDesc:'Afterimage damage +15% per level',
+shadowFuryDesc:'Attack speed +8% per level',warlordDesc:'All offensive stats +5%',
+vitalityDesc:'Max HP +5 per level',armorDesc:'Damage reduction +2 per level',
+regenDesc:'Recover 0.8 HP/s per level',fortitudeDesc:'Unlock: start each run with a shield',
+swiftReflexesDesc:'Dodge chance +3% per level',vampiricDesc:'Unlock: heal 3% of damage dealt',
+fortressMasteryDesc:'Shield cooldown -2s per level',unbreakableDesc:'Unlock: 50% DR for 3s when below 20% HP',
+lastStandDesc:'Unlock: revive once at 30% HP when dying',ironWillDesc:'+10% damage reduction when below 30% HP',
+phoenixDesc:'Auto-revive once per run at 50% HP',
+greedDesc:'Gold multiplier +10% per level',agilityDesc:'Movement speed +0.2 per level',
+xpBoostDesc:'XP multiplier +15% per level',headStartDesc:'Start at level +1 per level',
+goldMagnetDesc:'Pickup radius +15% per level',frostWalkDesc:'Unlock: leave ice trail slowing enemies 30%',
+xpAcceleratorDesc:'XP bonus +10% per level',fortuneDesc:'10% chance double gold per level',
+treasureHunterDesc:'Unlock: enemies drop 15% more gold',masteryDesc:'All stats +5% per level',
 stageNames:['Wasteland','Dark Crypt','Hive Nest','Warfield','Plague Marsh','Abyss Throne'],
 bossNames:['Colossus','Necromancer','Hive Queen','Warlord','Plague Doctor','Abyss King'],
 dmgUp:'Damage Up',atkSpdUp:'Attack Speed Up',critChanceUp:'Crit Chance Up',critDmgUp:'Crit Damage Up',
@@ -172,32 +197,33 @@ chainLightning:'Chain Lightning',burningStrikes:'Burning Strikes',
 maxHPUp:'Max HP Up',armorUp:'Armor Up',hpRegen:'HP Regen',shield:'Shield',dodgeChance:'Dodge Chance',
 thorns:'Thorns',lifeSteal:'Life Steal',
 moveSpdUp:'Move Speed Up',pickRangeUp:'Pickup Range Up',goldBonus:'Gold Bonus',xpBonus:'XP Bonus',
-cdr:'Cooldown Reduction',magnetField:'Magnet Field',fortune:'Fortune',
+cdr:'Cooldown Reduction',magnetField:'Magnet Field',fortuneUp:'Fortune',
 orbitalShield:'Orbital Shield',lightningAura:'Lightning Aura',frozenTrail:'Frozen Trail',whirlwind:'Whirlwind',
 fortressExt:'Fortress Extension',bulletStorm:'Bullet Storm',shadowDance:'Shadow Dance',
 dmgUpDesc:'ATK +12%',atkSpdUpDesc:'ATKSPD +12%',critChanceUpDesc:'CRIT +6%',critDmgUpDesc:'CRITDMG +20%',
 projCountDesc:'+1 projectile per shot',pierceShotDesc:'Bullets pierce +1 enemy',
 cleaveArcUpDesc:'Cleave arc +25°',cleaveRangeUpDesc:'Cleave reach +15%',
 shadowRangeUpDesc:'Dash range +20%',afterDmgUpDesc:'Shadow clone damage +20%',
-chainLightningDesc:'25% chance chain to 1 enemy, 40% dmg',burningStrikesDesc:'Burn 2 dmg/s for 3s',
+chainLightningDesc:'25% chain chance, stacks +10%/pick',burningStrikesDesc:'Burn 2+ dmg/s, stacks per pick',
 maxHPUpDesc:'Max HP +15, heal 15',armorUpDesc:'Reduce damage by 2 (min 1)',
-hpRegenDesc:'Recover 0.8 HP/s',shieldDesc:'Block 1 hit every 18s',dodgeChanceDesc:'6% chance to avoid damage',
+hpRegenDesc:'Recover 0.8 HP/s',shieldDesc:'Block 1 hit, CD decreases per pick',dodgeChanceDesc:'6% chance to avoid damage',
 thornsDesc:'Reflect 12% damage back',lifeStealDesc:'Heal 4% of damage dealt',
 moveSpdUpDesc:'SPD +10%',pickRangeUpDesc:'Pickup radius +25%',goldBonusDesc:'Gold earned +15%',
 xpBonusDesc:'XP earned +15%',cdrDesc:'Ultimate CD -12%',
-magnetFieldDesc:'Slow enemies within 40px by 15%',fortuneDesc:'10% chance to double gold',
-orbitalShieldDesc:'2 orbs deal 6 dmg on contact',lightningAuraDesc:'Lightning bolt every 2.5s, 8 dmg',
-frozenTrailDesc:'Ice trail slows enemies 30% for 1s',whirlwindDesc:'Pull enemies within 50px every 6s',
+magnetFieldDesc:'Slow enemies within 40px by 15%',fortuneUpDesc:'10% chance to double gold',
+orbitalShieldDesc:'2 orbs +1 per pick, 6 dmg on contact',lightningAuraDesc:'Lightning bolt every 2.5s, 8 dmg',
+frozenTrailDesc:'Ice trail, slow increases per pick',whirlwindDesc:'Pull enemies, range increases per pick',
 fortressExtDesc:'Shockwave range +20px, duration +0.5s',bulletStormDesc:'Bullet Hell +1 bullet per volley',
 shadowDanceDesc:'Time Warp +1 clone, duration +0.5s',
 powerUpNames:['Attack Surge','Speed Boost','Iron Skin','Double Strike','Gold Rush','Healing Pulse'],
 powerUpDescs:['ATK +40%','SPD +35%','Damage taken -40%','ATKSPD +50%','Gold +80%','Recover 3 HP/s'],
-ready:'SPACE',active:'ACTIVE'
+ready:'SPACE',active:'ACTIVE',
+waveEventSurround:'SURROUND!',waveEventElite:'ELITE WAVE!',waveEventTreasure:'TREASURE!',waveEventHazard:'HAZARD SURGE!'
 },
 zh:{
-startGame:'开始游戏',shop:'天赋树',chooseSurvivor:'选择你的角色',permanentUpgrades:'天赋树',
+startGame:'开始游戏',shop:'天赋',chooseSurvivor:'选择你的角色',permanentUpgrades:'天赋树',
 selectStage:'选择关卡',levelUp:'升级!',stageComplete:'关卡完成!',stageFailed:'关卡失败',
-paused:'暂停',resume:'继续',restart:'重新开始',quitToShop:'退出至商店',back:'返回',
+paused:'暂停',resume:'继续',restart:'重新开始',quitToTalents:'退出至天赋',back:'返回',
 gold:'金币',level:'等级',stage:'关卡',enemies:'敌人',clickToStart:'点击开始',
 locked:'未解锁',boss:'Boss',difficulty:'难度',maxed:'已满级',cost:'花费',buy:'购买',
 goldEarned:'获得金币',kills:'击杀数',timeSurvived:'存活时间',levelReached:'达到等级',
@@ -209,17 +235,42 @@ roleTank:'近战坦克',roleRanged:'远程输出',roleAssassin:'高速刺客',
 cleave:'劈斩',fortify:'坚守',fortress:'堡垒',
 shoot:'射击',sharpshooter:'神射手',bulletHell:'弹幕地狱',
 dashStrike:'暗影之刃',afterimage:'残影',timeWarp:'时间扭曲',
-cleaveDesc:'120°扇形, 0.8秒冷却',fortifyDesc:'每个近距敌人+3%减伤(最多30%)',
-fortressDesc:'无敌3秒, 每1.5秒冲击波',
-shootDesc:'射向最近敌人, 0.5秒冷却',sharpshooterDesc:'每5次攻击必定暴击+2倍击退',
-bulletHellDesc:'每0.35秒3发子弹, 持续5秒, 穿透2',
-dashStrikeDesc:'闪现攻击, 0.6秒冷却',afterimageDesc:'残影0.3秒后造成40%伤害',
-timeWarpDesc:'敌人50%速度, 1.5倍攻速, 1个残影, 持续5秒',
-shopVitality:'生命力',shopPower:'力量',shopAgility:'敏捷',shopPrecision:'精准',
-shopGreed:'贪婪',shopHeadStart:'先发制人',
-shopVitalityDesc:'每级+5最大生命',shopPowerDesc:'每级+2攻击',
-shopAgilityDesc:'每级+0.2速度',shopPrecisionDesc:'每级+2%暴击率',
-shopGreedDesc:'金币倍率+10%',shopHeadStartDesc:'开局等级+1',
+cleaveDesc:'90°扇形, 0.8秒冷却',fortifyDesc:'每个近距敌人+3%减伤(最多30%)',
+fortressDesc:'无敌4秒, 每1.5秒冲击波, 击晕',
+shootDesc:'3发扇形子弹, 0.5秒冷却',sharpshooterDesc:'每5次攻击必定暴击+2倍击退',
+bulletHellDesc:'每0.35秒5发子弹, 持续6秒, 穿透3',
+dashStrikeDesc:'5连击, 极强单体',afterimageDesc:'残影0.3秒后造成60%伤害',
+timeWarpDesc:'2个残影, 2倍攻速, +30%暴击, 持续6秒',
+// 天赋名称
+power:'+2攻击',fury:'+12%攻速',precision:'+2%暴击',force:'+2攻击(固定)',
+critMastery:'+10%暴击伤害',burningTouch:'燃烧:2伤/秒',chainReaction:'连锁:20%几率',
+execute:'处决<15%血量',bladeMaster:'+15%残影伤害',shadowFury:'+8%攻速',
+warlord:'全攻击+5%',
+vitality:'+5生命',armor:'+2护甲',regen:'+0.8HP/秒',fortitude:'开局带护盾',
+swiftReflexes:'+3%闪避',vampiric:'3%生命偷取',fortressMastery:'护盾CD-2秒',
+unbreakable:'20%血以下50%减伤',lastStand:'死亡复活至30%血',
+ironWill:'低血量+10%减伤',phoenix:'自动复活一次',
+greed:'+10%金币',agility:'+0.2速度',xpBoost:'+15%经验',headStart:'开局等级+1',
+goldMagnet:'+15%拾取范围',frostWalk:'留下减速路径',
+xpAccelerator:'+10%经验',fortune:'10%金币翻倍',
+treasureHunter:'+15%金币掉落',mastery:'全属性+5%',
+// 天赋描述
+powerDesc:'每级+2攻击力',furyDesc:'每级+12%攻击速度',precisionDesc:'每级+2%暴击率',
+forceDesc:'每级+2固定攻击力(加法)',critMasteryDesc:'每级+10%暴击伤害',
+burningTouchDesc:'解锁:敌人燃烧2伤害/秒持续3秒',chainReactionDesc:'解锁:20%几率连锁附近敌人',
+executeDesc:'解锁:低于15%血量的敌人立即死亡',bladeMasterDesc:'每级残影伤害+15%',
+shadowFuryDesc:'每级+8%攻击速度',warlordDesc:'所有攻击属性+5%',
+vitalityDesc:'每级+5最大生命',armorDesc:'每级+2伤害减免',
+regenDesc:'每级+0.8HP/秒恢复',fortitudeDesc:'解锁:每局开始携带护盾',
+swiftReflexesDesc:'每级+3%闪避率',vampiricDesc:'解锁:回复造成伤害的3%',
+fortressMasteryDesc:'每级护盾冷却-2秒',unbreakableDesc:'解锁:低于20%血时3秒内50%减伤',
+lastStandDesc:'解锁:死亡时复活一次至30%血量',ironWillDesc:'低于30%血时+10%伤害减免',
+phoenixDesc:'每局自动复活一次至50%血量',
+greedDesc:'每级金币倍率+10%',agilityDesc:'每级移动速度+0.2',
+xpBoostDesc:'每级经验倍率+15%',headStartDesc:'每级开局等级+1',
+goldMagnetDesc:'每级拾取范围+15%',frostWalkDesc:'解锁:留下冰霜路径减速敌人30%',
+xpAcceleratorDesc:'每级经验加成+10%',fortuneDesc:'每级10%几率金币翻倍',
+treasureHunterDesc:'解锁:敌人掉落金币+15%',masteryDesc:'每级全属性+5%',
 stageNames:['荒原','暗黑墓穴','蜂巢','战场','瘟疫沼泽','深渊王座'],
 bossNames:['巨像','死灵法师','蜂后','军阀','瘟疫医生','深渊之王'],
 dmgUp:'伤害提升',atkSpdUp:'攻速提升',critChanceUp:'暴击率提升',critDmgUp:'暴击伤害提升',
@@ -229,30 +280,31 @@ chainLightning:'连锁闪电',burningStrikes:'燃烧打击',
 maxHPUp:'最大生命提升',armorUp:'护甲提升',hpRegen:'生命恢复',shield:'护盾',dodgeChance:'闪避率',
 thorns:'荆棘',lifeSteal:'生命偷取',
 moveSpdUp:'移动速度提升',pickRangeUp:'拾取范围提升',goldBonus:'金币加成',xpBonus:'经验加成',
-cdr:'冷却缩减',magnetField:'磁场',fortune:'财运',
+cdr:'冷却缩减',magnetField:'磁场',fortuneUp:'财运',
 orbitalShield:'轨道护盾',lightningAura:'闪电光环',frozenTrail:'冰霜路径',whirlwind:'旋风',
 fortressExt:'堡垒延伸',bulletStorm:'弹幕风暴',shadowDance:'暗影之舞',
 dmgUpDesc:'攻击+12%',atkSpdUpDesc:'攻速+12%',critChanceUpDesc:'暴击率+6%',critDmgUpDesc:'暴击伤害+20%',
 projCountDesc:'子弹数+1',pierceShotDesc:'子弹穿透+1敌人',
 cleaveArcUpDesc:'劈斩角度+25°',cleaveRangeUpDesc:'劈斩距离+15%',
 shadowRangeUpDesc:'闪现范围+20%',afterDmgUpDesc:'残影伤害+20%',
-chainLightningDesc:'25%几率连锁1个敌人,40%伤害',burningStrikesDesc:'燃烧2伤害/秒持续3秒',
+chainLightningDesc:'25%连锁几率, 每次拾取+10%',burningStrikesDesc:'燃烧2+伤害/秒, 每次拾取叠加',
 maxHPUpDesc:'最大HP+15, 恢复15',armorUpDesc:'减伤2(最低1)',
-hpRegenDesc:'每秒恢复0.8HP',shieldDesc:'每18秒格挡1次攻击',dodgeChanceDesc:'6%几率闪避伤害',
+hpRegenDesc:'每秒恢复0.8HP',shieldDesc:'格挡1次攻击, CD逐次递减',dodgeChanceDesc:'6%几率闪避伤害',
 thornsDesc:'反弹12%受到的伤害',lifeStealDesc:'回复造成伤害的4%',
 moveSpdUpDesc:'速度+10%',pickRangeUpDesc:'拾取范围+25%',goldBonusDesc:'金币+15%',
 xpBonusDesc:'经验+15%',cdrDesc:'终极技能CD-12%',
-magnetFieldDesc:'减速40px内敌人15%',fortuneDesc:'10%几率金币翻倍',
-orbitalShieldDesc:'2个球体造成6点接触伤害',lightningAuraDesc:'每2.5秒闪电8点伤害',
-frozenTrailDesc:'冰霜路径减速敌人30%持续1秒',whirlwindDesc:'每6秒拉近50px内敌人',
+magnetFieldDesc:'减速40px内敌人15%',fortuneUpDesc:'10%几率金币翻倍',
+orbitalShieldDesc:'2个球体+每次拾取+1, 6点接触伤害',lightningAuraDesc:'每2.5秒闪电8点伤害',
+frozenTrailDesc:'冰霜路径, 减速每次拾取递增',whirlwindDesc:'拉近敌人, 范围每次拾取递增',
 fortressExtDesc:'冲击波范围+20px, 持续+0.5秒',bulletStormDesc:'弹幕地狱每轮+1发子弹',
 shadowDanceDesc:'时间扭曲+1残影, 持续+0.5秒',
 powerUpNames:['攻击激增','速度提升','铁壁','双重打击','淘金热','治疗脉冲'],
 powerUpDescs:['ATK +40%','SPD +35%','受伤-40%','ATKSPD +50%','金币+80%','恢复3HP/秒'],
-ready:'空格键',active:'激活中'
+ready:'空格键',active:'激活中',
+waveEventSurround:'包围!',waveEventElite:'精英波!',waveEventTreasure:'宝箱!',waveEventHazard:'灾害潮!'
 }};
 // ==================== CONSTANTS ====================
-const SAVE_KEY='zombieHordeSurvivor',ARENA_R=600,CELL=64,PICKUP_R=50,MAX_LVL=20,GOLD_CAP=500;
+const SAVE_KEY='zombieHordeSurvivor',CORRIDOR_W=4000,CORRIDOR_H=1000,CELL=64,PICKUP_R=50,MAX_LVL=20,GOLD_CAP=500;
 const CONTACT_CD=0.5,SOFT_ENEMY=600,HARD_ENEMY=700;
 let lang='en';
 function t(k){return T[lang][k]||T.en[k]||k}
@@ -261,19 +313,20 @@ function toggleLang(){lang=lang==='en'?'zh':'en';saveData.language=lang;saveSave
 function rand(a,b){return Math.random()*(b-a)+a}
 function randInt(a,b){return Math.floor(rand(a,b+1))}
 function dist(x1,y1,x2,y2){return Math.hypot(x1-x2,y1-y2)}
+function distWrap(x1,y1,x2,y2){let dx=Math.abs(x1-x2);dx=Math.min(dx,CORRIDOR_W-dx);return Math.hypot(dx,y1-y2)}
 function angle(x1,y1,x2,y2){return Math.atan2(y2-y1,x2-x1)}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
 function lerp(a,b,t){return a+(b-a)*t}
 function angleDiff(a,b){let d=b-a;while(d>Math.PI)d-=2*Math.PI;while(d<-Math.PI)d+=2*Math.PI;return d}
 // ==================== CHARACTERS ====================
 const CHARS={
-guardian:{name:'Guardian',color:'#4488cc',baseHP:120,baseATK:12,baseSPD:2.0,baseATKSPD:1.25,baseCRIT:0.05,baseCRITDMG:1.5,
-  size:18,autoRange:50,autoCD:0.8,cleaveArc:Math.PI/2,projSpeed:0,ultCD:90,ultDuration:3,
-  ultShockwaveRange:120,ultShockwaveDmg:25,ultShockwaveCD:1.5},
-gunslinger:{name:'Gunslinger',color:'#cc8844',baseHP:70,baseATK:10,baseSPD:2.5,baseATKSPD:2.0,baseCRIT:0.10,baseCRITDMG:2.0,
-  size:14,autoRange:250,autoCD:0.5,projSpeed:8,ultCD:90,ultDuration:5,ultBullets:3,ultBulletCD:0.35,ultPierce:2},
-shadow:{name:'Shadow',color:'#8844cc',baseHP:80,baseATK:9,baseSPD:3.5,baseATKSPD:1.67,baseCRIT:0.20,baseCRITDMG:1.8,
-  size:12,autoRange:150,autoCD:0.6,shadowBladeDmg:1.2,projSpeed:0,ultCD:90,ultDuration:5,ultClones:1,afterimageChance:1.0,afterimageMult:0.4}
+guardian:{name:'Guardian',color:'#4488cc',baseHP:120,baseATK:12,baseSPD:2.6,baseATKSPD:1.25,baseCRIT:0.05,baseCRITDMG:1.5,
+  size:18,autoRange:50,autoCD:0.8,cleaveArc:Math.PI/2,projSpeed:0,ultCD:45,ultDuration:4,
+  ultShockwaveRange:150,ultShockwaveDmg:35,ultShockwaveCD:1.5},
+gunslinger:{name:'Gunslinger',color:'#cc8844',baseHP:70,baseATK:10,baseSPD:2.8,baseATKSPD:2.0,baseCRIT:0.10,baseCRITDMG:2.0,
+  size:14,autoRange:250,autoCD:0.5,projSpeed:8,ultCD:45,ultDuration:6,ultBullets:5,ultBulletCD:0.35,ultPierce:3},
+shadow:{name:'Shadow',color:'#8844cc',baseHP:80,baseATK:9,baseSPD:3.8,baseATKSPD:1.67,baseCRIT:0.20,baseCRITDMG:1.8,
+  size:12,autoRange:150,autoCD:0.6,shadowBladeDmg:1.8,projSpeed:0,ultCD:45,ultDuration:6,ultClones:2,afterimageChance:1.0,afterimageMult:0.6}
 };
 // ==================== ENEMIES ====================
 const ENEMY_DEFS={
@@ -328,12 +381,12 @@ const UPGRADES=[
 { id:'cleaveRangeUp',cat:'off',weight:3,charReq:'guardian',apply:(g,n)=>{g.autoRange*=1+0.15*n}},
 { id:'shadowRangeUp',cat:'off',weight:3,charReq:'shadow',apply:(g,n)=>{g.autoRange*=1+0.20*n}},
 { id:'afterDmgUp',cat:'off',weight:3,charReq:'shadow',apply:(g,n)=>{g.afterimageMult*=(1+0.20*n)}},
-{ id:'chainLightning',cat:'off',weight:4,charReq:null,apply:(g,n)=>{g.chainChance=(g.chainChance||0)+0.25*n;g.chainDmg=0.4}},
-{ id:'burningStrikes',cat:'off',weight:4,charReq:null,apply:(g,n)=>{g.burnDmg=(g.burnDmg||0)+2*n;g.burnDur=3}},
+{ id:'chainLightning',cat:'off',weight:4,charReq:null,apply:(g,n)=>{const stacks=g.upgradeStacks['chainLightning']||0;g.chainChance=0.25+0.1*stacks;g.chainDmg=0.4}},
+{ id:'burningStrikes',cat:'off',weight:4,charReq:null,apply:(g,n)=>{const stacks=g.upgradeStacks['burningStrikes']||0;g.burnDmg=2+stacks;g.burnDur=3}},
 { id:'maxHPUp',cat:'def',weight:8,charReq:null,apply:(g,n)=>{g.maxHP+=15*n;g.hp=Math.min(g.hp+15*n,g.maxHP)}},
 { id:'armorUp',cat:'def',weight:6,charReq:null,apply:(g,n)=>{g.armor+=2*n}},
 { id:'hpRegen',cat:'def',weight:6,charReq:null,apply:(g,n)=>{g.hpRegen+=0.8*n}},
-{ id:'shield',cat:'def',weight:4,charReq:null,apply:(g,n)=>{if(n>=1){g.hasShield=true;g.shieldCD=18}}},
+{ id:'shield',cat:'def',weight:4,charReq:null,apply:(g,n)=>{g.hasShield=true;const stacks=g.upgradeStacks['shield']||0;g.shieldCD=Math.max(8,18-2*stacks)}},
 { id:'dodgeChance',cat:'def',weight:4,charReq:null,apply:(g,n)=>{g.dodgeChance+=0.06*n}},
 { id:'thorns',cat:'def',weight:3,charReq:null,apply:(g,n)=>{g.thorns+=0.12*n}},
 { id:'lifeSteal',cat:'def',weight:3,charReq:null,apply:(g,n)=>{g.lifeSteal+=0.04*n}},
@@ -344,10 +397,10 @@ const UPGRADES=[
 { id:'cdr',cat:'util',weight:4,charReq:null,apply:(g,n)=>{g.ultCDMult*=(1-0.12*n)}},
 { id:'magnetField',cat:'util',weight:3,charReq:null,apply:(g,n)=>{g.magnetField=(g.magnetField||0)+0.15*n}},
 { id:'fortune',cat:'util',weight:3,charReq:null,apply:(g,n)=>{g.fortune+=0.10*n}},
-{ id:'orbitalShield',cat:'spec',weight:4,charReq:null,apply:(g,n)=>{g.orbitalShield=(g.orbitalShield||0)+2*n}},
+{ id:'orbitalShield',cat:'spec',weight:4,charReq:null,apply:(g,n)=>{const stacks=g.upgradeStacks['orbitalShield']||0;g.orbitalShield=2+stacks}},
 { id:'lightningAura',cat:'spec',weight:4,charReq:null,apply:(g,n)=>{g.lightningAuraDmg=(g.lightningAuraDmg||0)+8*n;g.lightningAuraCD=(g.lightningAuraCD||2.5)}},
-{ id:'frozenTrail',cat:'spec',weight:3,charReq:null,apply:(g,n)=>{g.frozenTrail=true;g.frozenTrailSlow=(g.frozenTrailSlow||0.3)+0.30*(n-1)}},
-{ id:'whirlwind',cat:'spec',weight:3,charReq:null,apply:(g,n)=>{g.whirlwind=true;g.whirlwindRange=(g.whirlwindRange||50)+10*n;g.whirlwindCD=6}},
+{ id:'frozenTrail',cat:'spec',weight:3,charReq:null,apply:(g,n)=>{g.frozenTrail=true;const stacks=g.upgradeStacks['frozenTrail']||0;g.frozenTrailSlow=0.3+0.1*stacks}},
+{ id:'whirlwind',cat:'spec',weight:3,charReq:null,apply:(g,n)=>{g.whirlwind=true;const stacks=g.upgradeStacks['whirlwind']||0;g.whirlwindRange=50+8*stacks;g.whirlwindCD=6}},
 { id:'fortressExt',cat:'char',weight:3,charReq:'guardian',apply:(g,n)=>{g.ultShockwaveRange=(g.ultShockwaveRange||120)+20*n;g.ultDuration=(g.ultDuration||3)+0.5*n}},
 { id:'bulletStorm',cat:'char',weight:3,charReq:'gunslinger',apply:(g,n)=>{g.ultBullets=(g.ultBullets||3)+n}},
 { id:'shadowDance',cat:'char',weight:3,charReq:'shadow',apply:(g,n)=>{g.ultClones=(g.ultClones||1)+n;g.ultDuration=(g.ultDuration||5)+0.5*n}}
@@ -356,22 +409,42 @@ const CAT_W={off:0.30,def:0.25,util:0.20,spec:0.15,char:0.10};
 // ==================== TALENT TREE ====================
 const TALENT_TREE={
 might:{name:'Might',color:'#cc4444',talents:[
-{id:'power',name:'+2 ATK',maxLvl:10,cost:l=>Math.round(50*(l+1)),tier:1,prereqs:[]},
-{id:'fury',name:'+12% ATK SPD',maxLvl:5,cost:l=>Math.round(80*(l+1)),tier:2,prereqs:['power']},
-{id:'precision',name:'+2% Crit',maxLvl:5,cost:l=>Math.round(100*(l+1)),tier:3,prereqs:['fury','agility']},
-{id:'might',name:'+15% Damage',maxLvl:3,cost:l=>Math.round(200*(l+1)),tier:4,prereqs:['fury','precision']}
+{id:'power',maxLvl:10,cost:l=>Math.round(50*(l+1)),tier:1,prereqs:[]},
+{id:'fury',maxLvl:5,cost:l=>Math.round(80*(l+1)),tier:2,prereqs:['power']},
+{id:'precision',maxLvl:5,cost:l=>Math.round(100*(l+1)),tier:3,prereqs:['fury']},
+{id:'force',maxLvl:5,cost:l=>Math.round(200*(l+1)),tier:4,prereqs:['fury','precision']},
+{id:'critMastery',maxLvl:5,cost:l=>Math.round(120*(l+1)),tier:3,prereqs:['precision']},
+{id:'burningTouch',maxLvl:1,cost:l=>300,tier:3,prereqs:['force']},
+{id:'chainReaction',maxLvl:1,cost:l=>300,tier:3,prereqs:['force']},
+{id:'execute',maxLvl:1,cost:l=>500,tier:4,prereqs:['critMastery','burningTouch']},
+{id:'bladeMaster',maxLvl:3,cost:l=>Math.round(250*(l+1)),tier:4,prereqs:['critMastery']},
+{id:'shadowFury',maxLvl:3,cost:l=>Math.round(200*(l+1)),tier:4,prereqs:['bladeMaster']},
+{id:'warlord',maxLvl:1,cost:l=>800,tier:5,prereqs:['execute','bladeMaster']}
 ]},
 resilience:{name:'Resilience',color:'#4488cc',talents:[
-{id:'vitality',name:'+5 HP',maxLvl:20,cost:l=>Math.round(50*(l+1)),tier:1,prereqs:[]},
-{id:'armor',name:'+2 Armor',maxLvl:8,cost:l=>Math.round(80*(l+1)),tier:2,prereqs:['vitality']},
-{id:'regen',name:'+0.8 HP/s',maxLvl:5,cost:l=>Math.round(120*(l+1)),tier:3,prereqs:['armor']},
-{id:'fortitude',name:'Start with Shield',maxLvl:1,cost:l=>500,tier:4,prereqs:['armor','regen']}
+{id:'vitality',maxLvl:20,cost:l=>Math.round(50*(l+1)),tier:1,prereqs:[]},
+{id:'armor',maxLvl:8,cost:l=>Math.round(80*(l+1)),tier:2,prereqs:['vitality']},
+{id:'regen',maxLvl:5,cost:l=>Math.round(120*(l+1)),tier:3,prereqs:['armor']},
+{id:'fortitude',maxLvl:1,cost:l=>500,tier:3,prereqs:['armor','regen']},
+{id:'swiftReflexes',maxLvl:5,cost:l=>Math.round(150*(l+1)),tier:3,prereqs:['fortitude']},
+{id:'vampiric',maxLvl:1,cost:l=>400,tier:3,prereqs:['regen','agility']},
+{id:'fortressMastery',maxLvl:3,cost:l=>Math.round(200*(l+1)),tier:4,prereqs:['fortitude']},
+{id:'unbreakable',maxLvl:1,cost:l=>600,tier:4,prereqs:['swiftReflexes','fortressMastery']},
+{id:'lastStand',maxLvl:1,cost:l=>700,tier:4,prereqs:['vampiric']},
+{id:'ironWill',maxLvl:3,cost:l=>Math.round(250*(l+1)),tier:5,prereqs:['unbreakable']},
+{id:'phoenix',maxLvl:1,cost:l=>1000,tier:5,prereqs:['lastStand','ironWill']}
 ]},
 fortune:{name:'Fortune',color:'#ccaa44',talents:[
-{id:'greed',name:'+10% Gold',maxLvl:10,cost:l=>Math.round(200*(l+1)),tier:1,prereqs:[]},
-{id:'agility',name:'+0.2 SPD',maxLvl:5,cost:l=>Math.round(80*(l+1)),tier:2,prereqs:['greed']},
-{id:'xpBoost',name:'+15% XP',maxLvl:5,cost:l=>Math.round(150*(l+1)),tier:3,prereqs:['agility']},
-{id:'headStart',name:'Start Lv N',maxLvl:5,cost:l=>Math.round(300*(l+1)),tier:4,prereqs:['agility','xpBoost']}
+{id:'greed',maxLvl:10,cost:l=>Math.round(200*(l+1)),tier:1,prereqs:[]},
+{id:'agility',maxLvl:5,cost:l=>Math.round(80*(l+1)),tier:2,prereqs:['greed']},
+{id:'xpBoost',maxLvl:5,cost:l=>Math.round(150*(l+1)),tier:3,prereqs:['agility']},
+{id:'headStart',maxLvl:3,cost:l=>Math.round(300*(l+1)),tier:3,prereqs:['agility','xpBoost']},
+{id:'goldMagnet',maxLvl:5,cost:l=>Math.round(120*(l+1)),tier:3,prereqs:['agility']},
+{id:'frostWalk',maxLvl:1,cost:l=>400,tier:3,prereqs:['goldMagnet','armor']},
+{id:'xpAccelerator',maxLvl:5,cost:l=>Math.round(180*(l+1)),tier:4,prereqs:['xpBoost']},
+{id:'fortune',maxLvl:3,cost:l=>Math.round(250*(l+1)),tier:4,prereqs:['greed','xpBoost']},
+{id:'treasureHunter',maxLvl:1,cost:l=>600,tier:4,prereqs:['fortune','goldMagnet']},
+{id:'mastery',maxLvl:3,cost:l=>Math.round(300*(l+1)),tier:5,prereqs:['xpAccelerator','precision']}
 ]}
 };
 const TALENT_LIST=[];
@@ -385,6 +458,36 @@ for(const pid of t.prereqs){const pt=TALENT_LIST.find(x=>x.id===pid);if(!pt||get
 return true
 }
 
+// ==================== TALENT EFFECTS ====================
+function applyTalentEffects(tl,G){
+G.hp+=(tl.vitality||0)*5;G.maxHP+=(tl.vitality||0)*5;
+G.atk+=(tl.power||0)*2+(tl.force||0)*2;
+G.spd+=(tl.agility||0)*0.2;
+G.atkSpd*=(1+(tl.fury||0)*0.12);
+G.crit+=(tl.precision||0)*0.02;
+G.critDmg+=(tl.critMastery||0)*0.1;
+G.armor+=(tl.armor||0)*2;
+G.hpRegen+=(tl.regen||0)*0.8;
+G.goldMult=1+(tl.greed||0)*0.1;
+G.xpMult=1+(tl.xpBoost||0)*0.15+(tl.xpAccelerator||0)*0.1;
+G.pickupRange=PICKUP_R+(tl.goldMagnet||0)*0.15*PICKUP_R;
+G.hasShield=!!(tl.fortitude||0);
+if(tl.fortitude)G.shieldReady=true;
+G.dodgeChance=(tl.swiftReflexes||0)*0.03;
+G.lifeSteal+=(tl.vampiric||0)*0.03;
+if(tl.fortressMastery>0)G.shieldCD=Math.max(8,18-(tl.fortressMastery)*2);
+if(tl.frostWalk)G.frozenTrail=true;
+if(tl.frostWalk)G.frozenTrailSlow=0.3;
+G.fortune+=(tl.fortune||0)*0.10;
+if(tl.burningTouch){G.burnDmg=2;G.burnDur=3}
+if(tl.chainReaction){G.chainChance=0.20;G.chainDmg=0.4}
+if(tl.bladeMaster>0)G.afterimageMult+=0.15*tl.bladeMaster;
+if(tl.treasureHunter)G.goldMult*=1.15;
+if(tl.mastery>0){G.atk*=(1+0.05*tl.mastery);G.maxHP*=(1+0.05*tl.mastery);G.spd*=(1+0.05*tl.mastery)}
+if(tl.headStart>0){G.level+=tl.headStart;G.xpToNext=xpForLevel(G.level)}
+if(tl.shadowFury>0){G.atkSpd*=(1+0.08*tl.shadowFury)}
+}
+
 // ==================== SAVE ====================
 let saveData={gold:0,talents:{},unlockedStages:[1],totalRuns:0,totalKills:0,language:'en'};
 function migrateOldSave(d){
@@ -395,7 +498,12 @@ if(u.power)d.talents.power=Math.min(10,u.power);
 if(u.agility)d.talents.agility=Math.min(5,u.agility);
 if(u.precision)d.talents.precision=Math.min(5,u.precision);
 if(u.greed)d.talents.greed=Math.min(10,u.greed);
-if(u.headStart)d.talents.headStart=Math.min(5,u.headStart);
+if(u.headStart)d.talents.headStart=Math.min(3,u.headStart);
+if(u.might){d.talents.force=Math.min(5,u.might)}
+if(u.armor)d.talents.armor=Math.min(8,u.armor);
+if(u.regen)d.talents.regen=Math.min(5,u.regen);
+if(u.fortitude)d.talents.fortitude=Math.min(1,u.fortitude);
+if(u.xpBoost)d.talents.xpBoost=Math.min(5,u.xpBoost);
 delete d.upgrades}
 return d
 }
@@ -438,13 +546,13 @@ const ch=CHARS[selChar],tl=saveData.talents||{},sd=STAGE_DEFS[stage-1];
 const hs=tl.headStart||0;
 G={
 charId:selChar,stage:stage,charDef:ch,sd:sd,
-hp:ch.baseHP+(tl.vitality||0)*5,maxHP:ch.baseHP+(tl.vitality||0)*5,
-atk:ch.baseATK*(1+(tl.might||0)*0.15)+(tl.power||0)*2,spd:ch.baseSPD+(tl.agility||0)*0.2,
-atkSpd:ch.baseATKSPD*(1+(tl.fury||0)*0.12),
-crit:ch.baseCRIT+(tl.precision||0)*0.02,critDmg:ch.baseCRITDMG,
-armor:(tl.armor||0)*2,hpRegen:(tl.regen||0)*0.8,dodgeChance:0,thorns:0,lifeSteal:0,
-pickupRange:PICKUP_R,goldMult:1+(tl.greed||0)*0.1,xpMult:1+(tl.xpBoost||0)*0.15,ultCDMult:1,
-hasShield:!!(tl.fortitude||0),shieldCD:18,shieldReady:!!(tl.fortitude||0),shieldTimer:0,
+hp:ch.baseHP,maxHP:ch.baseHP,
+atk:ch.baseATK,spd:ch.baseSPD,
+atkSpd:ch.baseATKSPD,
+crit:ch.baseCRIT,critDmg:ch.baseCRITDMG,
+armor:0,hpRegen:0,dodgeChance:0,thorns:0,lifeSteal:0,
+pickupRange:PICKUP_R,goldMult:1,xpMult:1,ultCDMult:1,
+hasShield:false,shieldCD:18,shieldReady:false,shieldTimer:0,
 projCount:1,piercing:0,cleaveArc:ch.cleaveArc||Math.PI*2/3,
 afterimageMult:ch.afterimageMult||0.4,attackCounter:0,
 chainChance:0,chainDmg:0.4,burnDmg:0,burnDur:0,
@@ -478,9 +586,14 @@ comboCount:0,comboTimer:0,comboStep:0,
 atkMult:1,spdMult:1,defMult:1,atkSpdMult:1,healPS:0,
 upgradeStacks:{},pendingLevelUps:0,
 waveAnnounceTimer:0,lastWave:1,
-hazardSlow:0,fortifyDR:0
+waveEvent:null,waveEventTriggered:false,
+hazardSlow:0,fortifyDR:0,
+unbreakableActive:false,unbreakableTimer:0,
+lastStandUsed:false,executeThreshold:0.15,
 };
 if(G.level>0){for(let i=0;i<G.level;i++)applySilentUpgrade();G.xpToNext=xpForLevel(G.level)}
+applyTalentEffects(saveData.talents||{},G);
+G.hp=Math.min(G.hp,G.maxHP);
 if(G.orbitalShield>0)initOrbitalOrbs();
 switchScreen('inGame')
 }
@@ -519,15 +632,15 @@ const chars=[
 {id:'guardian',css:'guardian',style:'background:#4488cc;border-radius:4px',
 nameKey:'charGuardian',roleKey:'roleTank',atkKey:'cleave',passKey:'fortify',ultKey:'fortress',
 atkDK:'cleaveDesc',passDK:'fortifyDesc',ultDK:'fortressDesc',
-stats:'HP: 120 | ATK: 12<br>SPD: 2.0 | ATKSPD: 1.25<br>CRIT: 5% | CRITDMG: 150%'},
+stats:'HP: 120 | ATK: 12<br>SPD: 2.6 | ATKSPD: 1.25<br>CRIT: 5% | CRITDMG: 150%'},
 {id:'gunslinger',css:'gunslinger',style:'background:#cc8844;transform:rotate(45deg);border-radius:2px',
 nameKey:'charGunslinger',roleKey:'roleRanged',atkKey:'shoot',passKey:'sharpshooter',ultKey:'bulletHell',
 atkDK:'shootDesc',passDK:'sharpshooterDesc',ultDK:'bulletHellDesc',
-stats:'HP: 70 | ATK: 10<br>SPD: 2.5 | ATKSPD: 2.0<br>CRIT: 10% | CRITDMG: 200%'},
+stats:'HP: 70 | ATK: 10<br>SPD: 2.8 | ATKSPD: 2.0<br>CRIT: 10% | CRITDMG: 200%'},
 {id:'shadow',css:'shadow',style:'background:#8844cc;clip-path:polygon(50% 0%,0% 100%,100% 100%)',
 nameKey:'charShadow',roleKey:'roleAssassin',atkKey:'dashStrike',passKey:'afterimage',ultKey:'timeWarp',
 atkDK:'dashStrikeDesc',passDK:'afterimageDesc',ultDK:'timeWarpDesc',
-stats:'HP: 80 | ATK: 9<br>SPD: 3.5 | ATKSPD: 1.67<br>CRIT: 20% | CRITDMG: 180%'}
+stats:'HP: 80 | ATK: 9<br>SPD: 3.8 | ATKSPD: 1.67<br>CRIT: 20% | CRITDMG: 180%'}
 ];
 chars.forEach(ch=>{
 const d=document.createElement('div');d.className='char-card '+ch.css;
@@ -556,11 +669,11 @@ const bk=branches[bi],branch=TALENT_TREE[bk];
 const bx=bw*bi+bw/2;
 // Branch title
 c2.fillStyle=branch.color;c2.font='bold 16px sans-serif';c2.textAlign='center';
-c2.fillText(branch.name,bx,25);
+c2.fillText(t(bk),bx,25);
 // Draw connection lines
-for(const t of branch.talents){
-const ty=55+t.tier*100;
-for(const pid of t.prereqs){
+for(const tn of branch.talents){
+const ty=55+tn.tier*100;
+for(const pid of tn.prereqs){
 const pt=TALENT_LIST.find(x=>x.id===pid);
 if(pt){
 const py=55+pt.tier*100;
@@ -568,11 +681,11 @@ const px=bw*branches.indexOf(pt.branch)+bw/2;
 c2.strokeStyle=branch.color+'44';c2.lineWidth=2;c2.beginPath();c2.moveTo(px,py+20);c2.lineTo(bx,ty-20);c2.stroke()
 }}}
 // Draw nodes
-for(const t of branch.talents){
-const ny=55+t.tier*100;const lvl=getTalentLvl(t.id);const maxed=lvl>=t.maxLvl;
-const canBuy=canUnlockTalent(t);
+for(const tn of branch.talents){
+const ny=55+tn.tier*100;const lvl=getTalentLvl(tn.id);const maxed=lvl>=tn.maxLvl;
+const canBuy=canUnlockTalent(tn);
 const r=isMobile?30:20;
-talentNodes.push({id:t.id,x:bx,y:ny,r});
+talentNodes.push({id:tn.id,x:bx,y:ny,r});
 // Node circle
 if(maxed){c2.fillStyle=branch.color;c2.strokeStyle=branch.color}
 else if(canBuy){c2.fillStyle='#1a1a1a';c2.strokeStyle='#ffcc00'}
@@ -582,13 +695,13 @@ c2.lineWidth=maxed?3:canBuy?2.5:1.5;
 c2.beginPath();c2.arc(bx,ny,r,0,Math.PI*2);c2.fill();c2.stroke();
 // Level text
 c2.fillStyle=maxed?'#111':'#ccc';c2.font='bold 11px sans-serif';c2.textAlign='center';
-c2.fillText(lvl+'/'+t.maxLvl,bx,ny+4);
+c2.fillText(lvl+'/'+tn.maxLvl,bx,ny+4);
 // Name below
 c2.fillStyle=maxed?branch.color:'#888';c2.font='10px sans-serif';
-c2.fillText(t.name,bx,ny+r+14);
+c2.fillText(t(tn.id),bx,ny+r+14);
 // Cost
 if(!maxed){c2.fillStyle=canBuy?'#ffcc00':'#666';c2.font='9px sans-serif';
-c2.fillText(t.cost(lvl+1)+'g',bx,ny+r+26)}
+c2.fillText(tn.cost(lvl+1)+'g',bx,ny+r+26)}
 }}
 // Click handler for talent canvas (bind once)
 const tc2=document.getElementById('talentCanvas');
@@ -672,6 +785,8 @@ if(enemy.isBoss&&enemy.shieldHP>0){const shieldDmg=Math.min(enemy.shieldHP,dmg);
 let finalDmg=Math.max(1,Math.round(dmg*G.weakenMult));
 if(isCrit)finalDmg=Math.round(finalDmg*G.critDmg);
 enemy.hp-=finalDmg;
+// Execute check
+if(G.executeThreshold>0&&enemy.hp>0&&enemy.hp/enemy.maxHp<G.executeThreshold&&!enemy.dead&&!enemy.isBoss){finalDmg+=Math.round(enemy.hp);enemy.hp=0}
 addFloat(enemy.x,enemy.y-enemy.size,(isCrit?'CRIT ':'')+finalDmg,isCrit?'#ffcc00':'#fff',clamp(10+finalDmg*0.3,10,30));
 if(isCrit){G.screenShake=0.08;G.shakeIntensity=2}
 if(G.lifeSteal>0)G.hp=Math.min(G.maxHP,G.hp+finalDmg*G.lifeSteal);
@@ -701,7 +816,7 @@ if(G.frozenTrail)G.frozenTrailSegs.push({x:enemy.x,y:enemy.y,lifetime:1.5,slow:G
 if(enemy.type==='necrotic')G.hazards.push({type:'toxic',x:enemy.x,y:enemy.y,radius:50,damage:G.stage>=5?6:5,damageType:'slow',slowAmt:0.2,warningTimer:0.5,activeTimer:6,stageOrigin:G.stage});
 if(enemy.type==='bomber'&&!enemy.isBoss)G.explosions.push({x:enemy.x,y:enemy.y,timer:0.5,radius:60,damage:enemy.damage});
 if(fpsVal>=25)for(let i=0;i<randInt(3,5);i++)G.particles.push({x:enemy.x,y:enemy.y,dx:rand(-60,60),dy:rand(-60,60),lifetime:0.5,maxLifetime:0.5,size:rand(2,4),color:enemy.color,alpha:1});
-if(fpsVal>=25)G.particles.push({x:enemy.x,y:enemy.y,dx:0,dy:0,lifetime:0.3,maxLifetime:0.3,size:enemy.size/2,color:enemy.color,alpha:0.8,isRing:true,expandRate:80});
+if(fpsVal>=25&&(enemy.special||enemy.isBoss))G.particles.push({x:enemy.x,y:enemy.y,dx:0,dy:0,lifetime:0.3,maxLifetime:0.3,size:enemy.size/2,color:enemy.color,alpha:0.8,isRing:true,expandRate:80});
 G.kills++;G.waveKillCount++;G.comboCount++;G.comboTimer=3;
 if(G.comboCount===10||G.comboCount===20||G.comboCount===30){G.xpOrbs.push({x:G.px,y:G.py,xp:G.comboCount*2,lifetime:30});addFloat(G.px,G.py-50,G.comboCount+'x COMBO!','#ff8800',22)}
 if(enemy.isBoss){G.bossDefeated=true;G.boss=null;addFloat(G.px,G.py-60,t('bossDefeated'),'#ffcc00',28);G.screenShake=0.5;G.shakeIntensity=8;for(let i=0;i<5;i++)G.xpOrbs.push({x:enemy.x+rand(-20,20),y:enemy.y+rand(-20,20),xp:10,lifetime:30})}
@@ -715,8 +830,14 @@ let finalDmg=Math.max(1,dmg-G.armor);
 finalDmg=Math.round(finalDmg*G.defMult*(1-(G.fortifyDR||0)));
 G.hp-=finalDmg;G.iFrames=0.2;G.screenShake=0.15;G.shakeIntensity=3;
 addFloat(G.px,G.py-15,'-'+finalDmg,'#ff4444',14);
+// Unbreakable: below 20% HP gain 50% DR for 3s
+if(!G.unbreakableActive&&G.hp>0&&G.hp/G.maxHP<0.2&&saveData.talents&&saveData.talents.unbreakable){G.unbreakableActive=true;G.unbreakableTimer=3;addFloat(G.px,G.py-30,'UNBREAKABLE!','#4488ff',18)}
 if(G.thorns>0&&src&&src.isEnemy&&!src.dead){const th=Math.round(finalDmg*G.thorns);src.hp-=th;if(src.hp<=0&&!src.dead)killEnemy(src)}
-if(G.hp<=0){G.runOver=true;G.stageFailed=true;endRun(false)}
+if(G.hp<=0){
+// Last Stand: revive once at 30% HP
+if(!G.lastStandUsed&&saveData.talents&&saveData.talents.lastStand){G.lastStandUsed=true;G.hp=Math.round(G.maxHP*0.3);G.iFrames=1.5;addFloat(G.px,G.py-30,'LAST STAND!','#44ff44',22)}
+else{G.runOver=true;G.stageFailed=true;endRun(false)}
+}
 }
 // ==================== UPDATE: PLAYER ====================
 function updatePlayer(dt){
@@ -728,15 +849,16 @@ if(keys.has('KeyA')||keys.has('ArrowLeft'))dx=-1;
 if(keys.has('KeyD')||keys.has('ArrowRight'))dx+=1;
 if(dx!==0||dy!==0){const len=Math.hypot(dx,dy);dx/=len;dy/=len;
 G.px+=dx*G.spd*G.spdMult*(1-G.hazardSlow)*60*dt;G.py+=dy*G.spd*G.spdMult*(1-G.hazardSlow)*60*dt;G.facing=Math.atan2(dy,dx)}
-// Arena bounds
-const d2=Math.hypot(G.px,G.py);if(d2>ARENA_R-G.charDef.size/2){const a=Math.atan2(G.py,G.px);G.px=Math.cos(a)*(ARENA_R-G.charDef.size/2);G.py=Math.sin(a)*(ARENA_R-G.charDef.size/2)}
+// Corridor bounds: x wraps, y clamped
+if(G.px>CORRIDOR_W)G.px-=CORRIDOR_W;if(G.px<0)G.px+=CORRIDOR_W;
+if(G.py<G.charDef.size/2)G.py=G.charDef.size/2;if(G.py>CORRIDOR_H-G.charDef.size/2)G.py=CORRIDOR_H-G.charDef.size/2
 // Regen
 if(G.hpRegen>0)G.hp=Math.min(G.maxHP,G.hp+G.hpRegen*dt);
 // Power-up heal
 if(G.healPS>0)G.hp=Math.min(G.maxHP,G.hp+G.healPS*dt);
 // Burn timer on enemies handled in enemy update
 // Frozen trail (throttled)
-G.frozenTrailTimer-=dt;if(G.frozenTrail&&(dx!==0||dy!==0)&&G.frozenTrailTimer<=0){G.frozenTrailTimer=0.05;G.frozenTrailSegs.push({x:G.px,y:G.py,lifetime:1.5,slow:G.frozenTrailSlow})};
+G.frozenTrailTimer-=dt;if(G.frozenTrail&&(dx!==0||dy!==0)&&G.frozenTrailTimer<=0){const prevSeg=G.frozenTrailSegs.length>0?G.frozenTrailSegs[G.frozenTrailSegs.length-1]:null;G.frozenTrailTimer=0.04;G.frozenTrailSegs.push({x:G.px,y:G.py,prevX:prevSeg?prevSeg.x:G.px,prevY:prevSeg?prevSeg.y:G.py,lifetime:1.5,slow:G.frozenTrailSlow})};
 // HP regen from shop
 // iFrames
 if(G.iFrames>0)G.iFrames-=dt;
@@ -752,6 +874,8 @@ if(G.lightningAuraDmg>0){G.lightningAuraTimer-=dt;if(G.lightningAuraTimer<=0){G.
 if(G.whirlwind){G.whirlwindTimer-=dt;if(G.whirlwindTimer<=0){G.whirlwindTimer=G.whirlwindCD;const near=G.spatial.query(G.px,G.py,G.whirlwindRange);for(const e of near){if(e.isEnemy&&!e.dead&&dist(e.x,e.y,G.px,G.py)<G.whirlwindRange){const a=angle(e.x,e.y,G.px,G.py);e.x+=Math.cos(a)*12;e.y+=Math.sin(a)*12}}}}
 // Fortify (Guardian passive)
 if(G.charId==='guardian'){const near=G.spatial.query(G.px,G.py,100);let cnt=0;for(const e of near)if(e.isEnemy&&!e.dead&&dist(e.x,e.y,G.px,G.py)<100)cnt++;G.fortifyDR=Math.min(0.30,cnt*0.03)}else G.fortifyDR=0;
+// Unbreakable timer
+if(G.unbreakableTimer>0){G.unbreakableTimer-=dt;if(G.unbreakableTimer<=0)G.unbreakableActive=false}
 // Active power-up timer
 if(G.activePowerUp){G.activePowerUp.remaining-=dt;if(G.activePowerUp.remaining<=0)removePowerUp()}
 }
@@ -786,7 +910,7 @@ if(fpsVal>=25)G.particles.push({x:G.px+Math.cos(a)*15,y:G.py+Math.sin(a)*15,dx:0
 }else if(G.charId==='shadow'){
 // Combo system
 G.comboStep=(G.comboStep||0)+1;if(G.comboStep>5)G.comboStep=1;
-const comboMult=[1.0,1.0,1.0,1.2,1.5][G.comboStep-1];
+const comboMult=[1.0,1.0,1.0,1.5,2.5][G.comboStep-1];
 const dmg=baseDmg*(ch.shadowBladeDmg||1.2)*comboMult;
 if(G.comboStep===5){G.autoCDTimer=cd*1.2;G.comboStep=0}
 damageEnemy(nearest,dmg,isCrit);
@@ -809,7 +933,7 @@ G.afterimages.splice(i,1)}
 for(let i=G.clones.length-1;i>=0;i--){
 const c=G.clones[i];c.timer-=dt;c.cdTimer-=dt;
 if(c.timer<=0){G.clones.splice(i,1);continue}
-if(c.cdTimer<=0){const near=findNearest(c.x,c.y,G.autoRange);if(near){damageEnemy(near,G.atk*G.atkMult*0.4,false);c.cdTimer=G.charDef.autoCD/G.atkSpd}}
+if(c.cdTimer<=0){const near=findNearest(c.x,c.y,G.autoRange);if(near){damageEnemy(near,G.atk*G.atkMult*0.5,false);c.cdTimer=G.charDef.autoCD/G.atkSpd}}
 c.x=lerp(c.x,G.px,0.02);c.y=lerp(c.y,G.py,0.02)
 }
 }
@@ -821,7 +945,7 @@ const ch=G.charDef;G.ultActive=true;G.ultTimer=G.ultDuration||ch.ultDuration;
 G.ultCDTimer=ch.ultCD*(G.ultCDMult||1);G.ultSpecialTimer=0;
 G.screenShake=0.2;G.shakeIntensity=5;G.screenFlash=0.15;G.flashColor=ch.color;
 if(fpsVal>=25)for(let i=0;i<20;i++){const a2=Math.PI*2/20*i;G.particles.push({x:G.px,y:G.py,dx:Math.cos(a2)*150,dy:Math.sin(a2)*150,lifetime:0.5,maxLifetime:0.5,size:4,color:ch.color,alpha:0.8})}
-if(G.charId==='shadow'){G.clones=[];const nc=G.ultClones||ch.ultClones;for(let i=0;i<nc;i++)G.clones.push({x:G.px+rand(-30,30),y:G.py+rand(-30,30),timer:G.ultDuration,cdTimer:0});
+if(G.charId==='shadow'){G.clones=[];const nc=G.ultClones||ch.ultClones;for(let i=0;i<nc;i++)G.clones.push({x:G.px+rand(-30,30),y:G.py+rand(-30,30),timer:G.ultDuration,cdTimer:0});G.crit+=0.3;
 G.particles.push({x:G.px,y:G.py,dx:0,dy:0,lifetime:0.6,maxLifetime:0.6,size:20,color:'#8844cc',alpha:0.8,isRing:true,expandRate:150})}
 }
 
@@ -829,23 +953,23 @@ function updateUlt(dt){
 if(!G.ultActive)return;
 G.ultTimer-=dt;
 G.ultSpecialTimer-=dt;
-if(G.ultTimer<=0){G.ultActive=false;G.clones=[];return}
+if(G.ultTimer<=0){G.ultActive=false;G.clones=[];if(G.charId==='shadow')G.crit=Math.max(0,G.crit-0.3);return}
 if(G.charId==='guardian'){
 if(G.ultSpecialTimer<=0){G.ultSpecialTimer=1.5;
-const range=G.ultShockwaveRange||120;const dmg=G.charDef.ultShockwaveDmg||25;
+const range=G.ultShockwaveRange||150;const dmg=G.charDef.ultShockwaveDmg||35;
 const near=G.spatial.query(G.px,G.py,range);
-for(const e of near){if(e.isEnemy&&!e.dead&&dist(e.x,e.y,G.px,G.py)<range)damageEnemy(e,dmg,false)}
+for(const e of near){if(e.isEnemy&&!e.dead&&dist(e.x,e.y,G.px,G.py)<range){damageEnemy(e,dmg,false);e.stunTimer=0.5}}
 G.screenShake=0.15;G.shakeIntensity=4;
 if(fpsVal>=25)G.particles.push({x:G.px,y:G.py,dx:0,dy:0,lifetime:0.4,maxLifetime:0.4,size:range,color:'#4488cc',alpha:0.4,isRing:true,expandRate:60})
 }}else if(G.charId==='gunslinger'){
 if(G.ultSpecialTimer<=0){G.ultSpecialTimer=0.35;
-const count=G.ultBullets||3;const a=angle(G.px,G.py,G.px+Math.cos(G.facing),G.py+Math.sin(G.facing));
-const spread=0.15;const baseDmg=G.atk*G.atkMult;
+const count=G.ultBullets||5;const a=angle(G.px,G.py,G.px+Math.cos(G.facing),G.py+Math.sin(G.facing));
+const spread=0.2;const baseDmg=G.atk*G.atkMult;
 for(let i=0;i<count;i++){const sa=a+(i-Math.floor(count/2))*spread;
-G.projectiles.push({x:G.px,y:G.py,dx:Math.cos(sa),dy:Math.sin(sa),speed:8,damage:baseDmg,piercing:G.ultPierce||2,owner:'player',lifetime:2,knockback:1,isCrit:false})}
+G.projectiles.push({x:G.px,y:G.py,dx:Math.cos(sa),dy:Math.sin(sa),speed:8,damage:baseDmg,piercing:G.ultPierce||3,owner:'player',lifetime:2,knockback:1,isCrit:false})}
 }}}
 // ==================== ENEMIES ====================
-function findNearest(x,y,r){let best=null,bd=r;for(const e of G.enemies){if(e.dead||e.fadeIn>0)continue;const d=dist(e.x,e.y,x,y);if(d<bd){bd=d;best=e}}return best}
+function findNearest(x,y,r){let best=null,bd=r;for(const e of G.enemies){if(e.dead||e.fadeIn>0)continue;const d=distWrap(e.x,e.y,x,y);if(d<bd){bd=d;best=e}}return best}
 
 function updateEnemies(dt){
 for(let i=G.enemies.length-1;i>=0;i--){
@@ -894,13 +1018,14 @@ const pa=angle(e.x,e.y,G.px,G.py);G.projectiles.push({x:e.x,y:e.y,dx:Math.cos(pa
 e.x+=Math.cos(a)*e.speed*60*dt*spdMult;e.y+=Math.sin(a)*e.speed*60*dt*spdMult;
 }else{
 e.x+=Math.cos(a)*e.speed*60*dt*spdMult;e.y+=Math.sin(a)*e.speed*60*dt*spdMult}
-// Arena bounds clamp
-const eDist=Math.hypot(e.x,e.y);const maxR=ARENA_R-e.size/2;if(eDist>maxR){const ea=Math.atan2(e.y,e.x);e.x=Math.cos(ea)*maxR;e.y=Math.sin(ea)*maxR}
+// Corridor bounds: x wraps, y clamped
+if(e.x>CORRIDOR_W)e.x-=CORRIDOR_W;if(e.x<0)e.x+=CORRIDOR_W;
+if(e.y<e.size/2)e.y=e.size/2;if(e.y>CORRIDOR_H-e.size/2)e.y=CORRIDOR_H-e.size/2
 // Contact damage
 const cd=dist(e.x,e.y,G.px,G.py);const cdist=e.size/2+G.charDef.size/2;
 if(cd<cdist&&e.contactCD<=0){damagePlayer(e.damage,e);e.contactCD=CONTACT_CD}
 // Remove far away enemies
-if(!e.isBoss&&Math.hypot(e.x,e.y)>ARENA_R+200){G.enemies.splice(i,1);continue}
+if(!e.isBoss&&distWrap(e.x,e.y,G.px,G.py)>800){G.enemies.splice(i,1);continue}
 }
 }
 
@@ -960,8 +1085,9 @@ if(boss.bossPhase>=2){boss.teleportCD-=dt;if(boss.teleportCD<=0){boss.teleportCD
 }
 // Contact damage for all bosses
 const bd=dist(boss.x,boss.y,G.px,G.py);if(bd<boss.size/2+G.charDef.size/2&&boss.contactCD<=0){damagePlayer(boss.damage,boss);boss.contactCD=0.5}
-// Arena bounds clamp
-const bDist=Math.hypot(boss.x,boss.y);const bMaxR=ARENA_R-boss.size/2;if(bDist>bMaxR){const ba=Math.atan2(boss.y,boss.x);boss.x=Math.cos(ba)*bMaxR;boss.y=Math.sin(ba)*bMaxR}
+// Corridor bounds: x wraps, y clamped
+if(boss.x>CORRIDOR_W)boss.x-=CORRIDOR_W;if(boss.x<0)boss.x+=CORRIDOR_W;
+if(boss.y<boss.size/2)boss.y=boss.size/2;if(boss.y>CORRIDOR_H-boss.size/2)boss.y=CORRIDOR_H-boss.size/2
 // Boss HP bar
 G.bossHPPercent=boss.hp/boss.maxHp
 }
@@ -994,8 +1120,14 @@ return WAVE_SPAWN[Math.max(0,idx)]
 function getSpawnPos(count){
 const positions=[];const numPoints=randInt(2,4);
 for(let i=0;i<numPoints;i++){
-const a2=rand(0,Math.PI*2);const pos={x:Math.cos(a2)*(ARENA_R+30),y:Math.sin(a2)*(ARENA_R+30)};
-let valid=true;for(const p of positions)if(dist(p.x,p.y,pos.x,pos.y)<60){valid=false;break}
+const edge=randInt(0,3);let pos;
+if(edge===0)pos={x:G.px+rand(200,400),y:-30}; // top edge
+else if(edge===1)pos={x:G.px+rand(200,400),y:CORRIDOR_H+30}; // bottom edge
+else if(edge===2)pos={x:G.px+canvas.width/2+rand(30,100),y:rand(0,CORRIDOR_H)}; // right side
+else pos={x:G.px-canvas.width/2-rand(30,100),y:rand(0,CORRIDOR_H)}; // left side
+// Wrap x
+if(pos.x>CORRIDOR_W)pos.x-=CORRIDOR_W;if(pos.x<0)pos.x+=CORRIDOR_W;
+let valid=true;for(const p of positions)if(distWrap(p.x,p.y,pos.x,pos.y)<60){valid=false;break}
 if(valid)positions.push(pos)}
 return positions
 }
@@ -1019,6 +1151,31 @@ G.waveBreakTimer=2;
 if(G.waveNumber>G.lastWave){G.lastWave=G.waveNumber;G.waveAnnounceTimer=2}
 // Elite wave
 if(G.sd.eliteWaves&&G.sd.eliteWaves.includes(G.waveNumber)){spawnElite()}
+// Wave event (60% chance, waves 2+)
+if(!G.waveEventTriggered&&G.waveNumber>=2&&Math.random()<0.6){
+G.waveEventTriggered=true;const etypes=['surround','eliteWave','treasure','terrain'];
+const etype=etypes[randInt(0,3)];
+if(etype==='surround'){
+const cnt=randInt(20,30);for(let i=0;i<cnt;i++){const a=Math.PI*2/cnt*i;
+G.enemies.push(createEnemy(Math.random()<0.5?'walker':'runner',G.px+Math.cos(a)*200,G.py+Math.sin(a)*200,G.sd.diffMult))}
+addFloat(G.px,G.py-40,t('waveEventSurround'),'#ff4444',20);G.screenShake=0.15;G.shakeIntensity=3}
+else if(etype==='eliteWave'){
+const cnt=randInt(5,8);const types=['spitter','bomber','shielder','flanker','charger','teleporter'];
+for(let i=0;i<cnt;i++){const et=types[randInt(0,types.length-1)];
+const e=createEnemy(et,G.px+rand(-100,100),G.py+rand(-100,100),G.sd.diffMult*2);
+e.hp*=2;e.maxHp*=2;e.isElite=true;e.size*=1.2;G.enemies.push(e)}
+addFloat(G.px,G.py-40,t('waveEventElite'),'#ff8800',20)}
+else if(etype==='treasure'){
+G.waveEvent={type:'treasure',x:G.px+rand(-200,200),y:clamp(G.py+rand(-150,150),20,CORRIDOR_H-20),timer:15,radius:16}}
+else if(etype==='terrain'&&G.sd.hazards.length>0){
+const cnt=randInt(8,10);for(let i=0;i<cnt;i++){
+const hx=G.px+rand(-300,300),hy=rand(50,CORRIDOR_H-50);
+const htype=G.sd.hazards[randInt(0,G.sd.hazards.length-1)];
+const hdef={ember:{radius:40,damage:3,damageType:'dot'},toxic:{radius:50,damage:5,damageType:'slow',slowAmt:0.2},spike:{radius:30,damage:12,damageType:'instant'},lightning:{radius:50,damage:18,damageType:'instant'},void:{radius:80,damage:8,damageType:'dot',expandRate:2}};
+const hd=hdef[htype]||{radius:40,damage:3,damageType:'dot'};
+G.hazards.push({type:htype,x:hx,y:hy,radius:hd.radius,damage:hd.damage,damageType:hd.damageType,slowAmt:hd.slowAmt,warningTimer:0.5,activeTimer:8,stageOrigin:G.stage,expandRate:hd.expandRate})}
+addFloat(G.px,G.py-40,t('waveEventHazard'),'#8844aa',20)}
+}
 return
 }
 if(G.waveAnnounceTimer>0)G.waveAnnounceTimer-=dt;
@@ -1059,17 +1216,19 @@ addFloat(e.x,e.y-e.size,'ELITE!','#ff8800',18)
 }
 // ==================== COLLISION ====================
 function updateCollisions(){
-// Player-enemy separation
+// Player-enemy: push ONLY the enemy, player is immovable
 for(const e of G.enemies){if(e.dead)continue;
 const d=dist(e.x,e.y,G.px,G.py);const minD=G.charDef.size/2+e.size/2+1;
-if(d<minD&&d>0){const overlap=minD-d;const ax=(G.px-e.x)/d,ay=(G.py-e.y)/d;
-G.px+=ax*overlap*0.7;G.py+=ay*overlap*0.7;e.x-=ax*overlap*0.3;e.y-=ay*overlap*0.3}}
-// Enemy-enemy separation (limited iterations)
+if(d<minD&&d>0){const overlap=minD-d;const ax=(e.x-G.px)/d,ay=(e.y-G.py)/d;
+e.x+=ax*overlap;e.y+=ay*overlap}}
+// Enemy-enemy: size-based push, bosses immovable
 for(let iter=0;iter<3;iter++){let moved=false;
-for(const e of G.enemies){if(e.dead)continue;const near=G.spatial.query(e.x,e.y,e.size+10);
+for(const e of G.enemies){if(e.dead||e.isBoss)continue;const near=G.spatial.query(e.x,e.y,e.size+10);
 for(const ne of near){if(ne===e||ne.dead)continue;const d=dist(e.x,e.y,ne.x,ne.y);const minD=e.size/2+ne.size/2+3;
 if(d<minD&&d>0){const overlap=minD-d;const ax=(e.x-ne.x)/d,ay=(e.y-ne.y)/d;
-e.x+=ax*overlap*0.5;e.y+=ay*overlap*0.5;ne.x-=ax*overlap*0.5;ne.y-=ay*overlap*0.5;moved=true}}}
+if(ne.isBoss){e.x+=ax*overlap;e.y+=ay*overlap;moved=true}
+else{const sizeSum=e.size+ne.size;const pushToE=overlap*(ne.size/sizeSum);const pushToNe=overlap*(e.size/sizeSum);
+e.x+=ax*pushToE;e.y+=ay*pushToE;ne.x-=ax*pushToNe;ne.y-=ay*pushToNe;moved=true}}}}
 if(!moved)break}
 }
 
@@ -1133,16 +1292,16 @@ function addFloat(x,y,text,color,size){G.floatingTexts.push({x,y,text,color,size
 function updateHazards(dt){
 const hz=G.sd.hazards;if(hz.length===0)return;
 G.hazardTimer-=dt;if(G.hazardTimer<=0){
-if(hz.includes('ember')){const count=randInt(2,3);for(let i=0;i<count;i++){const a2=rand(0,Math.PI*2),r2=rand(50,ARENA_R-50);
-G.hazards.push({type:'ember',x:Math.cos(a2)*r2,y:Math.sin(a2)*r2,radius:40,damage:3,damageType:'dot',warningTimer:1,activeTimer:8,stageOrigin:G.stage})}}
-if(hz.includes('toxic')){const count=randInt(3,4);for(let i=0;i<count;i++){const a2=rand(0,Math.PI*2),r2=rand(50,ARENA_R-50);
-G.hazards.push({type:'toxic',x:Math.cos(a2)*r2,y:Math.sin(a2)*r2,radius:50,damage:G.stage>=5?6:5,damageType:'slow',slowAmt:0.2,warningTimer:1,activeTimer:G.stage>=5?12:10,stageOrigin:G.stage})}}
-if(hz.includes('spike')){for(let i=0;i<2;i++){const a2=rand(0,Math.PI*2),r2=rand(50,ARENA_R-50);
-G.hazards.push({type:'spike',x:Math.cos(a2)*r2,y:Math.sin(a2)*r2,radius:30,damage:G.stage>=6?15:12,damageType:'instant',warningTimer:0.8,activeTimer:0.1,stageOrigin:G.stage})}}
-if(hz.includes('lightning')){for(let i=0;i<randInt(1,2);i++){const a2=rand(0,Math.PI*2),r2=rand(50,ARENA_R-50);
-G.hazards.push({type:'lightning',x:Math.cos(a2)*r2,y:Math.sin(a2)*r2,radius:50,damage:18,damageType:'instant',warningTimer:1.5,activeTimer:0.1,stageOrigin:G.stage})}}
+if(hz.includes('ember')){const count=randInt(2,3);for(let i=0;i<count;i++){const hx=G.px+rand(-300,300),hy=rand(50,CORRIDOR_H-50);
+G.hazards.push({type:'ember',x:hx,y:hy,radius:40,damage:3,damageType:'dot',warningTimer:1,activeTimer:8,stageOrigin:G.stage})}}
+if(hz.includes('toxic')){const count=randInt(3,4);for(let i=0;i<count;i++){const hx=G.px+rand(-300,300),hy=rand(50,CORRIDOR_H-50);
+G.hazards.push({type:'toxic',x:hx,y:hy,radius:50,damage:G.stage>=5?6:5,damageType:'slow',slowAmt:0.2,warningTimer:1,activeTimer:G.stage>=5?12:10,stageOrigin:G.stage})}}
+if(hz.includes('spike')){for(let i=0;i<2;i++){const hx=G.px+rand(-300,300),hy=rand(50,CORRIDOR_H-50);
+G.hazards.push({type:'spike',x:hx,y:hy,radius:30,damage:G.stage>=6?15:12,damageType:'instant',warningTimer:0.8,activeTimer:0.1,stageOrigin:G.stage})}}
+if(hz.includes('lightning')){for(let i=0;i<randInt(1,2);i++){const hx=G.px+rand(-300,300),hy=rand(50,CORRIDOR_H-50);
+G.hazards.push({type:'lightning',x:hx,y:hy,radius:50,damage:18,damageType:'instant',warningTimer:1.5,activeTimer:0.1,stageOrigin:G.stage})}}
 if(hz.includes('void')){const a2=rand(0,Math.PI*2),r2=rand(50,ARENA_R-80);
-G.hazards.push({type:'void',x:Math.cos(a2)*r2,y:Math.sin(a2)*r2,radius:80,damage:8,damageType:'dot',warningTimer:2,activeTimer:15,stageOrigin:G.stage,expandRate:2})}
+G.hazards.push({type:'void',x:hx,y:hy,radius:80,damage:8,damageType:'dot',warningTimer:2,activeTimer:15,stageOrigin:G.stage,expandRate:2})}
 G.hazardTimer=hz.includes('void')?20:hz.includes('lightning')?8:12}
 // Update existing hazards
 for(let i=G.hazards.length-1;i>=0;i--){
@@ -1164,14 +1323,14 @@ if(G.gameTime<20)return;
 G.powerUpSpawnTimer-=dt;
 if(G.powerUpSpawnTimer<=0&&!G.fieldPowerUp){
 const type=POWERUP_TYPES[randInt(0,5)];
-const a2=rand(0,Math.PI*2),r2=rand(50,ARENA_R-50);
-G.fieldPowerUp={type:type,x:Math.cos(a2)*r2,y:Math.sin(a2)*r2,despawnTimer:15,bobPhase:0};
+const hx=G.px+rand(-300,300),hy=rand(50,CORRIDOR_H-50);
+G.fieldPowerUp={type:type,x:hx,y:hy,despawnTimer:15,bobPhase:0};
 G.powerUpSpawnTimer=rand(25,40)}
 // Field power-up
 if(G.fieldPowerUp){
 G.fieldPowerUp.despawnTimer-=dt;G.fieldPowerUp.bobPhase+=dt;
 if(G.fieldPowerUp.despawnTimer<=0){G.fieldPowerUp=null}
-else if(dist(G.px,G.py,G.fieldPowerUp.x,G.fieldPowerUp.y)<G.charDef.size/2+15){
+else if(distWrap(G.px,G.py,G.fieldPowerUp.x,G.fieldPowerUp.y)<G.charDef.size/2+15){
 // Collect
 removePowerUp();
 const pu=G.fieldPowerUp.type;
@@ -1189,6 +1348,19 @@ const gbStacks=G.upgradeStacks['goldBonus']||0;
 if(gbStacks>0){for(let s=0;s<gbStacks;s++){gm*=(1+0.15*Math.pow(0.75,s))}}
 G.goldMult=gm;
 G.activePowerUp=null
+}
+
+// Wave event treasure chest
+function updateWaveEvent(dt){
+if(!G.waveEvent)return;
+G.waveEvent.timer-=dt;
+if(G.waveEvent.type==='treasure'){
+if(distWrap(G.px,G.py,G.waveEvent.x,G.waveEvent.y)<G.charDef.size/2+G.waveEvent.radius){
+const pu=POWERUP_TYPES[randInt(0,5)];G.activePowerUp={type:pu,remaining:pu.duration};pu.effect(G);
+if(fpsVal>=25)G.particles.push({x:G.px,y:G.py,dx:0,dy:0,lifetime:0.4,maxLifetime:0.4,size:30,color:'#ffcc00',alpha:0.6,isRing:true,expandRate:60});
+G.waveEvent=null}
+}
+if(G.waveEvent&&G.waveEvent.timer<=0)G.waveEvent=null
 }
 
 // ==================== STAGE ====================
@@ -1220,7 +1392,7 @@ ctx.save();ctx.translate(-camX+sx,-camY+sy);
 renderGround();renderHazards();renderFrozenTrail();
 // Poison clouds from boss
 if(G.boss&&G.boss.poisonClouds)for(const c of G.boss.poisonClouds){ctx.fillStyle=`rgba(42,61,26,${0.3*(c.lifetime/4)})`;ctx.beginPath();ctx.arc(c.x,c.y,c.radius,0,Math.PI*2);ctx.fill()}
-renderXPOrbs();renderFieldPowerUp();renderEnemies();renderProjectiles();renderPlayer();renderOrbitalShield();renderParticles();
+renderXPOrbs();renderFieldPowerUp();renderWaveEvent();renderEnemies();renderProjectiles();renderPlayer();renderOrbitalShield();renderParticles();
 ctx.restore();
 renderHUD();
 if(G.bossSpawned&&G.boss&&!G.bossDefeated)renderBossHP();
@@ -1237,8 +1409,12 @@ ctx.strokeStyle='#222';ctx.lineWidth=1;
 const gs=64;const sx2=Math.floor(camX/gs)*gs,sy2=Math.floor(camY/gs)*gs;
 for(let x=sx2;x<camX+canvas.width;x+=gs){ctx.beginPath();ctx.moveTo(x,camY);ctx.lineTo(x,camY+canvas.height);ctx.stroke()}
 for(let y=sy2;y<camY+canvas.height;y+=gs){ctx.beginPath();ctx.moveTo(camX,y);ctx.lineTo(camX+canvas.width,y);ctx.stroke()}
-// Arena border
-ctx.strokeStyle='#333';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,ARENA_R,0,Math.PI*2);ctx.stroke()
+// Top/bottom walls
+ctx.fillStyle='#333';ctx.fillRect(camX,0-G.py+canvas.height/2,canvas.width,-5);
+ctx.fillRect(camX,CORRIDOR_H-G.py+canvas.height/2+5,canvas.width,5);
+ctx.strokeStyle='#555';ctx.lineWidth=3;
+ctx.beginPath();ctx.moveTo(camX,0-G.py+canvas.height/2);ctx.lineTo(camX+canvas.width,0-G.py+canvas.height/2);ctx.stroke();
+ctx.beginPath();ctx.moveTo(camX,CORRIDOR_H-G.py+canvas.height/2);ctx.lineTo(camX+canvas.width,CORRIDOR_H-G.py+canvas.height/2);ctx.stroke()
 }
 
 function renderHazards(){
@@ -1260,7 +1436,13 @@ else if(h.type==='void'){ctx.fillStyle='rgba(80,0,120,0.25)';ctx.beginPath();ctx
 }
 }
 
-function renderFrozenTrail(){for(const seg of G.frozenTrailSegs){ctx.fillStyle='rgba(136,204,255,0.25)';ctx.beginPath();ctx.arc(seg.x,seg.y,10,0,Math.PI*2);ctx.fill()}}
+function renderFrozenTrail(){
+for(let i=0;i<G.frozenTrailSegs.length;i++){
+const seg=G.frozenTrailSegs[i];
+if(i===0||seg.prevX===undefined){ctx.fillStyle='rgba(136,204,255,0.25)';ctx.beginPath();ctx.arc(seg.x,seg.y,7,0,Math.PI*2);ctx.fill()}
+else{ctx.strokeStyle='rgba(170,220,255,0.15)';ctx.lineWidth=14;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(seg.prevX,seg.prevY);ctx.lineTo(seg.x,seg.y);ctx.stroke();
+ctx.strokeStyle='rgba(136,204,255,0.25)';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(seg.prevX,seg.prevY);ctx.lineTo(seg.x,seg.y);ctx.stroke()}
+}}
 function renderXPOrbs(){ctx.fillStyle='#44ff44';for(const orb of G.xpOrbs){ctx.globalAlpha=0.8;ctx.beginPath();ctx.arc(orb.x,orb.y,3,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1}
 
 function renderFieldPowerUp(){
@@ -1270,6 +1452,15 @@ const flicker=pu.despawnTimer<5?0.5+0.5*Math.sin(Date.now()/125):1;
 ctx.globalAlpha=flicker;ctx.fillStyle=pu.type.color;ctx.beginPath();ctx.arc(pu.x,by,12,0,Math.PI*2);ctx.fill();
 ctx.fillStyle='#fff';ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillText(pu.type.icon,pu.x,by+4);
 ctx.globalAlpha=1
+}
+
+function renderWaveEvent(){
+if(!G.waveEvent||G.waveEvent.type!=='treasure')return;
+const we=G.waveEvent;
+const by=we.y+Math.sin(Date.now()/250)*4;
+ctx.fillStyle='#ffcc00';ctx.beginPath();ctx.arc(we.x,by,we.radius,0,Math.PI*2);ctx.fill();
+ctx.strokeStyle='#aa8800';ctx.lineWidth=2;ctx.beginPath();ctx.arc(we.x,by,we.radius,0,Math.PI*2);ctx.stroke();
+ctx.fillStyle='#fff';ctx.font='bold 14px sans-serif';ctx.textAlign='center';ctx.fillText('$',we.x,by+5)
 }
 
 function renderEnemies(){
@@ -1394,10 +1585,15 @@ ctx.fillStyle=G.ultActive?CHARS[G.charId].color:(G.ultCDTimer<=0?'#ffcc00':'#888
 ctx.fillText(G.ultActive?t('active'):(G.ultCDTimer<=0?t('ready'):Math.ceil(G.ultCDTimer)+'s'),ultX,ultY+4*s);
 // Minimap — hide on very small screens
 if(canvas.width>400){
-const mw=(mob?70:100)*s,mh=mw,mx=canvas.width-mw-10,my=canvas.height-mh-(mob?140:10);const ms2=mw/(ARENA_R*2);
+const mw=(mob?70:100)*s,mh=mw/4,mx=canvas.width-mw-10,my=canvas.height-mh-(mob?140:10);
+const sx2=mw/CORRIDOR_W,sy2=mh/CORRIDOR_H;
 ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(mx,my,mw,mh);ctx.strokeStyle='#333';ctx.lineWidth=1;ctx.strokeRect(mx,my,mw,mh);
-ctx.fillStyle='#fff';ctx.fillRect(mx+mw/2-2,my+mh/2-2,4,4);ctx.fillStyle='#cc3333';
-for(const e of G.enemies){if(e.dead)continue;const dx2=(e.x-G.px)*ms2,dy2=(e.y-G.py)*ms2;if(Math.abs(dx2)<mw/2&&Math.abs(dy2)<mh/2){if(e.isBoss){ctx.fillStyle=Math.sin(Date.now()/200)>0?'#ff0000':'#880000';ctx.fillRect(mx+mw/2+dx2-3,my+mh/2+dy2-3,6,6);ctx.fillStyle='#cc3333'}else ctx.fillRect(mx+mw/2+dx2-0.5,my+mh/2+dy2-0.5,1,1)}}
+// Player on minimap
+const px2=mx+G.px/CORRIDOR_W*mw,py2=my+G.py/CORRIDOR_H*mh;
+ctx.fillStyle='#fff';ctx.fillRect(px2-2,py2-2,4,4);
+ctx.fillStyle='#cc3333';
+for(const e of G.enemies){if(e.dead)continue;const epx=mx+e.x/CORRIDOR_W*mw,epy=my+e.y/CORRIDOR_H*mh;
+if(e.isBoss){ctx.fillStyle=Math.sin(Date.now()/200)>0?'#ff0000':'#880000';ctx.fillRect(epx-3,epy-3,6,6);ctx.fillStyle='#cc3333'}else ctx.fillRect(epx-0.5,epy-0.5,1,1)}
 }
 // Combo
 if(G.comboCount>=3){ctx.fillStyle='#ff8800';ctx.font=`bold ${Math.min(24+G.comboCount,40)*s}px sans-serif`;ctx.textAlign='center';ctx.fillText(G.comboCount+'x COMBO',canvas.width/2,canvas.height-(mob?140:80))}
@@ -1437,7 +1633,7 @@ fpsCnt++;fpsT+=dt;if(fpsT>=1){fpsVal=fpsCnt;fpsCnt=0;fpsT-=1}
 if(G&&screen==='inGame'&&!G.paused&&!G.runOver){
 G.hazardSlow=0;updatePlayer(dt);updateSpawn(dt);updateEnemies(dt);updateCollisions();
 updateAutoAttack(dt);updateUlt(dt);updateProjectiles(dt);updateXPOrbs(dt);updateAfterimages(dt);
-updateParticles(dt);updateHazards(dt);updatePowerUps(dt);updateStage(dt);
+updateParticles(dt);updateHazards(dt);updatePowerUps(dt);updateWaveEvent(dt);updateStage(dt);
 G.spatial.clear();for(const e of G.enemies)if(!e.dead)G.spatial.insert(e);
 // Orbital shield update
 for(const orb of G.orbitalOrbs){orb.angle+=2*dt;
@@ -1545,7 +1741,7 @@ const lut=document.getElementById('luTitle');if(lut)lut.textContent=t('levelUp')
 const pt=document.getElementById('pauseTitle');if(pt)pt.textContent=t('paused');
 const rb=document.getElementById('resumeBtn');if(rb)rb.textContent=t('resume');
 const rsb=document.getElementById('restartBtn');if(rsb)rsb.textContent=t('restart');
-const qb=document.getElementById('quitBtn');if(qb)qb.textContent=t('quitToShop');
+const qb=document.getElementById('quitBtn');if(qb)qb.textContent=t('quitToTalents');
 document.querySelectorAll('.lang-btn').forEach(b=>b.textContent='EN/中文');
 if(screen==='shop')renderShop();if(screen==='stageSelect')renderStageSelect();if(screen==='charSelect')renderCharSelect()
 }

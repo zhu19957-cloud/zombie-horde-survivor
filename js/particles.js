@@ -39,16 +39,16 @@ function addFloat(x,y,text,color,size){G.floatingTexts.push({x,y,text,color,size
 function updateHazards(dt){
 const hz=G.sd.hazards;if(hz.length===0)return;
 G.hazardTimer-=dt;if(G.hazardTimer<=0){
-if(hz.includes('ember')){const count=randInt(2,3);for(let i=0;i<count;i++){const a2=rand(0,Math.PI*2),r2=rand(50,ARENA_R-50);
-G.hazards.push({type:'ember',x:Math.cos(a2)*r2,y:Math.sin(a2)*r2,radius:40,damage:3,damageType:'dot',warningTimer:1,activeTimer:8,stageOrigin:G.stage})}}
-if(hz.includes('toxic')){const count=randInt(3,4);for(let i=0;i<count;i++){const a2=rand(0,Math.PI*2),r2=rand(50,ARENA_R-50);
-G.hazards.push({type:'toxic',x:Math.cos(a2)*r2,y:Math.sin(a2)*r2,radius:50,damage:G.stage>=5?6:5,damageType:'slow',slowAmt:0.2,warningTimer:1,activeTimer:G.stage>=5?12:10,stageOrigin:G.stage})}}
-if(hz.includes('spike')){for(let i=0;i<2;i++){const a2=rand(0,Math.PI*2),r2=rand(50,ARENA_R-50);
-G.hazards.push({type:'spike',x:Math.cos(a2)*r2,y:Math.sin(a2)*r2,radius:30,damage:G.stage>=6?15:12,damageType:'instant',warningTimer:0.8,activeTimer:0.1,stageOrigin:G.stage})}}
-if(hz.includes('lightning')){for(let i=0;i<randInt(1,2);i++){const a2=rand(0,Math.PI*2),r2=rand(50,ARENA_R-50);
-G.hazards.push({type:'lightning',x:Math.cos(a2)*r2,y:Math.sin(a2)*r2,radius:50,damage:18,damageType:'instant',warningTimer:1.5,activeTimer:0.1,stageOrigin:G.stage})}}
+if(hz.includes('ember')){const count=randInt(2,3);for(let i=0;i<count;i++){const hx=G.px+rand(-300,300),hy=rand(50,CORRIDOR_H-50);
+G.hazards.push({type:'ember',x:hx,y:hy,radius:40,damage:3,damageType:'dot',warningTimer:1,activeTimer:8,stageOrigin:G.stage})}}
+if(hz.includes('toxic')){const count=randInt(3,4);for(let i=0;i<count;i++){const hx=G.px+rand(-300,300),hy=rand(50,CORRIDOR_H-50);
+G.hazards.push({type:'toxic',x:hx,y:hy,radius:50,damage:G.stage>=5?6:5,damageType:'slow',slowAmt:0.2,warningTimer:1,activeTimer:G.stage>=5?12:10,stageOrigin:G.stage})}}
+if(hz.includes('spike')){for(let i=0;i<2;i++){const hx=G.px+rand(-300,300),hy=rand(50,CORRIDOR_H-50);
+G.hazards.push({type:'spike',x:hx,y:hy,radius:30,damage:G.stage>=6?15:12,damageType:'instant',warningTimer:0.8,activeTimer:0.1,stageOrigin:G.stage})}}
+if(hz.includes('lightning')){for(let i=0;i<randInt(1,2);i++){const hx=G.px+rand(-300,300),hy=rand(50,CORRIDOR_H-50);
+G.hazards.push({type:'lightning',x:hx,y:hy,radius:50,damage:18,damageType:'instant',warningTimer:1.5,activeTimer:0.1,stageOrigin:G.stage})}}
 if(hz.includes('void')){const a2=rand(0,Math.PI*2),r2=rand(50,ARENA_R-80);
-G.hazards.push({type:'void',x:Math.cos(a2)*r2,y:Math.sin(a2)*r2,radius:80,damage:8,damageType:'dot',warningTimer:2,activeTimer:15,stageOrigin:G.stage,expandRate:2})}
+G.hazards.push({type:'void',x:hx,y:hy,radius:80,damage:8,damageType:'dot',warningTimer:2,activeTimer:15,stageOrigin:G.stage,expandRate:2})}
 G.hazardTimer=hz.includes('void')?20:hz.includes('lightning')?8:12}
 // Update existing hazards
 for(let i=G.hazards.length-1;i>=0;i--){
@@ -70,14 +70,14 @@ if(G.gameTime<20)return;
 G.powerUpSpawnTimer-=dt;
 if(G.powerUpSpawnTimer<=0&&!G.fieldPowerUp){
 const type=POWERUP_TYPES[randInt(0,5)];
-const a2=rand(0,Math.PI*2),r2=rand(50,ARENA_R-50);
-G.fieldPowerUp={type:type,x:Math.cos(a2)*r2,y:Math.sin(a2)*r2,despawnTimer:15,bobPhase:0};
+const hx=G.px+rand(-300,300),hy=rand(50,CORRIDOR_H-50);
+G.fieldPowerUp={type:type,x:hx,y:hy,despawnTimer:15,bobPhase:0};
 G.powerUpSpawnTimer=rand(25,40)}
 // Field power-up
 if(G.fieldPowerUp){
 G.fieldPowerUp.despawnTimer-=dt;G.fieldPowerUp.bobPhase+=dt;
 if(G.fieldPowerUp.despawnTimer<=0){G.fieldPowerUp=null}
-else if(dist(G.px,G.py,G.fieldPowerUp.x,G.fieldPowerUp.y)<G.charDef.size/2+15){
+else if(distWrap(G.px,G.py,G.fieldPowerUp.x,G.fieldPowerUp.y)<G.charDef.size/2+15){
 // Collect
 removePowerUp();
 const pu=G.fieldPowerUp.type;
@@ -95,6 +95,19 @@ const gbStacks=G.upgradeStacks['goldBonus']||0;
 if(gbStacks>0){for(let s=0;s<gbStacks;s++){gm*=(1+0.15*Math.pow(0.75,s))}}
 G.goldMult=gm;
 G.activePowerUp=null
+}
+
+// Wave event treasure chest
+function updateWaveEvent(dt){
+if(!G.waveEvent)return;
+G.waveEvent.timer-=dt;
+if(G.waveEvent.type==='treasure'){
+if(distWrap(G.px,G.py,G.waveEvent.x,G.waveEvent.y)<G.charDef.size/2+G.waveEvent.radius){
+const pu=POWERUP_TYPES[randInt(0,5)];G.activePowerUp={type:pu,remaining:pu.duration};pu.effect(G);
+if(fpsVal>=25)G.particles.push({x:G.px,y:G.py,dx:0,dy:0,lifetime:0.4,maxLifetime:0.4,size:30,color:'#ffcc00',alpha:0.6,isRing:true,expandRate:60});
+G.waveEvent=null}
+}
+if(G.waveEvent&&G.waveEvent.timer<=0)G.waveEvent=null
 }
 
 // ==================== STAGE ====================

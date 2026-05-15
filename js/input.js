@@ -93,7 +93,7 @@ const lut=document.getElementById('luTitle');if(lut)lut.textContent=t('levelUp')
 const pt=document.getElementById('pauseTitle');if(pt)pt.textContent=t('paused');
 const rb=document.getElementById('resumeBtn');if(rb)rb.textContent=t('resume');
 const rsb=document.getElementById('restartBtn');if(rsb)rsb.textContent=t('restart');
-const qb=document.getElementById('quitBtn');if(qb)qb.textContent=t('quitToShop');
+const qb=document.getElementById('quitBtn');if(qb)qb.textContent=t('quitToTalents');
 document.querySelectorAll('.lang-btn').forEach(b=>b.textContent='EN/中文');
 if(screen==='shop')renderShop();if(screen==='stageSelect')renderStageSelect();if(screen==='charSelect')renderCharSelect()
 }

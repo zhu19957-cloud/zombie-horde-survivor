@@ -94,7 +94,7 @@ const body=`<canvas id="gameCanvas"></canvas>
 <h1>ZOMBIE HORDE</h1>
 <div class="sub" id="titleSub">SURVIVOR</div>
 <button class="btn" id="startBtn">START GAME</button>
-<button class="btn btn-gold" id="shopBtn">SHOP</button>
+<button class="btn btn-gold" id="shopBtn">TALENTS</button>
 </div>
 <div id="charSelect" class="overlay">
 <button class="back-btn" id="charBackBtn">Back</button>

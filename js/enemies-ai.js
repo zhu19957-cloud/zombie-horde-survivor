@@ -1,5 +1,5 @@
 // ==================== ENEMIES ====================
-function findNearest(x,y,r){let best=null,bd=r;for(const e of G.enemies){if(e.dead||e.fadeIn>0)continue;const d=dist(e.x,e.y,x,y);if(d<bd){bd=d;best=e}}return best}
+function findNearest(x,y,r){let best=null,bd=r;for(const e of G.enemies){if(e.dead||e.fadeIn>0)continue;const d=distWrap(e.x,e.y,x,y);if(d<bd){bd=d;best=e}}return best}
 
 function updateEnemies(dt){
 for(let i=G.enemies.length-1;i>=0;i--){
@@ -48,13 +48,14 @@ const pa=angle(e.x,e.y,G.px,G.py);G.projectiles.push({x:e.x,y:e.y,dx:Math.cos(pa
 e.x+=Math.cos(a)*e.speed*60*dt*spdMult;e.y+=Math.sin(a)*e.speed*60*dt*spdMult;
 }else{
 e.x+=Math.cos(a)*e.speed*60*dt*spdMult;e.y+=Math.sin(a)*e.speed*60*dt*spdMult}
-// Arena bounds clamp
-const eDist=Math.hypot(e.x,e.y);const maxR=ARENA_R-e.size/2;if(eDist>maxR){const ea=Math.atan2(e.y,e.x);e.x=Math.cos(ea)*maxR;e.y=Math.sin(ea)*maxR}
+// Corridor bounds: x wraps, y clamped
+if(e.x>CORRIDOR_W)e.x-=CORRIDOR_W;if(e.x<0)e.x+=CORRIDOR_W;
+if(e.y<e.size/2)e.y=e.size/2;if(e.y>CORRIDOR_H-e.size/2)e.y=CORRIDOR_H-e.size/2
 // Contact damage
 const cd=dist(e.x,e.y,G.px,G.py);const cdist=e.size/2+G.charDef.size/2;
 if(cd<cdist&&e.contactCD<=0){damagePlayer(e.damage,e);e.contactCD=CONTACT_CD}
 // Remove far away enemies
-if(!e.isBoss&&Math.hypot(e.x,e.y)>ARENA_R+200){G.enemies.splice(i,1);continue}
+if(!e.isBoss&&distWrap(e.x,e.y,G.px,G.py)>800){G.enemies.splice(i,1);continue}
 }
 }
 
@@ -114,8 +115,9 @@ if(boss.bossPhase>=2){boss.teleportCD-=dt;if(boss.teleportCD<=0){boss.teleportCD
 }
 // Contact damage for all bosses
 const bd=dist(boss.x,boss.y,G.px,G.py);if(bd<boss.size/2+G.charDef.size/2&&boss.contactCD<=0){damagePlayer(boss.damage,boss);boss.contactCD=0.5}
-// Arena bounds clamp
-const bDist=Math.hypot(boss.x,boss.y);const bMaxR=ARENA_R-boss.size/2;if(bDist>bMaxR){const ba=Math.atan2(boss.y,boss.x);boss.x=Math.cos(ba)*bMaxR;boss.y=Math.sin(ba)*bMaxR}
+// Corridor bounds: x wraps, y clamped
+if(boss.x>CORRIDOR_W)boss.x-=CORRIDOR_W;if(boss.x<0)boss.x+=CORRIDOR_W;
+if(boss.y<boss.size/2)boss.y=boss.size/2;if(boss.y>CORRIDOR_H-boss.size/2)boss.y=CORRIDOR_H-boss.size/2
 // Boss HP bar
 G.bossHPPercent=boss.hp/boss.maxHp
 }
@@ -148,8 +150,14 @@ return WAVE_SPAWN[Math.max(0,idx)]
 function getSpawnPos(count){
 const positions=[];const numPoints=randInt(2,4);
 for(let i=0;i<numPoints;i++){
-const a2=rand(0,Math.PI*2);const pos={x:Math.cos(a2)*(ARENA_R+30),y:Math.sin(a2)*(ARENA_R+30)};
-let valid=true;for(const p of positions)if(dist(p.x,p.y,pos.x,pos.y)<60){valid=false;break}
+const edge=randInt(0,3);let pos;
+if(edge===0)pos={x:G.px+rand(200,400),y:-30}; // top edge
+else if(edge===1)pos={x:G.px+rand(200,400),y:CORRIDOR_H+30}; // bottom edge
+else if(edge===2)pos={x:G.px+canvas.width/2+rand(30,100),y:rand(0,CORRIDOR_H)}; // right side
+else pos={x:G.px-canvas.width/2-rand(30,100),y:rand(0,CORRIDOR_H)}; // left side
+// Wrap x
+if(pos.x>CORRIDOR_W)pos.x-=CORRIDOR_W;if(pos.x<0)pos.x+=CORRIDOR_W;
+let valid=true;for(const p of positions)if(distWrap(p.x,p.y,pos.x,pos.y)<60){valid=false;break}
 if(valid)positions.push(pos)}
 return positions
 }
@@ -173,6 +181,31 @@ G.waveBreakTimer=2;
 if(G.waveNumber>G.lastWave){G.lastWave=G.waveNumber;G.waveAnnounceTimer=2}
 // Elite wave
 if(G.sd.eliteWaves&&G.sd.eliteWaves.includes(G.waveNumber)){spawnElite()}
+// Wave event (60% chance, waves 2+)
+if(!G.waveEventTriggered&&G.waveNumber>=2&&Math.random()<0.6){
+G.waveEventTriggered=true;const etypes=['surround','eliteWave','treasure','terrain'];
+const etype=etypes[randInt(0,3)];
+if(etype==='surround'){
+const cnt=randInt(20,30);for(let i=0;i<cnt;i++){const a=Math.PI*2/cnt*i;
+G.enemies.push(createEnemy(Math.random()<0.5?'walker':'runner',G.px+Math.cos(a)*200,G.py+Math.sin(a)*200,G.sd.diffMult))}
+addFloat(G.px,G.py-40,t('waveEventSurround'),'#ff4444',20);G.screenShake=0.15;G.shakeIntensity=3}
+else if(etype==='eliteWave'){
+const cnt=randInt(5,8);const types=['spitter','bomber','shielder','flanker','charger','teleporter'];
+for(let i=0;i<cnt;i++){const et=types[randInt(0,types.length-1)];
+const e=createEnemy(et,G.px+rand(-100,100),G.py+rand(-100,100),G.sd.diffMult*2);
+e.hp*=2;e.maxHp*=2;e.isElite=true;e.size*=1.2;G.enemies.push(e)}
+addFloat(G.px,G.py-40,t('waveEventElite'),'#ff8800',20)}
+else if(etype==='treasure'){
+G.waveEvent={type:'treasure',x:G.px+rand(-200,200),y:clamp(G.py+rand(-150,150),20,CORRIDOR_H-20),timer:15,radius:16}}
+else if(etype==='terrain'&&G.sd.hazards.length>0){
+const cnt=randInt(8,10);for(let i=0;i<cnt;i++){
+const hx=G.px+rand(-300,300),hy=rand(50,CORRIDOR_H-50);
+const htype=G.sd.hazards[randInt(0,G.sd.hazards.length-1)];
+const hdef={ember:{radius:40,damage:3,damageType:'dot'},toxic:{radius:50,damage:5,damageType:'slow',slowAmt:0.2},spike:{radius:30,damage:12,damageType:'instant'},lightning:{radius:50,damage:18,damageType:'instant'},void:{radius:80,damage:8,damageType:'dot',expandRate:2}};
+const hd=hdef[htype]||{radius:40,damage:3,damageType:'dot'};
+G.hazards.push({type:htype,x:hx,y:hy,radius:hd.radius,damage:hd.damage,damageType:hd.damageType,slowAmt:hd.slowAmt,warningTimer:0.5,activeTimer:8,stageOrigin:G.stage,expandRate:hd.expandRate})}
+addFloat(G.px,G.py-40,t('waveEventHazard'),'#8844aa',20)}
+}
 return
 }
 if(G.waveAnnounceTimer>0)G.waveAnnounceTimer-=dt;

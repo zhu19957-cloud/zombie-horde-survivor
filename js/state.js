@@ -22,13 +22,13 @@ const ch=CHARS[selChar],tl=saveData.talents||{},sd=STAGE_DEFS[stage-1];
 const hs=tl.headStart||0;
 G={
 charId:selChar,stage:stage,charDef:ch,sd:sd,
-hp:ch.baseHP+(tl.vitality||0)*5,maxHP:ch.baseHP+(tl.vitality||0)*5,
-atk:ch.baseATK*(1+(tl.might||0)*0.15)+(tl.power||0)*2,spd:ch.baseSPD+(tl.agility||0)*0.2,
-atkSpd:ch.baseATKSPD*(1+(tl.fury||0)*0.12),
-crit:ch.baseCRIT+(tl.precision||0)*0.02,critDmg:ch.baseCRITDMG,
-armor:(tl.armor||0)*2,hpRegen:(tl.regen||0)*0.8,dodgeChance:0,thorns:0,lifeSteal:0,
-pickupRange:PICKUP_R,goldMult:1+(tl.greed||0)*0.1,xpMult:1+(tl.xpBoost||0)*0.15,ultCDMult:1,
-hasShield:!!(tl.fortitude||0),shieldCD:18,shieldReady:!!(tl.fortitude||0),shieldTimer:0,
+hp:ch.baseHP,maxHP:ch.baseHP,
+atk:ch.baseATK,spd:ch.baseSPD,
+atkSpd:ch.baseATKSPD,
+crit:ch.baseCRIT,critDmg:ch.baseCRITDMG,
+armor:0,hpRegen:0,dodgeChance:0,thorns:0,lifeSteal:0,
+pickupRange:PICKUP_R,goldMult:1,xpMult:1,ultCDMult:1,
+hasShield:false,shieldCD:18,shieldReady:false,shieldTimer:0,
 projCount:1,piercing:0,cleaveArc:ch.cleaveArc||Math.PI*2/3,
 afterimageMult:ch.afterimageMult||0.4,attackCounter:0,
 chainChance:0,chainDmg:0.4,burnDmg:0,burnDur:0,
@@ -62,9 +62,14 @@ comboCount:0,comboTimer:0,comboStep:0,
 atkMult:1,spdMult:1,defMult:1,atkSpdMult:1,healPS:0,
 upgradeStacks:{},pendingLevelUps:0,
 waveAnnounceTimer:0,lastWave:1,
-hazardSlow:0,fortifyDR:0
+waveEvent:null,waveEventTriggered:false,
+hazardSlow:0,fortifyDR:0,
+unbreakableActive:false,unbreakableTimer:0,
+lastStandUsed:false,executeThreshold:0.15,
 };
 if(G.level>0){for(let i=0;i<G.level;i++)applySilentUpgrade();G.xpToNext=xpForLevel(G.level)}
+applyTalentEffects(saveData.talents||{},G);
+G.hp=Math.min(G.hp,G.maxHP);
 if(G.orbitalShield>0)initOrbitalOrbs();
 switchScreen('inGame')
 }

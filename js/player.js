@@ -8,15 +8,16 @@ if(keys.has('KeyA')||keys.has('ArrowLeft'))dx=-1;
 if(keys.has('KeyD')||keys.has('ArrowRight'))dx+=1;
 if(dx!==0||dy!==0){const len=Math.hypot(dx,dy);dx/=len;dy/=len;
 G.px+=dx*G.spd*G.spdMult*(1-G.hazardSlow)*60*dt;G.py+=dy*G.spd*G.spdMult*(1-G.hazardSlow)*60*dt;G.facing=Math.atan2(dy,dx)}
-// Arena bounds
-const d2=Math.hypot(G.px,G.py);if(d2>ARENA_R-G.charDef.size/2){const a=Math.atan2(G.py,G.px);G.px=Math.cos(a)*(ARENA_R-G.charDef.size/2);G.py=Math.sin(a)*(ARENA_R-G.charDef.size/2)}
+// Corridor bounds: x wraps, y clamped
+if(G.px>CORRIDOR_W)G.px-=CORRIDOR_W;if(G.px<0)G.px+=CORRIDOR_W;
+if(G.py<G.charDef.size/2)G.py=G.charDef.size/2;if(G.py>CORRIDOR_H-G.charDef.size/2)G.py=CORRIDOR_H-G.charDef.size/2
 // Regen
 if(G.hpRegen>0)G.hp=Math.min(G.maxHP,G.hp+G.hpRegen*dt);
 // Power-up heal
 if(G.healPS>0)G.hp=Math.min(G.maxHP,G.hp+G.healPS*dt);
 // Burn timer on enemies handled in enemy update
 // Frozen trail (throttled)
-G.frozenTrailTimer-=dt;if(G.frozenTrail&&(dx!==0||dy!==0)&&G.frozenTrailTimer<=0){G.frozenTrailTimer=0.05;G.frozenTrailSegs.push({x:G.px,y:G.py,lifetime:1.5,slow:G.frozenTrailSlow})};
+G.frozenTrailTimer-=dt;if(G.frozenTrail&&(dx!==0||dy!==0)&&G.frozenTrailTimer<=0){const prevSeg=G.frozenTrailSegs.length>0?G.frozenTrailSegs[G.frozenTrailSegs.length-1]:null;G.frozenTrailTimer=0.04;G.frozenTrailSegs.push({x:G.px,y:G.py,prevX:prevSeg?prevSeg.x:G.px,prevY:prevSeg?prevSeg.y:G.py,lifetime:1.5,slow:G.frozenTrailSlow})};
 // HP regen from shop
 // iFrames
 if(G.iFrames>0)G.iFrames-=dt;
@@ -32,6 +33,8 @@ if(G.lightningAuraDmg>0){G.lightningAuraTimer-=dt;if(G.lightningAuraTimer<=0){G.
 if(G.whirlwind){G.whirlwindTimer-=dt;if(G.whirlwindTimer<=0){G.whirlwindTimer=G.whirlwindCD;const near=G.spatial.query(G.px,G.py,G.whirlwindRange);for(const e of near){if(e.isEnemy&&!e.dead&&dist(e.x,e.y,G.px,G.py)<G.whirlwindRange){const a=angle(e.x,e.y,G.px,G.py);e.x+=Math.cos(a)*12;e.y+=Math.sin(a)*12}}}}
 // Fortify (Guardian passive)
 if(G.charId==='guardian'){const near=G.spatial.query(G.px,G.py,100);let cnt=0;for(const e of near)if(e.isEnemy&&!e.dead&&dist(e.x,e.y,G.px,G.py)<100)cnt++;G.fortifyDR=Math.min(0.30,cnt*0.03)}else G.fortifyDR=0;
+// Unbreakable timer
+if(G.unbreakableTimer>0){G.unbreakableTimer-=dt;if(G.unbreakableTimer<=0)G.unbreakableActive=false}
 // Active power-up timer
 if(G.activePowerUp){G.activePowerUp.remaining-=dt;if(G.activePowerUp.remaining<=0)removePowerUp()}
 }
@@ -66,7 +69,7 @@ if(fpsVal>=25)G.particles.push({x:G.px+Math.cos(a)*15,y:G.py+Math.sin(a)*15,dx:0
 }else if(G.charId==='shadow'){
 // Combo system
 G.comboStep=(G.comboStep||0)+1;if(G.comboStep>5)G.comboStep=1;
-const comboMult=[1.0,1.0,1.0,1.2,1.5][G.comboStep-1];
+const comboMult=[1.0,1.0,1.0,1.5,2.5][G.comboStep-1];
 const dmg=baseDmg*(ch.shadowBladeDmg||1.2)*comboMult;
 if(G.comboStep===5){G.autoCDTimer=cd*1.2;G.comboStep=0}
 damageEnemy(nearest,dmg,isCrit);
@@ -89,7 +92,7 @@ G.afterimages.splice(i,1)}
 for(let i=G.clones.length-1;i>=0;i--){
 const c=G.clones[i];c.timer-=dt;c.cdTimer-=dt;
 if(c.timer<=0){G.clones.splice(i,1);continue}
-if(c.cdTimer<=0){const near=findNearest(c.x,c.y,G.autoRange);if(near){damageEnemy(near,G.atk*G.atkMult*0.4,false);c.cdTimer=G.charDef.autoCD/G.atkSpd}}
+if(c.cdTimer<=0){const near=findNearest(c.x,c.y,G.autoRange);if(near){damageEnemy(near,G.atk*G.atkMult*0.5,false);c.cdTimer=G.charDef.autoCD/G.atkSpd}}
 c.x=lerp(c.x,G.px,0.02);c.y=lerp(c.y,G.py,0.02)
 }
 }
@@ -101,7 +104,7 @@ const ch=G.charDef;G.ultActive=true;G.ultTimer=G.ultDuration||ch.ultDuration;
 G.ultCDTimer=ch.ultCD*(G.ultCDMult||1);G.ultSpecialTimer=0;
 G.screenShake=0.2;G.shakeIntensity=5;G.screenFlash=0.15;G.flashColor=ch.color;
 if(fpsVal>=25)for(let i=0;i<20;i++){const a2=Math.PI*2/20*i;G.particles.push({x:G.px,y:G.py,dx:Math.cos(a2)*150,dy:Math.sin(a2)*150,lifetime:0.5,maxLifetime:0.5,size:4,color:ch.color,alpha:0.8})}
-if(G.charId==='shadow'){G.clones=[];const nc=G.ultClones||ch.ultClones;for(let i=0;i<nc;i++)G.clones.push({x:G.px+rand(-30,30),y:G.py+rand(-30,30),timer:G.ultDuration,cdTimer:0});
+if(G.charId==='shadow'){G.clones=[];const nc=G.ultClones||ch.ultClones;for(let i=0;i<nc;i++)G.clones.push({x:G.px+rand(-30,30),y:G.py+rand(-30,30),timer:G.ultDuration,cdTimer:0});G.crit+=0.3;
 G.particles.push({x:G.px,y:G.py,dx:0,dy:0,lifetime:0.6,maxLifetime:0.6,size:20,color:'#8844cc',alpha:0.8,isRing:true,expandRate:150})}
 }
 
@@ -109,18 +112,18 @@ function updateUlt(dt){
 if(!G.ultActive)return;
 G.ultTimer-=dt;
 G.ultSpecialTimer-=dt;
-if(G.ultTimer<=0){G.ultActive=false;G.clones=[];return}
+if(G.ultTimer<=0){G.ultActive=false;G.clones=[];if(G.charId==='shadow')G.crit=Math.max(0,G.crit-0.3);return}
 if(G.charId==='guardian'){
 if(G.ultSpecialTimer<=0){G.ultSpecialTimer=1.5;
-const range=G.ultShockwaveRange||120;const dmg=G.charDef.ultShockwaveDmg||25;
+const range=G.ultShockwaveRange||150;const dmg=G.charDef.ultShockwaveDmg||35;
 const near=G.spatial.query(G.px,G.py,range);
-for(const e of near){if(e.isEnemy&&!e.dead&&dist(e.x,e.y,G.px,G.py)<range)damageEnemy(e,dmg,false)}
+for(const e of near){if(e.isEnemy&&!e.dead&&dist(e.x,e.y,G.px,G.py)<range){damageEnemy(e,dmg,false);e.stunTimer=0.5}}
 G.screenShake=0.15;G.shakeIntensity=4;
 if(fpsVal>=25)G.particles.push({x:G.px,y:G.py,dx:0,dy:0,lifetime:0.4,maxLifetime:0.4,size:range,color:'#4488cc',alpha:0.4,isRing:true,expandRate:60})
 }}else if(G.charId==='gunslinger'){
 if(G.ultSpecialTimer<=0){G.ultSpecialTimer=0.35;
-const count=G.ultBullets||3;const a=angle(G.px,G.py,G.px+Math.cos(G.facing),G.py+Math.sin(G.facing));
-const spread=0.15;const baseDmg=G.atk*G.atkMult;
+const count=G.ultBullets||5;const a=angle(G.px,G.py,G.px+Math.cos(G.facing),G.py+Math.sin(G.facing));
+const spread=0.2;const baseDmg=G.atk*G.atkMult;
 for(let i=0;i<count;i++){const sa=a+(i-Math.floor(count/2))*spread;
-G.projectiles.push({x:G.px,y:G.py,dx:Math.cos(sa),dy:Math.sin(sa),speed:8,damage:baseDmg,piercing:G.ultPierce||2,owner:'player',lifetime:2,knockback:1,isCrit:false})}
+G.projectiles.push({x:G.px,y:G.py,dx:Math.cos(sa),dy:Math.sin(sa),speed:8,damage:baseDmg,piercing:G.ultPierce||3,owner:'player',lifetime:2,knockback:1,isCrit:false})}
 }}}

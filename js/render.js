@@ -11,7 +11,7 @@ ctx.save();ctx.translate(-camX+sx,-camY+sy);
 renderGround();renderHazards();renderFrozenTrail();
 // Poison clouds from boss
 if(G.boss&&G.boss.poisonClouds)for(const c of G.boss.poisonClouds){ctx.fillStyle=`rgba(42,61,26,${0.3*(c.lifetime/4)})`;ctx.beginPath();ctx.arc(c.x,c.y,c.radius,0,Math.PI*2);ctx.fill()}
-renderXPOrbs();renderFieldPowerUp();renderEnemies();renderProjectiles();renderPlayer();renderOrbitalShield();renderParticles();
+renderXPOrbs();renderFieldPowerUp();renderWaveEvent();renderEnemies();renderProjectiles();renderPlayer();renderOrbitalShield();renderParticles();
 ctx.restore();
 renderHUD();
 if(G.bossSpawned&&G.boss&&!G.bossDefeated)renderBossHP();
@@ -28,8 +28,12 @@ ctx.strokeStyle='#222';ctx.lineWidth=1;
 const gs=64;const sx2=Math.floor(camX/gs)*gs,sy2=Math.floor(camY/gs)*gs;
 for(let x=sx2;x<camX+canvas.width;x+=gs){ctx.beginPath();ctx.moveTo(x,camY);ctx.lineTo(x,camY+canvas.height);ctx.stroke()}
 for(let y=sy2;y<camY+canvas.height;y+=gs){ctx.beginPath();ctx.moveTo(camX,y);ctx.lineTo(camX+canvas.width,y);ctx.stroke()}
-// Arena border
-ctx.strokeStyle='#333';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,ARENA_R,0,Math.PI*2);ctx.stroke()
+// Top/bottom walls
+ctx.fillStyle='#333';ctx.fillRect(camX,0-G.py+canvas.height/2,canvas.width,-5);
+ctx.fillRect(camX,CORRIDOR_H-G.py+canvas.height/2+5,canvas.width,5);
+ctx.strokeStyle='#555';ctx.lineWidth=3;
+ctx.beginPath();ctx.moveTo(camX,0-G.py+canvas.height/2);ctx.lineTo(camX+canvas.width,0-G.py+canvas.height/2);ctx.stroke();
+ctx.beginPath();ctx.moveTo(camX,CORRIDOR_H-G.py+canvas.height/2);ctx.lineTo(camX+canvas.width,CORRIDOR_H-G.py+canvas.height/2);ctx.stroke()
 }
 
 function renderHazards(){
@@ -51,7 +55,13 @@ else if(h.type==='void'){ctx.fillStyle='rgba(80,0,120,0.25)';ctx.beginPath();ctx
 }
 }
 
-function renderFrozenTrail(){for(const seg of G.frozenTrailSegs){ctx.fillStyle='rgba(136,204,255,0.25)';ctx.beginPath();ctx.arc(seg.x,seg.y,10,0,Math.PI*2);ctx.fill()}}
+function renderFrozenTrail(){
+for(let i=0;i<G.frozenTrailSegs.length;i++){
+const seg=G.frozenTrailSegs[i];
+if(i===0||seg.prevX===undefined){ctx.fillStyle='rgba(136,204,255,0.25)';ctx.beginPath();ctx.arc(seg.x,seg.y,7,0,Math.PI*2);ctx.fill()}
+else{ctx.strokeStyle='rgba(170,220,255,0.15)';ctx.lineWidth=14;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(seg.prevX,seg.prevY);ctx.lineTo(seg.x,seg.y);ctx.stroke();
+ctx.strokeStyle='rgba(136,204,255,0.25)';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(seg.prevX,seg.prevY);ctx.lineTo(seg.x,seg.y);ctx.stroke()}
+}}
 function renderXPOrbs(){ctx.fillStyle='#44ff44';for(const orb of G.xpOrbs){ctx.globalAlpha=0.8;ctx.beginPath();ctx.arc(orb.x,orb.y,3,0,Math.PI*2);ctx.fill()}ctx.globalAlpha=1}
 
 function renderFieldPowerUp(){
@@ -61,6 +71,15 @@ const flicker=pu.despawnTimer<5?0.5+0.5*Math.sin(Date.now()/125):1;
 ctx.globalAlpha=flicker;ctx.fillStyle=pu.type.color;ctx.beginPath();ctx.arc(pu.x,by,12,0,Math.PI*2);ctx.fill();
 ctx.fillStyle='#fff';ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillText(pu.type.icon,pu.x,by+4);
 ctx.globalAlpha=1
+}
+
+function renderWaveEvent(){
+if(!G.waveEvent||G.waveEvent.type!=='treasure')return;
+const we=G.waveEvent;
+const by=we.y+Math.sin(Date.now()/250)*4;
+ctx.fillStyle='#ffcc00';ctx.beginPath();ctx.arc(we.x,by,we.radius,0,Math.PI*2);ctx.fill();
+ctx.strokeStyle='#aa8800';ctx.lineWidth=2;ctx.beginPath();ctx.arc(we.x,by,we.radius,0,Math.PI*2);ctx.stroke();
+ctx.fillStyle='#fff';ctx.font='bold 14px sans-serif';ctx.textAlign='center';ctx.fillText('$',we.x,by+5)
 }
 
 function renderEnemies(){
@@ -185,10 +204,15 @@ ctx.fillStyle=G.ultActive?CHARS[G.charId].color:(G.ultCDTimer<=0?'#ffcc00':'#888
 ctx.fillText(G.ultActive?t('active'):(G.ultCDTimer<=0?t('ready'):Math.ceil(G.ultCDTimer)+'s'),ultX,ultY+4*s);
 // Minimap — hide on very small screens
 if(canvas.width>400){
-const mw=(mob?70:100)*s,mh=mw,mx=canvas.width-mw-10,my=canvas.height-mh-(mob?140:10);const ms2=mw/(ARENA_R*2);
+const mw=(mob?70:100)*s,mh=mw/4,mx=canvas.width-mw-10,my=canvas.height-mh-(mob?140:10);
+const sx2=mw/CORRIDOR_W,sy2=mh/CORRIDOR_H;
 ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(mx,my,mw,mh);ctx.strokeStyle='#333';ctx.lineWidth=1;ctx.strokeRect(mx,my,mw,mh);
-ctx.fillStyle='#fff';ctx.fillRect(mx+mw/2-2,my+mh/2-2,4,4);ctx.fillStyle='#cc3333';
-for(const e of G.enemies){if(e.dead)continue;const dx2=(e.x-G.px)*ms2,dy2=(e.y-G.py)*ms2;if(Math.abs(dx2)<mw/2&&Math.abs(dy2)<mh/2){if(e.isBoss){ctx.fillStyle=Math.sin(Date.now()/200)>0?'#ff0000':'#880000';ctx.fillRect(mx+mw/2+dx2-3,my+mh/2+dy2-3,6,6);ctx.fillStyle='#cc3333'}else ctx.fillRect(mx+mw/2+dx2-0.5,my+mh/2+dy2-0.5,1,1)}}
+// Player on minimap
+const px2=mx+G.px/CORRIDOR_W*mw,py2=my+G.py/CORRIDOR_H*mh;
+ctx.fillStyle='#fff';ctx.fillRect(px2-2,py2-2,4,4);
+ctx.fillStyle='#cc3333';
+for(const e of G.enemies){if(e.dead)continue;const epx=mx+e.x/CORRIDOR_W*mw,epy=my+e.y/CORRIDOR_H*mh;
+if(e.isBoss){ctx.fillStyle=Math.sin(Date.now()/200)>0?'#ff0000':'#880000';ctx.fillRect(epx-3,epy-3,6,6);ctx.fillStyle='#cc3333'}else ctx.fillRect(epx-0.5,epy-0.5,1,1)}
 }
 // Combo
 if(G.comboCount>=3){ctx.fillStyle='#ff8800';ctx.font=`bold ${Math.min(24+G.comboCount,40)*s}px sans-serif`;ctx.textAlign='center';ctx.fillText(G.comboCount+'x COMBO',canvas.width/2,canvas.height-(mob?140:80))}
@@ -228,7 +252,7 @@ fpsCnt++;fpsT+=dt;if(fpsT>=1){fpsVal=fpsCnt;fpsCnt=0;fpsT-=1}
 if(G&&screen==='inGame'&&!G.paused&&!G.runOver){
 G.hazardSlow=0;updatePlayer(dt);updateSpawn(dt);updateEnemies(dt);updateCollisions();
 updateAutoAttack(dt);updateUlt(dt);updateProjectiles(dt);updateXPOrbs(dt);updateAfterimages(dt);
-updateParticles(dt);updateHazards(dt);updatePowerUps(dt);updateStage(dt);
+updateParticles(dt);updateHazards(dt);updatePowerUps(dt);updateWaveEvent(dt);updateStage(dt);
 G.spatial.clear();for(const e of G.enemies)if(!e.dead)G.spatial.insert(e);
 // Orbital shield update
 for(const orb of G.orbitalOrbs){orb.angle+=2*dt;

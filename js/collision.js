@@ -1,16 +1,18 @@
 // ==================== COLLISION ====================
 function updateCollisions(){
-// Player-enemy separation
+// Player-enemy: push ONLY the enemy, player is immovable
 for(const e of G.enemies){if(e.dead)continue;
 const d=dist(e.x,e.y,G.px,G.py);const minD=G.charDef.size/2+e.size/2+1;
-if(d<minD&&d>0){const overlap=minD-d;const ax=(G.px-e.x)/d,ay=(G.py-e.y)/d;
-G.px+=ax*overlap*0.7;G.py+=ay*overlap*0.7;e.x-=ax*overlap*0.3;e.y-=ay*overlap*0.3}}
-// Enemy-enemy separation (limited iterations)
+if(d<minD&&d>0){const overlap=minD-d;const ax=(e.x-G.px)/d,ay=(e.y-G.py)/d;
+e.x+=ax*overlap;e.y+=ay*overlap}}
+// Enemy-enemy: size-based push, bosses immovable
 for(let iter=0;iter<3;iter++){let moved=false;
-for(const e of G.enemies){if(e.dead)continue;const near=G.spatial.query(e.x,e.y,e.size+10);
+for(const e of G.enemies){if(e.dead||e.isBoss)continue;const near=G.spatial.query(e.x,e.y,e.size+10);
 for(const ne of near){if(ne===e||ne.dead)continue;const d=dist(e.x,e.y,ne.x,ne.y);const minD=e.size/2+ne.size/2+3;
 if(d<minD&&d>0){const overlap=minD-d;const ax=(e.x-ne.x)/d,ay=(e.y-ne.y)/d;
-e.x+=ax*overlap*0.5;e.y+=ay*overlap*0.5;ne.x-=ax*overlap*0.5;ne.y-=ay*overlap*0.5;moved=true}}}
+if(ne.isBoss){e.x+=ax*overlap;e.y+=ay*overlap;moved=true}
+else{const sizeSum=e.size+ne.size;const pushToE=overlap*(ne.size/sizeSum);const pushToNe=overlap*(e.size/sizeSum);
+e.x+=ax*pushToE;e.y+=ay*pushToE;ne.x-=ax*pushToNe;ne.y-=ay*pushToNe;moved=true}}}}
 if(!moved)break}
 }
 

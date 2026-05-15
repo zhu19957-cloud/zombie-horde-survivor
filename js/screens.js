@@ -22,15 +22,15 @@ const chars=[
 {id:'guardian',css:'guardian',style:'background:#4488cc;border-radius:4px',
 nameKey:'charGuardian',roleKey:'roleTank',atkKey:'cleave',passKey:'fortify',ultKey:'fortress',
 atkDK:'cleaveDesc',passDK:'fortifyDesc',ultDK:'fortressDesc',
-stats:'HP: 120 | ATK: 12<br>SPD: 2.0 | ATKSPD: 1.25<br>CRIT: 5% | CRITDMG: 150%'},
+stats:'HP: 120 | ATK: 12<br>SPD: 2.6 | ATKSPD: 1.25<br>CRIT: 5% | CRITDMG: 150%'},
 {id:'gunslinger',css:'gunslinger',style:'background:#cc8844;transform:rotate(45deg);border-radius:2px',
 nameKey:'charGunslinger',roleKey:'roleRanged',atkKey:'shoot',passKey:'sharpshooter',ultKey:'bulletHell',
 atkDK:'shootDesc',passDK:'sharpshooterDesc',ultDK:'bulletHellDesc',
-stats:'HP: 70 | ATK: 10<br>SPD: 2.5 | ATKSPD: 2.0<br>CRIT: 10% | CRITDMG: 200%'},
+stats:'HP: 70 | ATK: 10<br>SPD: 2.8 | ATKSPD: 2.0<br>CRIT: 10% | CRITDMG: 200%'},
 {id:'shadow',css:'shadow',style:'background:#8844cc;clip-path:polygon(50% 0%,0% 100%,100% 100%)',
 nameKey:'charShadow',roleKey:'roleAssassin',atkKey:'dashStrike',passKey:'afterimage',ultKey:'timeWarp',
 atkDK:'dashStrikeDesc',passDK:'afterimageDesc',ultDK:'timeWarpDesc',
-stats:'HP: 80 | ATK: 9<br>SPD: 3.5 | ATKSPD: 1.67<br>CRIT: 20% | CRITDMG: 180%'}
+stats:'HP: 80 | ATK: 9<br>SPD: 3.8 | ATKSPD: 1.67<br>CRIT: 20% | CRITDMG: 180%'}
 ];
 chars.forEach(ch=>{
 const d=document.createElement('div');d.className='char-card '+ch.css;
@@ -59,11 +59,11 @@ const bk=branches[bi],branch=TALENT_TREE[bk];
 const bx=bw*bi+bw/2;
 // Branch title
 c2.fillStyle=branch.color;c2.font='bold 16px sans-serif';c2.textAlign='center';
-c2.fillText(branch.name,bx,25);
+c2.fillText(t(bk),bx,25);
 // Draw connection lines
-for(const t of branch.talents){
-const ty=55+t.tier*100;
-for(const pid of t.prereqs){
+for(const tn of branch.talents){
+const ty=55+tn.tier*100;
+for(const pid of tn.prereqs){
 const pt=TALENT_LIST.find(x=>x.id===pid);
 if(pt){
 const py=55+pt.tier*100;
@@ -71,11 +71,11 @@ const px=bw*branches.indexOf(pt.branch)+bw/2;
 c2.strokeStyle=branch.color+'44';c2.lineWidth=2;c2.beginPath();c2.moveTo(px,py+20);c2.lineTo(bx,ty-20);c2.stroke()
 }}}
 // Draw nodes
-for(const t of branch.talents){
-const ny=55+t.tier*100;const lvl=getTalentLvl(t.id);const maxed=lvl>=t.maxLvl;
-const canBuy=canUnlockTalent(t);
+for(const tn of branch.talents){
+const ny=55+tn.tier*100;const lvl=getTalentLvl(tn.id);const maxed=lvl>=tn.maxLvl;
+const canBuy=canUnlockTalent(tn);
 const r=isMobile?30:20;
-talentNodes.push({id:t.id,x:bx,y:ny,r});
+talentNodes.push({id:tn.id,x:bx,y:ny,r});
 // Node circle
 if(maxed){c2.fillStyle=branch.color;c2.strokeStyle=branch.color}
 else if(canBuy){c2.fillStyle='#1a1a1a';c2.strokeStyle='#ffcc00'}
@@ -85,13 +85,13 @@ c2.lineWidth=maxed?3:canBuy?2.5:1.5;
 c2.beginPath();c2.arc(bx,ny,r,0,Math.PI*2);c2.fill();c2.stroke();
 // Level text
 c2.fillStyle=maxed?'#111':'#ccc';c2.font='bold 11px sans-serif';c2.textAlign='center';
-c2.fillText(lvl+'/'+t.maxLvl,bx,ny+4);
+c2.fillText(lvl+'/'+tn.maxLvl,bx,ny+4);
 // Name below
 c2.fillStyle=maxed?branch.color:'#888';c2.font='10px sans-serif';
-c2.fillText(t.name,bx,ny+r+14);
+c2.fillText(t(tn.id),bx,ny+r+14);
 // Cost
 if(!maxed){c2.fillStyle=canBuy?'#ffcc00':'#666';c2.font='9px sans-serif';
-c2.fillText(t.cost(lvl+1)+'g',bx,ny+r+26)}
+c2.fillText(tn.cost(lvl+1)+'g',bx,ny+r+26)}
 }}
 // Click handler for talent canvas (bind once)
 const tc2=document.getElementById('talentCanvas');
